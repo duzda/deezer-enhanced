@@ -1,0 +1,39 @@
+{
+    "name": "deezer-enhanced",
+    "version": "0.1.0",
+    "description": "Deezer Enhanced",
+    "homepage": "https://github.com/duzda/deezer-enhanced",
+    "bugs": {
+        "url": "https://github.com/duzda/deezer-enhanced/issues"
+    },
+    "license": "MIT",
+    "author": "duzda <duzda666@gmail.com>",
+    "main": "app.js",
+    "scripts": {
+        "start": "node_modules/.bin/electron .",
+        "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
+        "build:snap": "node_modules/.bin/electron-builder --linux snap",
+        "build:deb": "node_modules/.bin/electron-builder --linux deb",
+        "build:targz": "node_modules/.bin/electron-builder --linux tar.gz",
+        "build:mac": "node_modules/.bin/electron-builder --mac dmg pkg mas",
+        "build:win-portable": "node_modules/.bin/electron-builder --windows portable",
+        "build:win": "node_modules/.bin/electron-builder --windows nsis"
+    },
+    "devDependencies": {
+        "electron": "^14.0.0",
+        "electron-builder": "^22.11.11"
+    },
+    "dependencies": {
+        "mpris-service": "^2.1.2",
+        "path": "^0.12.7"
+    },
+    "build": {
+        "appId": "com.deezerenhanced.app",
+        "productName": "Deezer Enhanced",
+        "linux": {
+            "icon": "./assets/icon.png",
+            "synopsis": "An unofficial application for Deezer with enhanced features for linux",
+            "category": "Audio"
+        }
+    }
+}

@@ -1,0 +1,47 @@
+<div id="app_settings">
+    <div class="container">
+        <div class="account-wrapper display-wrapper">
+            <h2 class="heading-2 heading-bordered">Application settings</h2>
+            <div class="explicit-settings-container">
+                <div class="flex-form">
+                    <div class="heading">Close to tray</div>
+                    <label class="input-switch" id="closeToTray">
+                        <input class="input-control" type="checkbox" value="">
+                    </label>
+                </div>
+                <div class="description">Instead of closing the application, it minimalizes itself into tray</div>
+            </div>
+            <div class="explicit-settings-container">
+                <div class="flex-form">
+                    <div class="heading">Optimize application</div>
+                    <label class="input-switch" id="optimizeApp">
+                        <input class="input-control" type="checkbox" value="">
+                    </label>
+                </div>
+                <div class="description">Optimizes application when it's not focused</div>
+            </div>
+            <div class="explicit-settings-container">
+                <div class="flex-form">
+                    <div class="heading">Song notifications</div>
+                    <label class="input-switch" id="songNotifications">
+                        <input class="input-control" type="checkbox" value="">
+                    </label>
+                </div>
+                <div class="description">Notifies the user when currently played song changes</div>
+            </div>
+            <div class="explicit-settings-container">
+                <div class="form-group">
+                    <div class="control-label">
+                        <label for="downloadLimit"><span style="color: #ef5466">EXPERIMENTAL</span> Download speed
+                            limit</label>
+                    </div>
+                    <div class="form-controls">
+                        <input class="form-control" id="downloadLimit" name="downloadLimit" type="text" value="">
+                    </div>
+                </div>
+                <div class="description">Limits maximum download speed to non-negative integer kBps (0 turns this
+                    feature off)</div>
+            </div>
+        </div>
+    </div>
+</div>
