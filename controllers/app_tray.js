@@ -10,16 +10,25 @@ class AppTray {
         this.tray = Tray(trayIcon);
         this.window = window;
 
-        this.updateTray();
+        this.initTray();
     }
 
-    updateTray() {
-        let model = [{
+    initTray() {
+        this.tray.on("click", () => {
+            if (!this.window.isVisible())
+                this.window.restore();
+            else
+                this.window.hide();
+        })
+
+        let template = [{
             label: "Play/Pause",
             enabled: true,
             click: () => {
                 this.window.webContents.executeJavaScript("dzPlayer.control.togglePause();");
             }
+        }, {
+            type: 'separator'
         }, {
             label: "Next",
             enabled: true,
@@ -33,13 +42,17 @@ class AppTray {
                 this.window.webContents.executeJavaScript("dzPlayer.control.prevSong()");
             }
         }, {
-            label: "Unfavourite/Favourite",
+            type: 'separator'
+        }, {
+            label: "Favorite/Unfavorite",
             enabled: true,
             click: () => {
                 this.window.webContents.executeJavaScript(" \
                 actions = document.getElementsByClassName('track-actions')[0].getElementsByTagName('button'); \
                 actions[actions.length - 1].click();");
             }
+        }, {
+            type: 'separator'
         }, {
             label: "Volume UP",
             enabled: true,
@@ -53,11 +66,13 @@ class AppTray {
                 this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol -= ${volumeStep}; vol < 0 && (vol = 0); dzPlayer.control.setVolume(vol);`)
             }
         }, {
-            label: "Volume Mute",
+            label: "Mute",
             enabled: true,
             click: () => {
                 this.window.webContents.executeJavaScript("dzPlayer.control.mute(!dzPlayer.muted)")
             }
+        }, {
+            type: 'separator'
         }, {
             label: "Quit",
             enabled: true,
@@ -65,14 +80,9 @@ class AppTray {
                 this.window.destroy()
                 app.quit()
             }
-        }];
-        this.tray.on("click", () => {
-            if (!this.window.isVisible())
-                this.window.restore();
-            else
-                this.window.hide();
-        })
-        this.tray.setContextMenu(new Menu.buildFromTemplate(model))
+        }]
+
+        this.tray.setContextMenu(new Menu.buildFromTemplate(template))
     }
 }
 

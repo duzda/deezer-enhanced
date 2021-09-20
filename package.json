@@ -32,7 +32,7 @@
         "productName": "Deezer Enhanced",
         "linux": {
             "icon": "./assets/icon.png",
-            "synopsis": "An unofficial application for Deezer with enhanced features for linux",
+            "synopsis": "An unofficial application for Deezer with enhanced features",
             "category": "Audio"
         }
     }

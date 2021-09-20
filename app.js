@@ -6,8 +6,8 @@ const Settings = require('./controllers/settings');
 const AppTray = require('./controllers/app_tray');
 const Mpris = require('./controllers/mpris');
 
-process.env.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.105 Safari/537.36';
-app.commandLine.appendSwitch('disable-features', 'MediaSessionService');
+// To hide unsupported browser error
+process.env.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36';
 
 const gotTheLock = app.requestSingleInstanceLock();
 

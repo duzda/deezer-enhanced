@@ -8,13 +8,13 @@ class Window extends BrowserWindow {
             width,
             height,
             title: "Deezer Player",
-            icon: path.join(__dirname, '..', 'assets', 'dist_icon.png'),
+            icon: path.join(__dirname, '..', 'assets', 'icon.png'),
             webPreferences: {
                 nodeIntegration: true,
                 nativeWindowOpen: true,
                 devTools: true,
                 contextIsolation: false,
-                preload: path.join(app.getAppPath(), "settings", "injection.js")
+                preload: path.join(__dirname, '..', "settings", "injection.js")
             },
             backgroundColor: '#2e2c29',
             show: false
@@ -31,14 +31,14 @@ class Window extends BrowserWindow {
     }
 
     createEvents() {
-        this.webContents.on('did-fail-load', (e, errCode, errMessage) => {
-            //On some systems, this error occurs without explanation
-            if (errCode == -3)
-                return false;
-            console.error(errCode, errMessage);
-            dialog.showErrorBox("Load failed", `Please check your connection`);
+        this.webContents.on('did-fail-load', (e, errCode, errorDescription) => {
+            let message = errorDescription;
+            switch (errCode) {
+                case -2: message = "No internet connection"
+            }
+            dialog.showErrorBox("Error", message + ", Error ID: " + errCode);
             this.destroy()
-            this.app.quit(-1);
+            this.app.quit(errCode);
         })
         this.on('ready-to-show', () => {
             this.show();
