@@ -49,7 +49,7 @@ class Deezer {
             callback({ cancel: false, requestHeaders: details.requestHeaders })
         });
 
-        this.win = new Window(app, this, electron.screen.getPrimaryDisplay().workAreaSize);
+        this.win = new Window(app, this);
         this.registerMediaKeys();
         this.tray = new AppTray(this.win);
         this.mpris = new Mpris(this.win);

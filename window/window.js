@@ -3,11 +3,9 @@ const { BrowserWindow, dialog } = require('electron');
 const WindowSettings = require('./window_settings');
 
 class Window extends BrowserWindow {
-    constructor(app, parent, { width, height }) {
+    constructor(app, parent) {
         let params = {
-            width,
-            height,
-            title: "Deezer Player",
+            title: "Deezer Enhanced",
             icon: path.join(__dirname, '..', 'assets', 'icon.png'),
             webPreferences: {
                 nodeIntegration: true,
