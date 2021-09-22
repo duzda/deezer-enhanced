@@ -31,7 +31,7 @@
         "appId": "com.deezerenhanced.app",
         "productName": "Deezer Enhanced",
         "linux": {
-            "icon": "./assets/icon.png",
+            "icon": "./assets/icon.icns",
             "synopsis": "An unofficial application for Deezer with enhanced features",
             "category": "Audio"
         }
