@@ -1,10 +1,12 @@
 const path = require('path');
 const LazyReader = require('../utils/lazy_reader');
+const AppTray = require('../controllers/app_tray');
 
 class WindowSettings {
-    constructor(window, settings, webContents) {
+    constructor(window, settings, tray, webContents) {
         this.window = window;
         this.settings = settings;
+        this.tray = tray;
         this.webContents = webContents;
 
         this.initializeSettings();
@@ -13,12 +15,16 @@ class WindowSettings {
     initializeSettings() {
         if (this.settings.finishedLoading) {
             this.checkOptimize();
+            this.setTray();
 
             this.settings.setCallback("optimizeApp", () => {
                 this.checkOptimize();
             });
             this.settings.setCallback("downloadLimit", () => {
                 this.checkLimitDownload();
+            });
+            this.settings.setCallback('enableTray', () => {
+                this.setTray();
             });
 
             // Bootstrap after a few seconds to let all the workers initialize (maybe log events instead?)
@@ -121,6 +127,15 @@ class WindowSettings {
         LazyReader.get(path.join("..", "optimization", "focus.js"), (data) => {
             this.webContents.executeJavaScript(data);
         });
+    }
+
+    setTray() {
+        if (this.settings.getAttribute("enableTray") == 'true') {
+            this.tray = new AppTray(this.window, this.window.app.mpris);
+        } else if (this.tray != null) {
+            this.tray.tray.destroy();
+            this.tray = null;
+        }
     }
 }
 

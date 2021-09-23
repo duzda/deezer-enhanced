@@ -3,7 +3,6 @@ const Player = require('mpris-service');
 const electron = require('electron');
 const { app, globalShortcut, session, ipcMain, Notification } = electron;
 const Settings = require('./controllers/settings');
-const AppTray = require('./controllers/app_tray');
 const Mpris = require('./controllers/mpris');
 
 // To hide unsupported browser error
@@ -52,7 +51,6 @@ class Deezer {
         this.win = new Window(app, this);
         this.registerMediaKeys();
         this.mpris = new Mpris(this.win);
-        this.tray = new AppTray(this.win, this.mpris);
         this.initIPC();
     }
 

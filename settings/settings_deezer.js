@@ -13,15 +13,19 @@ if (content != null) {
 }
 
 // Initialize values based on settings
+let enableTrayLabel = document.getElementById('enableTray');
 let closeToTrayLabel = document.getElementById('closeToTray');
 let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
 let inputDownloadSpeed = document.getElementById('downloadLimit')
 
 ipcRenderer.invoke("requestSettings").then((data) => {
+    if (data.enableTray == 'true') {
+        enableTrayLabel.classList.add('is-checked');
+    }
     if (data.closeToTray == 'true') {
         closeToTrayLabel.classList.add('is-checked');
-    }
+    } 
     if (data.optimizeApp == 'true') {
         optimizeAppLabel.classList.add('is-checked');
     }
@@ -34,6 +38,10 @@ ipcRenderer.invoke("requestSettings").then((data) => {
 });
 
 // All the settings... Yes, you must bind it to input, otherwise function gets called twice!
+enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
+    ipcRenderer.send("setSetting", "enableTray",
+        enableTrayLabel.classList.contains('is-checked') ? "true" : "false");
+});
 closeToTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
     ipcRenderer.send("setSetting", "closeToTray",
         closeToTrayLabel.classList.contains('is-checked') ? "true" : "false");

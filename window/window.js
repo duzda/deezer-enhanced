@@ -21,7 +21,7 @@ class Window extends BrowserWindow {
         this.app = app;
         this.parent = parent;
         this.settings = this.parent.settings;
-        new WindowSettings(this, this.settings, this.webContents);
+        new WindowSettings(this, this.settings, this.parent.tray, this.webContents);
         this.setMenuBarVisibility(false);
 
         this.loadURL("https://deezer.com", { userAgent: process.env.userAgent });
@@ -42,7 +42,8 @@ class Window extends BrowserWindow {
             this.show();
         })
         this.on("close", event => {
-            if (this.settings.getAttribute("closeToTray") == "true") {
+            if (this.settings.getAttribute("closeToTray") == "true" &&
+                this.settings.getAttribute("enableTray") == "true") {
                 event.preventDefault();
                 this.hide();
                 return false;

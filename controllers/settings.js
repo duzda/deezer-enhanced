@@ -5,6 +5,7 @@ const { app } = require('electron');
 const filename = "preferences.json";
 
 const defaults = {
+    enableTray: 'true',
     closeToTray: 'true',
     optimizeApp: 'false',
     songNotifications: 'false',
