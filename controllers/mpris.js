@@ -83,26 +83,25 @@ class Mpris {
         this.player.on('playpause', () => {
             this.win.webContents.executeJavaScript("dzPlayer.control.togglePause();");
         })
-        this.player.on('loopStatus', () => {
-            let repeat_status;
-            switch (this.player.loopStatus) {
+        this.player.on('loopStatus', (loop_status) => {
+            let loop_status_int
+            switch (loop_status) {
                 case "None":
                     this.player.loopStatus = "Playlist";
-                    repeat_status = 1;
+                    loop_status_int = 0;
                     break;
                 case "Playlist":
                     this.player.loopStatus = "Track";
-                    repeat_status = 2;
+                    loop_status_int = 1;
                     break;
                 case "Track":
                     this.player.loopStatus = "None";
-                    repeat_status = 0;
+                    loop_status_int = 2;
                     break;
             };
-            this.win.webContents.executeJavaScript(`dzPlayer.control.setRepeat(${repeat_status});`);
+            this.win.webContents.executeJavaScript(`dzPlayer.control.setRepeat(${loop_status_int});`);
         })
-        this.player.on('shuffle', () => {
-            let shuffle_status = arguments['0'];
+        this.player.on('shuffle', (shuffle_status) => {
             this.player.shuffle = shuffle_status;
             this.win.webContents.executeJavaScript(`dzPlayer.control.setShuffle(${shuffle_status});`);
         })
@@ -112,8 +111,8 @@ class Mpris {
         this.player.on('previous', () => {
             this.win.webContents.executeJavaScript("dzPlayer.control.prevSong();");
         })
-        this.player.on('volume', () => {
-            this.win.webContents.executeJavaScript(`dzPlayer.control.setVolume(${arguments['0']});`);
+        this.player.on('volume', (volume) => {
+            this.win.webContents.executeJavaScript(`dzPlayer.control.setVolume(${volume});`);
         })
         // For setting the exact position(for example): playerctl position 10
         this.player.on('position', (event) => {
