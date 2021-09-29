@@ -15,21 +15,23 @@ class AppTray {
     }
 
     initTray() {
-        this.tray.on("click", () => {
-            if (!this.window.isVisible())
-                this.window.restore();
-            else
-                this.window.hide();
-        })
-
         let template = [{
+            label: "Show/Hide",
+            enabled: true,
+            click: () => {
+                if (!this.window.isVisible())
+                    this.window.restore();
+                else
+                    this.window.hide();
+            }
+        }, {
+            type: 'separator'
+        }, {
             label: "Play/Pause",
             enabled: true,
             click: () => {
                 this.window.webContents.executeJavaScript("dzPlayer.control.togglePause();");
             }
-        }, {
-            type: 'separator'
         }, {
             label: "Next",
             enabled: true,
@@ -58,14 +60,14 @@ class AppTray {
             label: "Volume UP",
             enabled: true,
             click: () => {
-                let volumeStep = VolumeController.calculateDynamicVolume(this.mpris.player.volume) 
+                let volumeStep = VolumeController.calculateDynamicVolume(this.mpris.player.volume)
                 this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol += ${volumeStep}; vol > 1 && (vol = 1); dzPlayer.control.setVolume(vol);`)
             }
         }, {
             label: "Volume Down",
             enabled: true,
             click: () => {
-                let volumeStep = VolumeController.calculateDynamicVolume(this.mpris.player.volume) 
+                let volumeStep = VolumeController.calculateDynamicVolume(this.mpris.player.volume)
                 this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol -= ${volumeStep}; vol < 0 && (vol = 0); dzPlayer.control.setVolume(vol);`)
             }
         }, {
@@ -86,6 +88,13 @@ class AppTray {
         }]
 
         this.tray.setContextMenu(new Menu.buildFromTemplate(template))
+
+        this.tray.on("click", () => {
+            if (!this.window.isVisible())
+                this.window.restore();
+            else
+                this.window.hide();
+        })
     }
 }
 
