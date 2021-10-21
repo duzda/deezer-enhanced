@@ -12,6 +12,12 @@ Currently after logging in, it's preferred to restart the application, to proper
 - Full MPRIS support
 - More to come
 
+# Where to get the app
+
+Feel free to download the source code and build the app yourself, if that's not your prefered way of doing things, then there are also binaries available on the right side of the github website.
+
+If you're using Arch-based Linux you may want to use aur instead, if so, look for deezer-enhanced-git for git version (contains build dependencies), and deezer-enhanced-bin for binaries (suitable for most users).
+
 # Build Instructions
 
 `yarn && yarn build:target` # see package.json tasks

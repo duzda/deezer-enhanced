@@ -1,7 +1,7 @@
 {
     "name": "deezer-enhanced",
     "version": "0.1.0",
-    "description": "Deezer Enhanced",
+    "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
     "homepage": "https://github.com/duzda/deezer-enhanced",
     "bugs": {
         "url": "https://github.com/duzda/deezer-enhanced/issues"
@@ -14,10 +14,12 @@
         "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
         "build:snap": "node_modules/.bin/electron-builder --linux snap",
         "build:deb": "node_modules/.bin/electron-builder --linux deb",
+        "build:AppImage": "node_modules/.bin/electron-builder --linux AppImage",
         "build:targz": "node_modules/.bin/electron-builder --linux tar.gz",
         "build:mac": "node_modules/.bin/electron-builder --mac dmg pkg mas",
         "build:win-portable": "node_modules/.bin/electron-builder --windows portable",
-        "build:win": "node_modules/.bin/electron-builder --windows nsis"
+        "build:win": "node_modules/.bin/electron-builder --windows nsis",
+        "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage && buildtools/update-version.sh"
     },
     "devDependencies": {
         "electron": "^14.0.0",
