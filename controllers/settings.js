@@ -61,7 +61,10 @@ class Settings {
                 }
 
                 try {
-                    this.preferences = JSON.parse(data);
+                    let userPreferences = JSON.parse(data);
+                    for (let key in userPreferences) {
+                        this.preferences[key] = userPreferences[key];
+                    }
                     this.onload();
 
                 } catch (jsonError) {
