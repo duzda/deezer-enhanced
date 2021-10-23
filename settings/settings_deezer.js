@@ -17,6 +17,7 @@ let enableTrayLabel = document.getElementById('enableTray');
 let closeToTrayLabel = document.getElementById('closeToTray');
 let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
+let inputVolumePower = document.getElementById('volumePower')
 let inputDownloadSpeed = document.getElementById('downloadLimit')
 
 ipcRenderer.invoke("requestSettings").then((data) => {
@@ -31,6 +32,9 @@ ipcRenderer.invoke("requestSettings").then((data) => {
     }
     if (data.songNotifications == 'true') {
         songNotificationsLabel.classList.add('is-checked');
+    }
+    if (data.volumePower) {
+        inputVolumePower.setAttribute('value', data.volumePower);
     }
     if (data.downloadLimit) {
         inputDownloadSpeed.setAttribute('value', data.downloadLimit);
@@ -53,6 +57,10 @@ optimizeAppLabel.getElementsByTagName('input')[0].addEventListener('click', func
 songNotificationsLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
     ipcRenderer.send("setSetting", "songNotifications",
         songNotificationsLabel.classList.contains('is-checked') ? "true" : "false");
+});
+inputVolumePower.addEventListener('blur', function (e) {
+    ipcRenderer.send("setSetting", "volumePower",
+        inputVolumePower.value);
 });
 inputDownloadSpeed.addEventListener('blur', function (e) {
     ipcRenderer.send("setSetting", "downloadLimit",

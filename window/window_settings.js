@@ -14,8 +14,12 @@ class WindowSettings {
 
     initializeSettings() {
         if (this.settings.finishedLoading) {
+            // This variable is used to export values
+            this.webContents.executeJavaScript(`let exportedValues = {}`)
+
             this.checkOptimize();
             this.setTray();
+            this.hookVolumeControls();
 
             this.settings.setCallback("optimizeApp", () => {
                 this.checkOptimize();
@@ -26,6 +30,9 @@ class WindowSettings {
             this.settings.setCallback('enableTray', () => {
                 this.setTray();
             });
+            this.settings.setCallback('volumePower', () => {
+                this.exportVolumePower();
+            })
 
             // Bootstrap after a few seconds to let all the workers initialize (maybe log events instead?)
             setTimeout(() => {
@@ -136,6 +143,18 @@ class WindowSettings {
             this.tray.tray.destroy();
             this.tray = null;
         }
+    }
+
+    hookVolumeControls() {
+        this.exportVolumePower();
+        LazyReader.getOnce("../volume/volume_injector.js", (data) => {
+            this.webContents.executeJavaScript(data);
+        });
+    }
+
+    exportVolumePower() {
+        let volumePower = this.settings.getAttribute("volumePower");
+        this.webContents.executeJavaScript(`exportedValues.volumePower = "${volumePower}"`)
     }
 }
 

@@ -1,9 +1,9 @@
 const { app, Menu, Tray } = require('electron');
 const path = require('path');
 
-const trayIcon = path.join(__dirname, '..', 'assets', 'icon.png');
+const volumeStep = 0.05;
 
-const VolumeController = require("../utils/volume_controller")
+const trayIcon = path.join(__dirname, '..', 'assets', 'icon.png');
 
 class AppTray {
     constructor(window, mpris) {
@@ -60,14 +60,12 @@ class AppTray {
             label: "Volume UP",
             enabled: true,
             click: () => {
-                let volumeStep = VolumeController.calculateDynamicVolume(this.mpris.player.volume)
                 this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol += ${volumeStep}; vol > 1 && (vol = 1); dzPlayer.control.setVolume(vol);`)
             }
         }, {
             label: "Volume Down",
             enabled: true,
             click: () => {
-                let volumeStep = VolumeController.calculateDynamicVolume(this.mpris.player.volume)
                 this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol -= ${volumeStep}; vol < 0 && (vol = 0); dzPlayer.control.setVolume(vol);`)
             }
         }, {

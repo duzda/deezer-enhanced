@@ -9,6 +9,7 @@ const defaults = {
     closeToTray: 'true',
     optimizeApp: 'false',
     songNotifications: 'false',
+    volumePower: '4',
     downloadLimit: ''
 }
 
@@ -72,7 +73,6 @@ class Settings {
                     console.error(jsonError);
                 }
             });
-
         });
     }
 
