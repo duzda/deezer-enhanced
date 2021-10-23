@@ -8,6 +8,9 @@ const Mpris = require('./controllers/mpris');
 // To hide unsupported browser error
 process.env.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36';
 
+// Disable chromium's poor MPRIS
+app.commandLine.appendSwitch('disable-features', 'MediaSessionService');
+
 const gotTheLock = app.requestSingleInstanceLock();
 
 class Deezer {
