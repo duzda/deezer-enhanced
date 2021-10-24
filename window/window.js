@@ -21,11 +21,19 @@ class Window extends BrowserWindow {
         this.app = app;
         this.parent = parent;
         this.settings = this.parent.settings;
-        new WindowSettings(this, this.settings, this.parent.tray, this.webContents);
+        this.windowSettings = new WindowSettings(this, this.settings, this.parent.tray, this.webContents);
         this.setMenuBarVisibility(false);
 
         this.loadURL("https://deezer.com", { userAgent: process.env.userAgent });
         this.createEvents();
+    }
+
+    // Gets called once the user logs in, if he's already logged in, gets called immediately
+    onLogin() {
+        // This variable is used to export values
+        this.webContents.executeJavaScript(`let exportedValues = {}`)
+
+        this.windowSettings.hookVolumeControls();
     }
 
     createEvents() {

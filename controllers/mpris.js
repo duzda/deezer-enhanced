@@ -1,4 +1,5 @@
 const Player = require('mpris-service');
+const LazyReader = require('../utils/lazy_reader');
 
 class Mpris {
     constructor(win) {
@@ -16,44 +17,13 @@ class Mpris {
             supportedMimeTypes: [],
             supportedInterfaces: ['player']
         });
-
-        this.initMprisPlayer();
-        this.bindEvents();
     }
 
     initMprisPlayer() {
         // Bind the deezer events to the mpris datas
-        this.win.webContents.executeJavaScript(
-           `var electron = require('electron')
-
-            if (typeof Events !== 'undefined') {
-                Events.subscribe(Events.player.playerReady, function(){
-                    electron.ipcRenderer.send('readDZCurSong', dzPlayer.getCurrentSong())
-                    electron.ipcRenderer.send('readDZCurPosition', dzPlayer.getPosition());
-                })
-                Events.subscribe(Events.player.updateCurrentTrack, function(){
-                    electron.ipcRenderer.send('readDZCurSong', dzPlayer.getCurrentSong())
-                    electron.ipcRenderer.send('readDZCurPosition', dzPlayer.getPosition());
-                })
-                Events.subscribe(Events.player.trackChange, function(){
-                    electron.ipcRenderer.send('readDZCurSong', dzPlayer.getCurrentSong())
-                    electron.ipcRenderer.send('readDZCurPosition', dzPlayer.getPosition());
-                })
-                Events.subscribe(Events.player.playing, function(){
-                    electron.ipcRenderer.send('readDZPlaying', dzPlayer.isPlaying())
-                    electron.ipcRenderer.send('readDZCurSong', dzPlayer.getCurrentSong())
-                    electron.ipcRenderer.send('readDZCurPosition', dzPlayer.getPosition());
-                })
-                Events.subscribe(Events.player.volume_changed, function(){
-                    electron.ipcRenderer.send('readDZVolume', dzPlayer.getVolume())
-                })
-                Events.subscribe(Events.player.shuffle_changed, function(){
-                    electron.ipcRenderer.send('readDZShuffle', dzPlayer.shuffle)
-                })
-                Events.subscribe(Events.player.repeat_changed, function(){
-                    electron.ipcRenderer.send('readDZRepeat', dzPlayer.getRepeat())
-                })
-            }`);
+        LazyReader.getOnce('../mpris/mpris_renderer.js', (data) => {
+            this.win.webContents.executeJavaScript(data)
+        })
 
         // The function used to know when to read the Deezer track position
         // We have no clue about the position, but we can calculate that easily by knowing
@@ -128,6 +98,27 @@ class Mpris {
             let length = this.player.metadata['mpris:length'] / 1000000;
             this.win.webContents.executeJavaScript(`dzPlayer.control.seek((dzPlayer.getPosition() + ${offset}) / ${length});`);
         });
+    }
+
+    updateMetadata(data) {
+        var song = data;
+        this.id = song['SNG_ID'];
+        var artists = [];
+        if ('ARTISTS' in song) {
+            song['ARTISTS'].forEach(function (artist) {
+                artists.push(artist['ART_NAME']);
+            });
+        } else {
+            artists = [song['ART_NAME']];
+        }
+        this.player.metadata = {
+            'mpris:trackid': this.player.objectPath('track/0'), // Setting SNG_ID causes problems, might wanna fix later though
+            'mpris:length': song['DURATION'] * 1000 * 1000, // In microseconds
+            'mpris:artUrl': 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg',
+            'xesam:title': song['SNG_TITLE'],
+            'xesam:album': song['ALB_TITLE'],
+            'xesam:artist': artists
+        };
     }
 }
 

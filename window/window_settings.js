@@ -14,12 +14,8 @@ class WindowSettings {
 
     initializeSettings() {
         if (this.settings.finishedLoading) {
-            // This variable is used to export values
-            this.webContents.executeJavaScript(`let exportedValues = {}`)
-
             this.checkOptimize();
             this.setTray();
-            this.hookVolumeControls();
 
             this.settings.setCallback("optimizeApp", () => {
                 this.checkOptimize();

@@ -4,6 +4,7 @@ const electron = require('electron');
 const { app, globalShortcut, session, ipcMain, Notification } = electron;
 const Settings = require('./controllers/settings');
 const Mpris = require('./controllers/mpris');
+const LazyReader = require('./utils/lazy_reader');
 
 // To hide unsupported browser error
 process.env.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36';
@@ -55,6 +56,24 @@ class Deezer {
         this.registerMediaKeys();
         this.mpris = new Mpris(this.win);
         this.initIPC();
+
+        this.initLoginInjection()
+    }
+
+    initLoginInjection() {
+        this.loginHooked = false
+        this.hookFunction = () => {
+            LazyReader.get('../mpris/login_injection.js', (data) => {
+                if (this.loginHooked) return;
+                this.win.webContents.executeJavaScript(data)
+            })
+        }
+        this.hookFunction()
+        this.win.webContents.on('did-navigate', this.hookFunction)
+    }
+
+    unbindNavigation() {
+        this.win.webContents.removeListener('did-navigate', this.hookFunction)
     }
 
     // This is for mac/windows, linux uses mpris instead
@@ -80,7 +99,7 @@ class Deezer {
                     new Notification({ title: data['SNG_TITLE'], body: data['ART_NAME'], image: 'https://e-cdns-images.dzcdn.net/images/cover/' + data['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg' }).show()
             }
 
-            this.updateMetadata(data)
+            this.mpris.updateMetadata(data)
         });
         ipcMain.on('readDZCurPosition', (event, data) => {
             this.mpris.songStart = new Date();
@@ -119,27 +138,15 @@ class Deezer {
         ipcMain.on("setSetting", (event, key, value) => {
             this.settings.setAttribute(key, value)
         });
-    }
-
-    updateMetadata(data) {
-        var song = data;
-        this.mpris.id = song['SNG_ID'];
-        var artists = [];
-        if ('ARTISTS' in song) {
-            song['ARTISTS'].forEach(function (artist) {
-                artists.push(artist['ART_NAME']);
-            });
-        } else {
-            artists = [song['ART_NAME']];
-        }
-        this.mpris.player.metadata = {
-            'mpris:trackid': this.mpris.player.objectPath('track/0'), // Setting SNG_ID causes problems, might wanna fix later though
-            'mpris:length': song['DURATION'] * 1000 * 1000, // In microseconds
-            'mpris:artUrl': 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg',
-            'xesam:title': song['SNG_TITLE'],
-            'xesam:album': song['ALB_TITLE'],
-            'xesam:artist': artists
-        };
+        // Callback of user logging in, or immediately if he's logged in
+        ipcMain.handle("onLogin", async () => {
+            if (this.loginHooked) return;
+            this.loginHooked = true
+            this.mpris.initMprisPlayer();
+            this.mpris.bindEvents();
+            this.win.onLogin();
+            this.unbindNavigation();
+        });
     }
 }
 
