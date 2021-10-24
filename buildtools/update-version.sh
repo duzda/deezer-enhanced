@@ -12,8 +12,10 @@ while IFS= read -r line; do
     fi
 done < ../package.json
 
-sed -i -e "s/pkgver=.*/pkgver=${VERSION}/g" ./aur-bin/PKGBUILD
-sed -i -e "s/pkgver=.*/pkgver=${VERSION}/g" ./aur-git/PKGBUILD
+sed -i -e "s/pkgver=.*/pkgver=${VERSION}/" ./aur-bin/PKGBUILD
+sed -i -e "s/pkgrel=.*/pkgrel=1/" ./aur-bin/PKGBUILD
+sed -i -e "s/pkgver=.*/pkgver=${VERSION}/" ./aur-git/PKGBUILD
+sed -i -e "s/pkgrel=.*/pkgrel=1/" ./aur-git/PKGBUILD
 
 cd aur-bin
 makepkg --printsrcinfo > .SRCINFO
