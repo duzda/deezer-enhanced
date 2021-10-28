@@ -21,7 +21,7 @@ class Mpris {
 
     initMprisPlayer() {
         // Bind the deezer events to the mpris datas
-        LazyReader.getOnce('../mpris/mpris_renderer.js', (data) => {
+        LazyReader.getOnce('mpris/mpris_renderer.js', (data) => {
             this.win.webContents.executeJavaScript(data)
         })
 

@@ -63,7 +63,7 @@ class Deezer {
     initLoginInjection() {
         this.loginHooked = false
         this.hookFunction = () => {
-            LazyReader.get('../mpris/login_injection.js', (data) => {
+            LazyReader.get('mpris/login_injection.js', (data) => {
                 if (this.loginHooked) return;
                 this.win.webContents.executeJavaScript(data)
             })

@@ -17,7 +17,7 @@ function pollTopbar() {
 function inject(topbar) {
     let poppers = topbar.getElementsByClassName("popper-wrapper");
     if (topbar != null && poppers != null && poppers.length > 1 && poppers[1] != null) {
-        LazyReader.getOnce(path.join("..", "settings", "settings-element.html"), (data) => {
+        LazyReader.getOnce(path.join("settings", "settings-element.html"), (data) => {
             let div = document.createElement("div");
             div.className = "popper-wrapper topbar-action";
             div.innerHTML = data;
@@ -57,7 +57,7 @@ function initSettingsJavacript() {
             }
 
             // Prevents destroying DOM events and adds settings
-            LazyReader.getOnce(path.join("..", "settings", "settings.html"), (data) => {
+            LazyReader.getOnce(path.join("settings", "settings.html"), (data) => {
                 let container = document.createElement('div');
                 container.innerHTML = data;
 
@@ -67,7 +67,7 @@ function initSettingsJavacript() {
             });
 
             // Create script that takes care of settings    
-            LazyReader.getOnce(path.join("..", "settings", "settings_deezer.js"), (data) => {
+            LazyReader.getOnce(path.join("settings", "settings_deezer.js"), (data) => {
                 let script = document.createElement("script");
                 script.setAttribute("type", "text/javascript");
                 script.innerHTML = data;
