@@ -4,7 +4,6 @@ const electron = require('electron');
 const { app, globalShortcut, session, ipcMain, Notification } = electron;
 const Settings = require('./controllers/settings');
 const Mpris = require('./controllers/mpris');
-const LazyReader = require('./utils/lazy_reader');
 
 // To hide unsupported browser error
 process.env.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36';
@@ -56,24 +55,6 @@ class Deezer {
         this.registerMediaKeys();
         this.mpris = new Mpris(this.win);
         this.initIPC();
-
-        this.initLoginInjection()
-    }
-
-    initLoginInjection() {
-        this.loginHooked = false
-        this.hookFunction = () => {
-            LazyReader.get('mpris/login_injection.js', (data) => {
-                if (this.loginHooked) return;
-                this.win.webContents.executeJavaScript(data)
-            })
-        }
-        this.hookFunction()
-        this.win.webContents.on('did-navigate', this.hookFunction)
-    }
-
-    unbindNavigation() {
-        this.win.webContents.removeListener('did-navigate', this.hookFunction)
     }
 
     // This is for mac/windows, linux uses mpris instead
@@ -144,8 +125,8 @@ class Deezer {
             this.loginHooked = true
             this.mpris.initMprisPlayer();
             this.mpris.bindEvents();
-            this.win.onLogin();
-            this.unbindNavigation();
+            
+            this.win.windowSettings.initializeSettings();
         });
     }
 }

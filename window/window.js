@@ -12,7 +12,7 @@ class Window extends BrowserWindow {
                 nativeWindowOpen: true,
                 devTools: true,
                 contextIsolation: false,
-                preload: path.join(__dirname, '..', "settings", "injection.js")
+                preload: path.join(__dirname, '..', "injections", "login_injection.js")
             },
             backgroundColor: '#2e2c29',
             show: false
@@ -26,14 +26,6 @@ class Window extends BrowserWindow {
 
         this.loadURL("https://deezer.com", { userAgent: process.env.userAgent });
         this.createEvents();
-    }
-
-    // Gets called once the user logs in, if he's already logged in, gets called immediately
-    onLogin() {
-        // This variable is used to export values
-        this.webContents.executeJavaScript(`let exportedValues = {}`)
-
-        this.windowSettings.hookVolumeControls();
     }
 
     createEvents() {

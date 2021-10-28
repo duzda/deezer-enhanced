@@ -1,5 +1,6 @@
 const Player = require('mpris-service');
 const LazyReader = require('../utils/lazy_reader');
+const path = require('path');
 
 class Mpris {
     constructor(win) {
@@ -21,7 +22,7 @@ class Mpris {
 
     initMprisPlayer() {
         // Bind the deezer events to the mpris datas
-        LazyReader.getOnce('mpris/mpris_renderer.js', (data) => {
+        LazyReader.getOnce(path.join('injections', 'mpris', 'mpris_renderer.js'), (data) => {
             this.win.webContents.executeJavaScript(data)
         })
 

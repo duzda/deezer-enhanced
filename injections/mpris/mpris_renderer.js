@@ -1,3 +1,5 @@
+const electron = require("electron");
+
 if (typeof Events !== 'undefined') {
     Events.subscribe(Events.player.playerReady, function () {
         electron.ipcRenderer.send('readDZCurSong', dzPlayer.getCurrentSong())

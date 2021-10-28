@@ -8,14 +8,14 @@ class WindowSettings {
         this.settings = settings;
         this.tray = tray;
         this.webContents = webContents;
-
-        this.initializeSettings();
     }
 
     initializeSettings() {
         if (this.settings.finishedLoading) {
+            this.hookSettings();
             this.checkOptimize();
             this.setTray();
+            this.hookVolumeControls();
 
             this.settings.setCallback("optimizeApp", () => {
                 this.checkOptimize();
@@ -115,19 +115,19 @@ class WindowSettings {
             if (this.window.blur) {
                 this.focusWindow();
             }
-            LazyReader.unload(path.join("optimization", "blur.js"));
-            LazyReader.unload(path.join("optimization", "focus.js"));
+            LazyReader.unload(path.join('injections', 'optimization', 'blur.js'));
+            LazyReader.unload(path.join('injections', 'optimization', 'focus.js'));
         }
     }
 
     blurWindow() {
-        LazyReader.get(path.join("optimization", "blur.js"), (data) => {
+        LazyReader.get(path.join('injections', 'optimization', 'blur.js'), (data) => {
             this.webContents.executeJavaScript(data);
         });
     }
 
     focusWindow() {
-        LazyReader.get(path.join("optimization", "focus.js"), (data) => {
+        LazyReader.get(path.join('injections', 'optimization', 'focus.js'), (data) => {
             this.webContents.executeJavaScript(data);
         });
     }
@@ -142,8 +142,9 @@ class WindowSettings {
     }
 
     hookVolumeControls() {
+        this.webContents.executeJavaScript(`let exportedValues = {}`)
         this.exportVolumePower();
-        LazyReader.getOnce("volume/volume_injector.js", (data) => {
+        LazyReader.getOnce(path.join('injections', 'volume', 'volume_injector.js'), (data) => {
             this.webContents.executeJavaScript(data);
         });
     }
@@ -151,6 +152,12 @@ class WindowSettings {
     exportVolumePower() {
         let volumePower = this.settings.getAttribute("volumePower");
         this.webContents.executeJavaScript(`exportedValues.volumePower = "${volumePower}"`)
+    }
+
+    hookSettings() {
+        LazyReader.getOnce(path.join('injections', 'settings', 'settings_injection.js'), (data) => {
+            this.webContents.executeJavaScript(data);
+        });
     }
 }
 
