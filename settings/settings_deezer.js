@@ -15,6 +15,7 @@ if (content != null) {
 // Initialize values based on settings
 let enableTrayLabel = document.getElementById('enableTray');
 let closeToTrayLabel = document.getElementById('closeToTray');
+let useRoundIconLabel = document.getElementById('useRoundIcon');
 let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
 let inputDownloadSpeed = document.getElementById('downloadLimit')
@@ -26,6 +27,9 @@ ipcRenderer.invoke("requestSettings").then((data) => {
     if (data.closeToTray == 'true') {
         closeToTrayLabel.classList.add('is-checked');
     } 
+    if (data.closeToTray == 'true') {
+        closeToTrayLabel.classList.add('is-checked');
+    }
     if (data.optimizeApp == 'true') {
         optimizeAppLabel.classList.add('is-checked');
     }
@@ -45,6 +49,10 @@ enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', funct
 closeToTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
     ipcRenderer.send("setSetting", "closeToTray",
         closeToTrayLabel.classList.contains('is-checked') ? "true" : "false");
+});
+useRoundIconLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
+    ipcRenderer.send("setSetting", "useRoundIcon",
+        useRoundIconLabel.classList.contains('is-checked') ? "true" : "false");
 });
 optimizeAppLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
     ipcRenderer.send("setSetting", "optimizeApp",

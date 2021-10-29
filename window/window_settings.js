@@ -14,7 +14,7 @@ class WindowSettings {
 
     initializeSettings() {
         if (this.settings.finishedLoading) {
-            this.checkOptimize();
+             this.checkOptimize();
             this.setTray();
 
             this.settings.setCallback("optimizeApp", () => {
@@ -25,6 +25,9 @@ class WindowSettings {
             });
             this.settings.setCallback('enableTray', () => {
                 this.setTray();
+            });
+            this.settings.setCallback('useRoundIcon', () => {
+                this.useRoundIcon();
             });
 
             // Bootstrap after a few seconds to let all the workers initialize (maybe log events instead?)
@@ -135,6 +138,38 @@ class WindowSettings {
         } else if (this.tray != null) {
             this.tray.tray.destroy();
             this.tray = null;
+        }
+    }
+
+    useRoundIcon() {
+        if (this.settings.getAttribute("useRoundIcon") == 'true') {
+            const { exec } = require("child_process");
+
+            exec("pkexec sed -i 's/Icon=deezer-enhanced/Icon=deezer-round/g' /usr/share/applications/deezer-enhanced.desktop", (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+            });
+        } else {
+            const { exec } = require("child_process");
+
+            exec("pkexec sed -i 's/Icon=deezer-round/Icon=deezer-enhanced/g' /usr/share/applications/deezer-enhanced.desktop", (error, stdout, stderr) => {
+                if (error) {
+                    console.log(`error: ${error.message}`);
+                    return;
+                }
+                if (stderr) {
+                    console.log(`stderr: ${stderr}`);
+                    return;
+                }
+                console.log(`stdout: ${stdout}`);
+            });
         }
     }
 }

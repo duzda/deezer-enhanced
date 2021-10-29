@@ -7,6 +7,7 @@ const filename = "preferences.json";
 const defaults = {
     enableTray: 'true',
     closeToTray: 'true',
+    useRoundIcon: 'false',
     optimizeApp: 'false',
     songNotifications: 'false',
     downloadLimit: ''
