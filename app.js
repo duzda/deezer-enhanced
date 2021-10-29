@@ -125,7 +125,6 @@ class Deezer {
             this.loginHooked = true
             this.mpris.initMprisPlayer();
             this.mpris.bindEvents();
-            
             this.win.windowSettings.initializeSettings();
         });
     }

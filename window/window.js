@@ -43,7 +43,8 @@ class Window extends BrowserWindow {
         })
         this.on("close", event => {
             if (this.settings.getAttribute("closeToTray") == "true" &&
-                this.settings.getAttribute("enableTray") == "true") {
+                this.settings.getAttribute("enableTray") == "true" &&
+                this.parent.loginHooked) {
                 event.preventDefault();
                 this.hide();
                 return false;
