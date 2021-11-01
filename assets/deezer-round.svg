@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="210mm"
+   viewBox="0 0 210 210"
+   version="1.1"
+   id="svg18165"
+   inkscape:version="1.1.1 (3bf5ae0d25, 2021-09-20)"
+   sodipodi:docname="deezer-round.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview18167"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.83654462"
+     inkscape:cx="470.38734"
+     inkscape:cy="413.60615"
+     inkscape:window-width="1920"
+     inkscape:window-height="1052"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     height="210mm"
+     inkscape:object-nodes="false" />
+  <defs
+     id="defs18162">
+    <linearGradient
+       id="rect8192_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-111.7225"
+       y1="241.8037"
+       x2="-111.9427"
+       y2="255.82561"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#358C7B"
+         id="stop3427" />
+      <stop
+         offset="0.5256"
+         style="stop-color:#33A65E"
+         id="stop3429" />
+    </linearGradient>
+    <linearGradient
+       id="rect8199_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-123.8913"
+       y1="223.6279"
+       x2="-99.772499"
+       y2="235.9171"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#222B90"
+         id="stop3433" />
+      <stop
+         offset="1"
+         style="stop-color:#367B99"
+         id="stop3435" />
+    </linearGradient>
+    <linearGradient
+       id="rect8206_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-208.4319"
+       y1="210.77251"
+       x2="-185.03191"
+       y2="210.77251"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#FF9900"
+         id="stop3439" />
+      <stop
+         offset="1"
+         style="stop-color:#FF8000"
+         id="stop3441" />
+    </linearGradient>
+    <linearGradient
+       id="rect8213_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-180.1319"
+       y1="210.77251"
+       x2="-156.7319"
+       y2="210.77251"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#FF8000"
+         id="stop3445" />
+      <stop
+         offset="1"
+         style="stop-color:#CC1953"
+         id="stop3447" />
+    </linearGradient>
+    <linearGradient
+       id="rect8220_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-151.83189"
+       y1="210.77251"
+       x2="-128.4319"
+       y2="210.77251"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#CC1953"
+         id="stop3451" />
+      <stop
+         offset="1"
+         style="stop-color:#241284"
+         id="stop3453" />
+    </linearGradient>
+    <linearGradient
+       id="rect8227_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-123.5596"
+       y1="210.77251"
+       x2="-100.1596"
+       y2="210.77251"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#222B90"
+         id="stop3457" />
+      <stop
+         offset="1"
+         style="stop-color:#3559A6"
+         id="stop3459" />
+    </linearGradient>
+    <linearGradient
+       id="rect8234_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-152.75549"
+       y1="226.0811"
+       x2="-127.5083"
+       y2="233.4639"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="0"
+         style="stop-color:#CC1953"
+         id="stop3463" />
+      <stop
+         offset="1"
+         style="stop-color:#241284"
+         id="stop3465" />
+    </linearGradient>
+    <linearGradient
+       id="rect8241_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-180.9648"
+       y1="234.33411"
+       x2="-155.899"
+       y2="225.2108"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="2.669841e-03"
+         style="stop-color:#FFCC00"
+         id="stop3469" />
+      <stop
+         offset="0.9999"
+         style="stop-color:#CE1938"
+         id="stop3471" />
+    </linearGradient>
+    <linearGradient
+       id="rect8248_1_"
+       gradientUnits="userSpaceOnUse"
+       x1="-178.1651"
+       y1="257.75391"
+       x2="-158.6987"
+       y2="239.791"
+       gradientTransform="matrix(1.1258452,0,0,-1.1125121,264.49713,351.09111)">
+      <stop
+         offset="2.669841e-03"
+         style="stop-color:#FFD100"
+         id="stop3475" />
+      <stop
+         offset="1"
+         style="stop-color:#FD5A22"
+         id="stop3477" />
+    </linearGradient>
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <circle
+       style="fill:#191919;stroke-width:0.557694"
+       id="path18378"
+       cx="105"
+       cy="105"
+       r="105" />
+    <g
+       id="g18572"
+       transform="translate(13.366601,20.408982)">
+      <rect
+         id="rect8185"
+         x="125.40232"
+         y="45.570694"
+         class="st0"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:#40ab5d;fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8192"
+         x="125.40232"
+         y="66.705872"
+         class="st1"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8192_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8199"
+         x="125.40232"
+         y="87.841049"
+         class="st2"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8199_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8206"
+         x="29.830242"
+         y="108.97623"
+         class="st3"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8206_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8213"
+         x="61.667118"
+         y="108.97623"
+         class="st4"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8213_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8220"
+         x="93.565445"
+         y="108.97623"
+         class="st5"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8220_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8227"
+         x="125.40232"
+         y="108.97623"
+         class="st6"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8227_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8234"
+         x="93.565445"
+         y="87.841049"
+         class="st7"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8234_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8241"
+         x="61.667118"
+         y="87.841049"
+         class="st8"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8241_1_);fill-rule:evenodd;stroke-width:0.610961" />
+      <rect
+         id="rect8248"
+         x="61.667118"
+         y="66.705872"
+         class="st9"
+         width="26.366831"
+         height="15.244051"
+         style="clip-rule:evenodd;fill:url(#rect8248_1_);fill-rule:evenodd;stroke-width:0.610961" />
+    </g>
+  </g>
+</svg>
