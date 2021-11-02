@@ -145,7 +145,7 @@ class WindowSettings {
         if (this.settings.getAttribute("useRoundIcon") == 'true') {
             const { exec } = require("child_process");
 
-            exec("mkdir .local/share/applications/ & cp /usr/share/applications/deezer-enhanced.desktop .local/share/applications & wget -P .local/share/icons/hicolor/scalable/apps/ https://raw.githubusercontent.com/fischer-felix/deezer-enhanced/master/assets/deezer-round.svg & sed -i 's#Icon=deezer-enhanced#Icon=.local/share/icons/hicolor/scalable/apps/deezer-round.svg#' .local/share/applications/deezer-enhanced.desktop", (error, stdout, stderr) => {
+            exec("mkdir .local/share/applications/ & cp /usr/share/applications/deezer-enhanced.desktop .local/share/applications & wget -P .local/share/icons/hicolor/scalable/apps/ https://raw.githubusercontent.com/fischer-felix/deezer-enhanced/master/assets/deezer-round.svg & sed -i 's#Icon=deezer-enhanced#Icon=deezer-round#' .local/share/applications/deezer-enhanced.desktop", (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error.message}`);
                     return;
