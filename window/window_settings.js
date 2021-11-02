@@ -159,7 +159,7 @@ class WindowSettings {
         } else {
             const { exec } = require("child_process");
 
-            exec("sed -i 's/Icon=deezer-round/Icon=deezer-enhanced/g' /usr/share/applications/deezer-enhanced.desktop", (error, stdout, stderr) => {
+            exec("sed -i 's/Icon=deezer-round/Icon=deezer-enhanced/' $HOME/.local/share/applications/deezer-enhanced.desktop", (error, stdout, stderr) => {
                 if (error) {
                     console.log(`error: ${error.message}`);
                     return;
