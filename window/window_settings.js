@@ -161,7 +161,9 @@ class WindowSettings {
     if (this.settings.getAttribute("enableTray") == "true") {
       this.tray = new AppTray(this.window, this.window.app.mpris);
     } else if (this.tray != null) {
-      this.tray.tray.destroy();
+      if (this.tray.tray != null) {
+        this.tray.tray.destroy();
+      }
       this.tray = null;
     }
   }
