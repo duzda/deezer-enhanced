@@ -1,17 +1,23 @@
 const { app, Menu, Tray } = require('electron');
+const fs = require('fs');
 const path = require('path');
 
 const volumeStep = 0.05;
 
-const trayIcon = path.join(process.resourcesPath, 'assets', 'icon.png')
-
 class AppTray {
     constructor(window, mpris) {
-        this.tray = Tray(trayIcon);
+        fs.access(path.join(app.getPath('userData'), 'assets', 'icon.png'), (err) => {
+            let trayIcon;
+            if (err) {
+                trayIcon = path.join(process.resourcesPath, 'assets', 'icon.png')
+            } else {
+                trayIcon = path.join(app.getPath('userData'), 'assets', 'icon.png')
+            }
+            this.tray = Tray(trayIcon);
+            this.initTray();
+        });
         this.window = window;
         this.mpris = mpris;
-
-        this.initTray();
     }
 
     initTray() {
