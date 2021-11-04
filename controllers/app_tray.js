@@ -80,7 +80,7 @@ class AppTray {
             label: "Quit",
             enabled: true,
             click: () => {
-                this.window.destroy()
+                this.window.close()
                 app.quit()
             }
         }]

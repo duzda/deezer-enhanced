@@ -1,6 +1,7 @@
 const path = require('path');
 const { BrowserWindow, dialog } = require('electron');
 const WindowSettings = require('./window_settings');
+const WindowBounds = require('../controllers/window_bounds');
 
 class Window extends BrowserWindow {
     constructor(app, parent) {
@@ -18,6 +19,7 @@ class Window extends BrowserWindow {
             show: false
         };
         super(params);
+        this.windowBounds = new WindowBounds(this);
         this.app = app;
         this.parent = parent;
         this.settings = this.parent.settings;
@@ -42,6 +44,11 @@ class Window extends BrowserWindow {
             this.show();
         })
         this.on("close", event => {
+            this.windowBounds.preferences = { 
+                bounds: this.getBounds(),
+                maximized: this.isMaximized()
+            }
+            this.windowBounds.save(false)
             if (this.settings.getAttribute("closeToTray") == "true" &&
                 this.settings.getAttribute("enableTray") == "true" &&
                 this.parent.loginHooked) {
