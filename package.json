@@ -36,6 +36,7 @@
             "icon": "./assets/icon.icns",
             "synopsis": "An unofficial application for Deezer with enhanced features",
             "category": "Audio"
-        }
+        },
+        "extraResources": ["./assets/**"]
     }
 }

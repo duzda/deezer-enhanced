@@ -3,7 +3,7 @@ const path = require('path');
 
 const volumeStep = 0.05;
 
-const trayIcon = path.join(__dirname, '..', 'assets', 'icon.png');
+const trayIcon = path.join(process.resourcesPath, 'assets', 'icon.png')
 
 class AppTray {
     constructor(window, mpris) {
