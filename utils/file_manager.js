@@ -36,7 +36,8 @@ class FileManager {
     load() {
         // In case we can't create a new file and can't change any of the settings
         // user will be forced to use default settings
-        this.preferences = this.defaults;
+        // Creates deep copy
+        this.preferences = JSON.parse(JSON.stringify(this.defaults));
 
         fs.access(this.file, (err) => {
             if (err) {
@@ -68,6 +69,18 @@ class FileManager {
                 }
             });
         });
+    }
+
+    clear() {
+        fs.access(this.file, (err) => {
+            if (err) {
+                return;
+            }
+
+            fs.unlink(this.file, (err) => {})
+        })
+        // Creates deep copy
+        this.preferences = JSON.parse(JSON.stringify(this.defaults));
     }
 }
 

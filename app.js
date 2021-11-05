@@ -4,6 +4,8 @@ const electron = require('electron');
 const { app, globalShortcut, session, ipcMain, Notification } = electron;
 const Settings = require('./controllers/settings');
 const Mpris = require('./controllers/mpris');
+const path = require('path');
+const fs = require('fs');
 
 // To hide unsupported browser error
 process.env.userAgent = 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36';
@@ -126,6 +128,19 @@ class Deezer {
             this.mpris.initMprisPlayer();
             this.mpris.bindEvents();
             this.win.windowSettings.initializeSettings();
+        });
+        ipcMain.on("resetSettings", () => {
+            this.settings.clear();
+        });
+        ipcMain.on("clearCache", () => {
+            let cacheFolder = path.join(app.getPath('userData'), 'blob_storage');
+            fs.access(cacheFolder, (err) => {
+                if (err) {
+                    return;
+                }
+    
+                fs.unlink(cacheFolder, (err) => {})
+            })
         });
     }
 }

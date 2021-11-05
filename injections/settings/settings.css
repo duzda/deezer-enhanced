@@ -1,0 +1,101 @@
+#app_settings .red-button {
+    -webkit-box-align: center;
+    align-items: center;
+    appearance: none;
+    border-color: transparent;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "Open Sans", Helvetica, Arial, sans-serif;
+    font-weight: 700;
+    -webkit-box-pack: center;
+    justify-content: center;
+    position: relative;
+    text-decoration: none;
+    transition-property: background-color, border-color, color, transform;
+    transition-duration: 200ms;
+    border-radius: 32px;
+    font-size: 12px;
+    height: 32px;
+    padding: 0px 16px;
+    background-color: rgb(239, 84, 102);
+    color: rgb(255, 255, 255);
+}
+
+#app_settings .red-button:hover {
+    background-color: #ca2a36;
+}
+
+#app_settings .red-button-text {
+    line-height: 1.2;
+    max-height: 100%;
+    max-width: 100%;
+    min-width: 0px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+#app_settings .container {
+    max-width: 1200px;
+}
+
+#app_settings .account-wrapper {
+    background-color: undefined;
+    background-color: var(--background-secondary);
+    border-radius: 4px;
+    -webkit-box-shadow: 0 0 6px rgb(25 25 34 / 16%);
+    box-shadow: 0 0 6px rgb(25 25 34 / 16%);
+    padding: 24px;
+}
+
+#app_settings .account-infos {
+    margin-left: 150px;
+    padding-left: 24px;
+}
+
+#app_settings .account-delete, .account-delete-btn {
+    color: undefined;
+    color: var(--text-intermediate);
+}
+
+#app_settings .account-delete {
+    background-color: undefined;
+    background-color: var(--background-intermediate);
+    font-size: 14px;
+    margin: 24px -24px -24px;
+    padding: 24px;
+    text-align: center;
+}
+
+#app_settings .app-table {
+    border-collapse: collapse;
+    table-layout: fixed;
+    width: 100%;
+}
+
+#app_settings .app-cell-picture {
+    text-align: center;
+    width: 64px;
+}
+
+#app_settings .app-cell {
+    border-bottom: undefined;
+    border-bottom: 1px solid var(--divider-primary);
+    padding-bottom: 12px;
+    vertical-align: middle;
+}
+
+#app_settings .app-cell-action {
+    text-align: right;
+}
+
+#app_settings .account-message {
+    margin-top: 15px;
+}
+
+#app_settings .account-message .alert {
+    margin-bottom: 0;
+}

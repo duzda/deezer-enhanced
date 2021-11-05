@@ -35,6 +35,13 @@ class WindowSettings {
       setTimeout(() => {
         this.checkLimitDownload();
       }, 5000);
+
+      LazyReader.getOnce(
+        path.join("injections", "settings", "settings.css"),
+        (data) => {
+          this.webContents.insertCSS(data);
+        }
+      );
     } else {
       this.settings.onload = () => {
         this.initializeSettings();

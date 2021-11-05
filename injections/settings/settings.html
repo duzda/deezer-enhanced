@@ -1,6 +1,6 @@
-<div id="app_settings">
-    <div class="container">
-        <div class="account-wrapper display-wrapper">
+<div class="container" id="app_settings">
+    <div class="account-wrapper">
+        <div class="account-notifications">
             <h2 class="heading-2 heading-bordered">Application settings</h2>
             <div class="explicit-settings-container">
                 <div class="flex-form">
@@ -48,7 +48,7 @@
                     </div>
                 </div>
                 <div class="description">Changes the volume to power function (volume**input) which is more natural for
-                    human ears <br> (0 turns this feature off, 4 is the recommended value)</div>
+                    human ears <br> (0 turns this feature off)</div>
             </div>
             <div class="explicit-settings-container">
                 <div class="form-group">
@@ -63,6 +63,28 @@
                 <div class="description">Limits maximum download speed to non-negative integer kBps (0 turns this
                     feature off)</div>
             </div>
+            <div class="explicit-settings-container">
+                <table class="app-table">
+                    <tbody>
+                        <tr class="app-row">
+                            <td class="app-cell"><span class="app-name">Cache can take up to GBs of wasted space, it's recommended to click this button once in a while</span></td>
+                            <td class="app-cell app-cell-action">
+                                <span class="action-btn">
+                                    <button type="button" class="red-button" id="clearCache">
+                                        <span class="red-button-text">Clear Cache</span>
+                                    </button>
+                                </span> 
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="account-message" style="display: none;" id="cache-popup">
+            <div class="alert alert-success">Cache has been cleared.</div>
+        </div>
+        <div class="account-delete">
+            <a class="account-delete-btn" role="button" id="resetSettings">Reset Settings</a>
         </div>
     </div>
 </div>
