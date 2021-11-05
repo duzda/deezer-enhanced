@@ -1,6 +1,6 @@
 const { ipcRenderer } = require("electron");
 
-function setVisualCheckbox(variable, label) {
+function setVisualSwitch(variable, label) {
     if (variable == 'true') {
         label.classList.add('is-checked');
     } else {
@@ -9,20 +9,40 @@ function setVisualCheckbox(variable, label) {
 }
 
 function setVisualTextbox(variable, input) {
-    if (variable) {
-        input.setAttribute('value', variable);
+    if (typeof variable !== 'undefined') {
+        input.value = variable;
     }
+}
+
+function invokeSwitch(variable, label) {
+    ipcRenderer.send("setSetting", variable,
+        label.classList.contains('is-checked') ? "true" : "false");
+}
+
+function invokeInput(variable, input) {
+    input.setAttribute('value', input.value);
+    ipcRenderer.send("setSetting", variable,
+        input.value);
 }
 
 function initializeSettingsStates() {
     ipcRenderer.invoke("requestSettings").then((data) => {
-        setVisualCheckbox(data.enableTray, enableTrayLabel);
-        setVisualCheckbox(data.closeToTray, closeToTrayLabel);
-        setVisualCheckbox(data.optimizeApp, optimizeAppLabel);
-        setVisualCheckbox(data.songNotifications, songNotificationsLabel);
+        setVisualSwitch(data.enableTray, enableTrayLabel);
+        setVisualSwitch(data.closeToTray, closeToTrayLabel);
+        setVisualSwitch(data.optimizeApp, optimizeAppLabel);
+        setVisualSwitch(data.songNotifications, songNotificationsLabel);
         setVisualTextbox(data.volumePower, inputVolumePower);
         setVisualTextbox(data.downloadLimit, inputDownloadSpeed);
     });
+}
+
+function invokeAllCallbacks() {
+    invokeSwitch("enableTray", enableTrayLabel);
+    invokeSwitch("closeToTray", closeToTrayLabel);
+    invokeSwitch("optimizeApp", optimizeAppLabel);
+    invokeSwitch("songNotifications", songNotificationsLabel);
+    invokeInput("volumePower", inputVolumePower);
+    invokeInput("downloadLimit", inputDownloadSpeed);
 }
 
 // Create animations
@@ -49,28 +69,22 @@ initializeSettingsStates();
 
 // All the settings... Yes, you must bind it to input, otherwise function gets called twice!
 enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    ipcRenderer.send("setSetting", "enableTray",
-        enableTrayLabel.classList.contains('is-checked') ? "true" : "false");
+    invokeSwitch("enableTray", enableTrayLabel);
 });
 closeToTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    ipcRenderer.send("setSetting", "closeToTray",
-        closeToTrayLabel.classList.contains('is-checked') ? "true" : "false");
+    invokeSwitch("closeToTray", closeToTrayLabel);
 });
 optimizeAppLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    ipcRenderer.send("setSetting", "optimizeApp",
-        optimizeAppLabel.classList.contains('is-checked') ? "true" : "false");
+    invokeSwitch("optimizeApp", optimizeAppLabel);
 });
 songNotificationsLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    ipcRenderer.send("setSetting", "songNotifications",
-        songNotificationsLabel.classList.contains('is-checked') ? "true" : "false");
+    invokeSwitch("songNotifications", songNotificationsLabel);
 });
 inputVolumePower.addEventListener('blur', function (e) {
-    ipcRenderer.send("setSetting", "volumePower",
-        inputVolumePower.value);
+    invokeInput("volumePower", inputVolumePower);
 });
 inputDownloadSpeed.addEventListener('blur', function (e) {
-    ipcRenderer.send("setSetting", "downloadLimit",
-        inputDownloadSpeed.value);
+    invokeInput("downloadLimit", inputDownloadSpeed);
 });
 
 // Cache
@@ -93,4 +107,8 @@ let resetSettingsButton = document.getElementById('resetSettings');
 resetSettingsButton.addEventListener('click', function(e) {
     ipcRenderer.send("resetSettings");
     initializeSettingsStates();
+
+    setTimeout(() => {
+        invokeAllCallbacks();
+    }, 100);
 })
