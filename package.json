@@ -19,7 +19,7 @@
         "build:mac": "node_modules/.bin/electron-builder --mac dmg pkg mas",
         "build:win-portable": "node_modules/.bin/electron-builder --windows portable",
         "build:win": "node_modules/.bin/electron-builder --windows nsis",
-        "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage && buildtools/update-version.sh"
+        "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage"
     },
     "devDependencies": {
         "electron": "^14.0.0",
