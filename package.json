@@ -1,6 +1,6 @@
 {
     "name": "deezer-enhanced",
-    "version": "0.2.0",
+    "version": "0.2.1",
     "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
     "homepage": "https://github.com/duzda/deezer-enhanced",
     "bugs": {
@@ -33,7 +33,7 @@
         "appId": "com.deezerenhanced.app",
         "productName": "Deezer Enhanced",
         "linux": {
-            "icon": "./assets/icon.icns",
+            "icon": "./build/icon.icns",
             "synopsis": "An unofficial application for Deezer with enhanced features",
             "category": "Audio"
         },
