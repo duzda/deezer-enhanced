@@ -2,7 +2,7 @@
 
 Deezer application primarly, but not only, for Linux that is not just an electron wrapper, but also enhances features.
 
-![settings](https://user-images.githubusercontent.com/25201406/133940690-ce372bf5-7eab-45d6-b8a4-d3d998af3149.png)
+![settings](https://user-images.githubusercontent.com/25201406/140727756-4ace685d-6e66-4e9e-805f-f3f8e4d716b2.png)
 
 # Features
 
