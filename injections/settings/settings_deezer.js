@@ -1,5 +1,7 @@
 const { ipcRenderer } = require("electron");
 
+// Helpers - Visuals
+
 function setVisualSwitch(variable, label) {
     if (variable == 'true') {
         label.classList.add('is-checked');
@@ -14,6 +16,8 @@ function setVisualTextbox(variable, input) {
     }
 }
 
+// Helpers - Invokers
+
 function invokeSwitch(variable, label) {
     ipcRenderer.send("setSetting", variable,
         label.classList.contains('is-checked') ? "true" : "false");
@@ -25,6 +29,8 @@ function invokeInput(variable, input) {
         input.value);
 }
 
+// Initialize all visuals
+
 function initializeSettingsStates() {
     ipcRenderer.invoke("requestSettings").then((data) => {
         setVisualSwitch(data.enableTray, enableTrayLabel);
@@ -35,6 +41,8 @@ function initializeSettingsStates() {
         setVisualTextbox(data.downloadLimit, inputDownloadSpeed);
     });
 }
+
+// Initialize all callbacks
 
 function invokeAllCallbacks() {
     invokeSwitch("enableTray", enableTrayLabel);
@@ -65,8 +73,6 @@ let songNotificationsLabel = document.getElementById('songNotifications');
 let inputVolumePower = document.getElementById('volumePower')
 let inputDownloadSpeed = document.getElementById('downloadLimit')
 
-initializeSettingsStates();
-
 // All the settings... Yes, you must bind it to input, otherwise function gets called twice!
 enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
     invokeSwitch("enableTray", enableTrayLabel);
@@ -86,6 +92,8 @@ inputVolumePower.addEventListener('blur', function (e) {
 inputDownloadSpeed.addEventListener('blur', function (e) {
     invokeInput("downloadLimit", inputDownloadSpeed);
 });
+
+initializeSettingsStates();
 
 // Cache
 
