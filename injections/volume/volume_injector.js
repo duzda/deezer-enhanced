@@ -8,6 +8,8 @@ function pollDzPlayer() {
 }
 
 function injectSetVolume() {
+    // e - new volume level
+    // t - did user specifically click the volume bar?
     dzPlayer.control.setVolume = (e, t) => {
         try {
             if (dzPlayer.chromecast.isLoading())
@@ -28,9 +30,10 @@ function injectSetVolume() {
             }
 
             Events.trigger(Events.player.volume_changed, Math.round(100 * e))
-            if (t === true) {
-                window.localStorage.setItem("volume_" + dataLayer[0].deezer_user_id, e);
-            }
+            // Disabled, to allow setting the local storage even when changed via mpris
+            // if (t === true) {
+            window.localStorage.setItem("volume_" + dataLayer[0].deezer_user_id, e);
+            // }
         } catch (e) {
             console.error(e)
         }
