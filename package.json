@@ -22,7 +22,7 @@
         "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage"
     },
     "devDependencies": {
-        "electron": "^14.0.0",
+        "electron": "^17.0.0",
         "electron-builder": "^22.11.11"
     },
     "dependencies": {
