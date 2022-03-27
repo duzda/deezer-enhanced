@@ -42,6 +42,13 @@ class WindowSettings {
           this.webContents.insertCSS(data);
         }
       );
+
+      LazyReader.getOnce(
+          path.join("injections", "volume", "scroll_injector.js"),
+          (data) => {
+              this.webContents.executeJavaScript(data);
+          }
+      );
     } else {
       this.settings.onload = () => {
         this.initializeSettings();
