@@ -7,7 +7,7 @@
         "url": "https://github.com/duzda/deezer-enhanced/issues"
     },
     "license": "MIT",
-    "author": "duzda <duzda666@gmail.com>",
+    "author": "duzda <duzda@disroot.org>",
     "main": "src/app.js",
     "scripts": {
         "start": "node_modules/.bin/electron .",
