@@ -25,12 +25,14 @@ class Window extends BrowserWindow {
         this.settings = this.parent.settings;
         this.windowSettings = new WindowSettings(this, this.settings, this.parent.tray, this.webContents);
         this.setMenuBarVisibility(false);
+        this.loadFile(path.join(__dirname, '..', 'utils', 'loadscreen.html'));
+        this.show();
 
-        this.loadURL("https://deezer.com", { userAgent: process.env.userAgent });
         this.createEvents();
     }
 
     createEvents() {
+        this.freshWindow = true;
         this.webContents.on('did-fail-load', (e, errCode, errorDescription) => {
             let message = errorDescription;
             switch (errCode) {
@@ -41,7 +43,11 @@ class Window extends BrowserWindow {
             this.app.quit(errCode);
         })
         this.on('ready-to-show', () => {
-            this.show();
+            // Change to deezer because right now, we're at "loading screen"
+            if (this.freshWindow) {
+                this.loadURL("https://deezer.com", { userAgent: process.env.userAgent });
+                this.freshWindow = false;
+            }
         })
         this.on("close", event => {
             this.windowBounds.preferences = { 

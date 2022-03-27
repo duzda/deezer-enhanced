@@ -8,7 +8,7 @@
     },
     "license": "MIT",
     "author": "duzda <duzda666@gmail.com>",
-    "main": "app.js",
+    "main": "src/app.js",
     "scripts": {
         "start": "node_modules/.bin/electron .",
         "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
