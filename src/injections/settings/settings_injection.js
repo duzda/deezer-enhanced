@@ -85,6 +85,10 @@ function initSettingsJavacript() {
             let searchInput = document.getElementById('topbar-search');
             searchInput.addEventListener('focus', pollSearchHistory);
 
+            // Hook notification bell 1, because 0 is the injected settings button
+            let notificationBell = document.getElementsByClassName('topbar-notification')[1];
+            notificationBell.addEventListener('click', pollNotifications);
+
             bindLinks();
         });
     } else {
@@ -134,6 +138,21 @@ function pollSearchHistory() {
         bindLinks();
     } else {
         setTimeout(pollSearchHistory, 100);
+    }
+}
+
+function pollNotifications() {
+    let notificationsPopper = document.getElementsByClassName('popper-notifications')[0];
+    if (notificationsPopper != null) {
+        bindLinks();
+
+        // Hook pictures as well
+        let picture_links = document.body.getElementsByClassName('picture-link');
+        for (let i = 0, len = picture_links.length; i < len; i++) {
+            picture_links[i].addEventListener('click', onclickHideSettings);
+        }
+    } else {
+        setTimeout(pollNotifications, 100);
     }
 }
 
