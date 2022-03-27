@@ -12,6 +12,12 @@ class WindowSettings {
 
   initializeSettings() {
     if (this.settings.finishedLoading) {
+      LazyReader.getOnce(path.join('injections', 'sidebar', 'sidebar_injection.js'), (data) => {
+        this.webContents.executeJavaScript(data);
+      })
+      LazyReader.getOnce(path.join('injections', 'sidebar', 'navigation.css'), (data) => {
+          this.webContents.insertCSS(data);
+      })
       this.webContents.executeJavaScript(`let exportedValues = {}`);
       this.hookSettings();
       this.checkOptimize();
