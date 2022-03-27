@@ -54,6 +54,9 @@ class Mpris {
         this.player.on('playpause', () => {
             this.win.webContents.executeJavaScript("dzPlayer.control.togglePause();");
         })
+        this.player.on('stop', () => {
+            this.win.webContents.executeJavaScript("dzPlayer.control.pause();");
+        })
         this.player.on('loopStatus', (loop_status) => {
             let loop_status_int
             switch (loop_status) {
