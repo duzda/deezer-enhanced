@@ -22,7 +22,7 @@ class FileManager {
         if (asynchronous){
             fs.writeFile(this.file, json, 'utf-8', (err) => {
                 if (err) {
-                    console.error(err)
+                    console.error(err);
                     return;
                 }
 
@@ -45,7 +45,7 @@ class FileManager {
                 this.onload();
 
                 // Either file is inaccessible or doesn't exist
-                return
+                return;
             }
             fs.readFile(this.file, 'utf-8', (err, data) => {
                 this.finishedLoading = true;
@@ -53,7 +53,7 @@ class FileManager {
                 if (err) {
                     console.error(err);
                     this.onload();
-                    return
+                    return;
                 }
 
                 try {
@@ -77,8 +77,8 @@ class FileManager {
                 return;
             }
 
-            fs.unlink(this.file, (err) => {})
-        })
+            fs.unlink(this.file, () => {});
+        });
         // Creates deep copy
         this.preferences = JSON.parse(JSON.stringify(this.defaults));
     }

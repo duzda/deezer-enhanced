@@ -19,80 +19,87 @@ class Deezer {
     constructor() {
         // Single instance lock
         if (!gotTheLock) {
-            app.quit()
+            app.quit();
         } else {
-            app.on('second-instance', (event, commandLine, workingDirectory) => {
+            app.on('second-instance', () => {
                 // Someone tried to run a second instance, we should focus our window.
                 if (this.win) {
-                    if (this.win.isMinimized() || !this.win.isVisible()) this.win.restore();
+                    if (this.win.isMinimized() || !this.win.isVisible()) {
+                        this.win.restore();
+                    }
                     this.win.focus();
                 }
-            })
-
+            });
+            
             this.init();
             app.on('ready', () => {
                 this.createWin();
             });
         }
-
+        
         app.on('browser-window-created', (e, window) => {
             window.setMenuBarVisibility(false);
-        })
+        });
     }
-
+    
     init() {
         this.settings = new Settings();
         this.tray = null;
         this.win = null;
         this.mpris = null;
     }
-
+    
     async createWin() {
         session.defaultSession.webRequest.onBeforeSendHeaders((details, callback) => {
             details.requestHeaders['User-Agent'] = process.env.userAgent;
-            callback({ cancel: false, requestHeaders: details.requestHeaders })
+            callback({ cancel: false, requestHeaders: details.requestHeaders });
         });
-
+        
         this.win = new Window(app, this);
         this.registerMediaKeys();
         this.mpris = new Mpris(this.win);
         this.initIPC();
     }
-
+    
     // This is for mac/windows, linux uses mpris instead
     registerMediaKeys() {
-        if (!globalShortcut.isRegistered("MediaNextTrack"))
+        if (!globalShortcut.isRegistered('MediaNextTrack')) {
             globalShortcut.register('MediaNextTrack', () => {
-                this.win.webContents.executeJavaScript("dzPlayer.control.nextSong()");
+                this.win.webContents.executeJavaScript('dzPlayer.control.nextSong()');
             });
-        if (!globalShortcut.isRegistered("MediaPlayPause"))
+        }
+        if (!globalShortcut.isRegistered('MediaPlayPause')) {
             globalShortcut.register('MediaPlayPause', () => {
-                this.win.webContents.executeJavaScript("dzPlayer.control.togglePause();");
+                this.win.webContents.executeJavaScript('dzPlayer.control.togglePause();');
             });
-        if (!globalShortcut.isRegistered("MediaPreviousTrack"))
+        }
+        if (!globalShortcut.isRegistered('MediaPreviousTrack')) {
             globalShortcut.register('MediaPreviousTrack', () => {
-                this.win.webContents.executeJavaScript("dzPlayer.control.prevSong()");
+                this.win.webContents.executeJavaScript('dzPlayer.control.prevSong()');
             });
+        }
     }
-
+    
     initIPC() {
         ipcMain.on('readDZCurSong', (event, data) => {
             if (this.settings.getAttribute('songNotifications') == 'true') {
-                if (data['SNG_ID'] != this.mpris.id)
-                    new Notification({ title: data['SNG_TITLE'], body: data['ART_NAME'], image: 'https://e-cdns-images.dzcdn.net/images/cover/' + data['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg' }).show()
+                if (data['SNG_ID'] != this.mpris.id) {
+                    new Notification({ title: data['SNG_TITLE'], body: data['ART_NAME'], image: 'https://e-cdns-images.dzcdn.net/images/cover/' + data['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg' }).show();
+                }
             }
-
-            this.mpris.updateMetadata(data)
+            
+            this.mpris.updateMetadata(data);
         });
         ipcMain.on('readDZCurPosition', (event, data) => {
             this.mpris.songStart = new Date();
             this.mpris.songOffset = data * 1000 * 1000;
         });
         ipcMain.on('readDZPlaying', (event, data) => {
-            if (data)
+            if (data) {
                 this.mpris.player.playbackStatus = Player.PLAYBACK_STATUS_PLAYING;
-            else
+            } else {
                 this.mpris.player.playbackStatus = Player.PLAYBACK_STATUS_PAUSED;
+            }
         });
         ipcMain.on('readDZVolume', (event, data) => {
             this.mpris.player.volume = data;
@@ -102,45 +109,47 @@ class Deezer {
         });
         ipcMain.on('readDZRepeat', (event, data) => {
             switch (data) {
-                case 0:
-                    this.mpris.player.loopStatus = "None";
-                    break;
-                case 1:
-                    this.mpris.player.loopStatus = "Playlist";
-                    break;
-                case 2:
-                    this.mpris.player.loopStatus = "Track";
-                    break;
-            };
+            case 0:
+                this.mpris.player.loopStatus = 'None';
+                break;
+            case 1:
+                this.mpris.player.loopStatus = 'Playlist';
+                break;
+            case 2:
+                this.mpris.player.loopStatus = 'Track';
+                break;
+            }
         });
         // To initialize settings graphically
-        ipcMain.handle("requestSettings", async (event, arg) => {
+        ipcMain.handle('requestSettings', async () => {
             return this.settings.preferences;
         });
         // To set setting whenever there is a change
-        ipcMain.on("setSetting", (event, key, value) => {
-            this.settings.setAttribute(key, value)
+        ipcMain.on('setSetting', (event, key, value) => {
+            this.settings.setAttribute(key, value);
         });
         // Callback of user logging in, or immediately if he's logged in
-        ipcMain.handle("onLogin", async () => {
-            if (this.loginHooked) return;
-            this.loginHooked = true
+        ipcMain.handle('onLogin', async () => {
+            if (this.loginHooked) {
+                return;
+            }
+            this.loginHooked = true;
             this.mpris.initMprisPlayer();
             this.mpris.bindEvents();
             this.win.windowSettings.initializeSettings();
         });
-        ipcMain.on("resetSettings", () => {
+        ipcMain.on('resetSettings', () => {
             this.settings.clear();
         });
-        ipcMain.on("clearCache", () => {
+        ipcMain.on('clearCache', () => {
             let cacheFolder = path.join(app.getPath('userData'), 'blob_storage');
             fs.access(cacheFolder, (err) => {
                 if (err) {
                     return;
                 }
-    
-                fs.unlink(cacheFolder, (err) => {})
-            })
+                
+                fs.unlink(cacheFolder, () => {});
+            });
         });
     }
 }

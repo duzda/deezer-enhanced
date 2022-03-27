@@ -9,9 +9,9 @@ class AppTray {
         fs.access(path.join(app.getPath('userData'), 'assets', 'icon.png'), (err) => {
             let trayIcon;
             if (err) {
-                trayIcon = path.join(process.resourcesPath, 'assets', 'icon.png')
+                trayIcon = path.join(process.resourcesPath, 'assets', 'icon.png');
             } else {
-                trayIcon = path.join(app.getPath('userData'), 'assets', 'icon.png')
+                trayIcon = path.join(app.getPath('userData'), 'assets', 'icon.png');
             }
             this.tray = Tray(trayIcon);
             this.initTray();
@@ -19,86 +19,88 @@ class AppTray {
         this.window = window;
         this.mpris = mpris;
     }
-
+    
     initTray() {
         let template = [{
-            label: "Show/Hide",
+            label: 'Show/Hide',
             enabled: true,
             click: () => {
-                if (!this.window.isVisible())
+                if (!this.window.isVisible()) {
                     this.window.restore();
-                else
+                } else {
                     this.window.hide();
+                }
             }
         }, {
             type: 'separator'
         }, {
-            label: "Play/Pause",
+            label: 'Play/Pause',
             enabled: true,
             click: () => {
-                this.window.webContents.executeJavaScript("dzPlayer.control.togglePause();");
+                this.window.webContents.executeJavaScript('dzPlayer.control.togglePause();');
             }
         }, {
-            label: "Next",
+            label: 'Next',
             enabled: true,
             click: () => {
-                this.window.webContents.executeJavaScript("dzPlayer.control.nextSong()");
+                this.window.webContents.executeJavaScript('dzPlayer.control.nextSong()');
             }
         }, {
-            label: "Previous",
+            label: 'Previous',
             enabled: true,
             click: () => {
-                this.window.webContents.executeJavaScript("dzPlayer.control.prevSong()");
-            }
-        }, {
-            type: 'separator'
-        }, {
-            label: "Favorite/Unfavorite",
-            enabled: true,
-            click: () => {
-                this.window.webContents.executeJavaScript(" \
-                actions = document.getElementsByClassName('track-actions')[0].getElementsByTagName('button'); \
-                actions[actions.length - 1].click();");
+                this.window.webContents.executeJavaScript('dzPlayer.control.prevSong()');
             }
         }, {
             type: 'separator'
         }, {
-            label: "Volume UP",
+            label: 'Favorite/Unfavorite',
             enabled: true,
             click: () => {
-                this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol += ${volumeStep}; vol > 1 && (vol = 1); dzPlayer.control.setVolume(vol);`)
-            }
-        }, {
-            label: "Volume Down",
-            enabled: true,
-            click: () => {
-                this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol -= ${volumeStep}; vol < 0 && (vol = 0); dzPlayer.control.setVolume(vol);`)
-            }
-        }, {
-            label: "Mute",
-            enabled: true,
-            click: () => {
-                this.window.webContents.executeJavaScript("dzPlayer.control.mute(!dzPlayer.muted)")
+                this.window.webContents.executeJavaScript(' \
+                actions = document.getElementsByClassName("track-actions")[0].getElementsByTagName("button"); \
+                actions[actions.length - 1].click();');
             }
         }, {
             type: 'separator'
         }, {
-            label: "Quit",
+            label: 'Volume UP',
             enabled: true,
             click: () => {
-                this.window.close()
-                app.quit()
+                this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol += ${volumeStep}; vol > 1 && (vol = 1); dzPlayer.control.setVolume(vol);`);
             }
-        }]
-
-        this.tray.setContextMenu(new Menu.buildFromTemplate(template))
-
-        this.tray.on("click", () => {
-            if (!this.window.isVisible())
+        }, {
+            label: 'Volume Down',
+            enabled: true,
+            click: () => {
+                this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol -= ${volumeStep}; vol < 0 && (vol = 0); dzPlayer.control.setVolume(vol);`);
+            }
+        }, {
+            label: 'Mute',
+            enabled: true,
+            click: () => {
+                this.window.webContents.executeJavaScript('dzPlayer.control.mute(!dzPlayer.muted)');
+            }
+        }, {
+            type: 'separator'
+        }, {
+            label: 'Quit',
+            enabled: true,
+            click: () => {
+                this.window.close();
+                app.quit();
+            }
+        }];
+        
+        this.tray.setContextMenu(new Menu.buildFromTemplate(template));
+        
+        this.tray.on('click', () => {
+            if (!this.window.isVisible()) {
                 this.window.restore();
-            else
+            } else {
                 this.window.hide();
-        })
+            }
+        });
     }
 }
 

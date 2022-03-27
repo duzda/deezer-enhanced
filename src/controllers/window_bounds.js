@@ -1,7 +1,7 @@
-const FileManager = require("../utils/file_manager");
+const FileManager = require('../utils/file_manager');
 const { screen } = require('electron');
 
-const filename = "window_bounds.json";
+const filename = 'window_bounds.json';
 
 const defaults = {
     bounds: {
@@ -9,7 +9,7 @@ const defaults = {
         height: 800
     },
     maximized: false
-}
+};
 
 class WindowBounds extends FileManager {
     constructor(window) {
@@ -17,20 +17,20 @@ class WindowBounds extends FileManager {
         this.onload = () => {
             const allDisplaysSummaryWidth = screen
                 .getAllDisplays()
-                .reduce((accumulator, { size: { width } }) => accumulator + width, 0)
-
+                .reduce((accumulator, { size: { width } }) => accumulator + width, 0);
+            
             if (allDisplaysSummaryWidth >= this.preferences.bounds.x) {
                 window.setBounds({
                     x: this.preferences.bounds.x,
                     y: this.preferences.bounds.y,
                     width: this.preferences.bounds.width,
                     height: this.preferences.bounds.height
-                })
+                });
             }
             if (this.preferences.maximized) {
-                window.maximize()
+                window.maximize();
             }
-        }
+        };
     }
 }
 

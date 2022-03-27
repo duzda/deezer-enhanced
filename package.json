@@ -23,7 +23,8 @@
     },
     "devDependencies": {
         "electron": "^17.0.0",
-        "electron-builder": "^22.11.11"
+        "electron-builder": "^22.11.11",
+        "eslint": "^8.12.0"
     },
     "dependencies": {
         "mpris-service": "^2.1.2",
@@ -37,6 +38,8 @@
             "synopsis": "An unofficial application for Deezer with enhanced features",
             "category": "Audio"
         },
-        "extraResources": ["./assets/**"]
+        "extraResources": [
+            "./assets/**"
+        ]
     }
 }

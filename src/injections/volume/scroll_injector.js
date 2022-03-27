@@ -1,3 +1,5 @@
+/* global dzPlayer */
+
 function bindEvent(el) {
     el = el.parentElement;
     el.addEventListener('wheel', function(e) {

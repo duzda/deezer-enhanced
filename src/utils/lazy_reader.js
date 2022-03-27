@@ -36,8 +36,7 @@ class LazyReader {
     static unload(file) {
         if (file == null) {
             this.files = {};
-        }
-        else if (file in this.files) {
+        } else if (file in this.files) {
             delete this.files[file];
         }
     }
@@ -56,9 +55,9 @@ class LazyReader {
     }
 
     static loadFile(file) {
-        fs.readFile(path.join(__dirname, "..", file), 'utf-8', (err, data) => {
+        fs.readFile(path.join(__dirname, '..', file), 'utf-8', (err, data) => {
             if (err) {
-                console.error("An error while trying to read a file occured ", err);
+                console.error('An error while trying to read a file occured ', err);
                 return;
             }
 

@@ -1,4 +1,4 @@
-const { ipcRenderer } = require("electron");
+const { ipcRenderer } = require('electron');
 
 // Helpers - Visuals
 
@@ -19,20 +19,20 @@ function setVisualTextbox(variable, input) {
 // Helpers - Invokers
 
 function invokeSwitch(variable, label) {
-    ipcRenderer.send("setSetting", variable,
-        label.classList.contains('is-checked') ? "true" : "false");
+    ipcRenderer.send('setSetting', variable,
+        label.classList.contains('is-checked') ? 'true' : 'false');
 }
 
 function invokeInput(variable, input) {
     input.setAttribute('value', input.value);
-    ipcRenderer.send("setSetting", variable,
+    ipcRenderer.send('setSetting', variable,
         input.value);
 }
 
 // Initialize all visuals
 
 function initializeSettingsStates() {
-    ipcRenderer.invoke("requestSettings").then((data) => {
+    ipcRenderer.invoke('requestSettings').then((data) => {
         setVisualSwitch(data.enableTray, enableTrayLabel);
         setVisualSwitch(data.closeToTray, closeToTrayLabel);
         setVisualSwitch(data.optimizeApp, optimizeAppLabel);
@@ -45,12 +45,12 @@ function initializeSettingsStates() {
 // Initialize all callbacks
 
 function invokeAllCallbacks() {
-    invokeSwitch("enableTray", enableTrayLabel);
-    invokeSwitch("closeToTray", closeToTrayLabel);
-    invokeSwitch("optimizeApp", optimizeAppLabel);
-    invokeSwitch("songNotifications", songNotificationsLabel);
-    invokeInput("volumePower", inputVolumePower);
-    invokeInput("downloadLimit", inputDownloadSpeed);
+    invokeSwitch('enableTray', enableTrayLabel);
+    invokeSwitch('closeToTray', closeToTrayLabel);
+    invokeSwitch('optimizeApp', optimizeAppLabel);
+    invokeSwitch('songNotifications', songNotificationsLabel);
+    invokeInput('volumePower', inputVolumePower);
+    invokeInput('downloadLimit', inputDownloadSpeed);
 }
 
 // Create animations
@@ -70,27 +70,27 @@ let enableTrayLabel = document.getElementById('enableTray');
 let closeToTrayLabel = document.getElementById('closeToTray');
 let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
-let inputVolumePower = document.getElementById('volumePower')
-let inputDownloadSpeed = document.getElementById('downloadLimit')
+let inputVolumePower = document.getElementById('volumePower');
+let inputDownloadSpeed = document.getElementById('downloadLimit');
 
 // All the settings... Yes, you must bind it to input, otherwise function gets called twice!
-enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    invokeSwitch("enableTray", enableTrayLabel);
+enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function () {
+    invokeSwitch('enableTray', enableTrayLabel);
 });
-closeToTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    invokeSwitch("closeToTray", closeToTrayLabel);
+closeToTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function () {
+    invokeSwitch('closeToTray', closeToTrayLabel);
 });
-optimizeAppLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    invokeSwitch("optimizeApp", optimizeAppLabel);
+optimizeAppLabel.getElementsByTagName('input')[0].addEventListener('click', function () {
+    invokeSwitch('optimizeApp', optimizeAppLabel);
 });
-songNotificationsLabel.getElementsByTagName('input')[0].addEventListener('click', function (e) {
-    invokeSwitch("songNotifications", songNotificationsLabel);
+songNotificationsLabel.getElementsByTagName('input')[0].addEventListener('click', function () {
+    invokeSwitch('songNotifications', songNotificationsLabel);
 });
-inputVolumePower.addEventListener('blur', function (e) {
-    invokeInput("volumePower", inputVolumePower);
+inputVolumePower.addEventListener('blur', function () {
+    invokeInput('volumePower', inputVolumePower);
 });
-inputDownloadSpeed.addEventListener('blur', function (e) {
-    invokeInput("downloadLimit", inputDownloadSpeed);
+inputDownloadSpeed.addEventListener('blur', function () {
+    invokeInput('downloadLimit', inputDownloadSpeed);
 });
 
 initializeSettingsStates();
@@ -99,24 +99,24 @@ initializeSettingsStates();
 
 let clearCacheButton = document.getElementById('clearCache');
 
-clearCacheButton.addEventListener('click', function(e) {
-    ipcRenderer.send("clearCache");
+clearCacheButton.addEventListener('click', function() {
+    ipcRenderer.send('clearCache');
     document.getElementById('cache-popup').style.display = '';
-
+    
     setTimeout(() => {
         document.getElementById('cache-popup').style.display = 'none';
-    }, 3000)
-})
+    }, 3000);
+});
 
 // Reset settings
 
 let resetSettingsButton = document.getElementById('resetSettings');
 
-resetSettingsButton.addEventListener('click', function(e) {
-    ipcRenderer.send("resetSettings");
+resetSettingsButton.addEventListener('click', function() {
+    ipcRenderer.send('resetSettings');
     initializeSettingsStates();
-
+    
     setTimeout(() => {
         invokeAllCallbacks();
     }, 100);
-})
+});

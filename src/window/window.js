@@ -6,14 +6,14 @@ const WindowBounds = require('../controllers/window_bounds');
 class Window extends BrowserWindow {
     constructor(app, parent) {
         let params = {
-            title: "Deezer Enhanced",
+            title: 'Deezer Enhanced',
             icon: path.join(__dirname, '..', 'assets', 'icon.png'),
             webPreferences: {
                 nodeIntegration: true,
                 nativeWindowOpen: true,
                 devTools: true,
                 contextIsolation: false,
-                preload: path.join(__dirname, '..', "injections", "login_injection.js")
+                preload: path.join(__dirname, '..', 'injections', 'login_injection.js')
             },
             backgroundColor: '#2e2c29',
             show: false
@@ -36,27 +36,27 @@ class Window extends BrowserWindow {
         this.webContents.on('did-fail-load', (e, errCode, errorDescription) => {
             let message = errorDescription;
             switch (errCode) {
-                case -2: message = "No internet connection"
+            case -2: message = 'No internet connection';
             }
-            dialog.showErrorBox("Error", message + ", Error ID: " + errCode);
-            this.destroy()
+            dialog.showErrorBox('Error', message + ', Error ID: ' + errCode);
+            this.destroy();
             this.app.quit(errCode);
-        })
+        });
         this.on('ready-to-show', () => {
             // Change to deezer because right now, we're at "loading screen"
             if (this.freshWindow) {
-                this.loadURL("https://deezer.com", { userAgent: process.env.userAgent });
+                this.loadURL('https://deezer.com', { userAgent: process.env.userAgent });
                 this.freshWindow = false;
             }
-        })
-        this.on("close", event => {
+        });
+        this.on('close', event => {
             this.windowBounds.preferences = { 
                 bounds: this.getBounds(),
                 maximized: this.isMaximized()
-            }
-            this.windowBounds.save(false)
-            if (this.settings.getAttribute("closeToTray") == "true" &&
-                this.settings.getAttribute("enableTray") == "true" &&
+            };
+            this.windowBounds.save(false);
+            if (this.settings.getAttribute('closeToTray') == 'true' &&
+                this.settings.getAttribute('enableTray') == 'true' &&
                 this.parent.loginHooked) {
                 event.preventDefault();
                 this.hide();
@@ -65,7 +65,7 @@ class Window extends BrowserWindow {
                 this.destroy();
                 this.app.quit();
             }
-        })
+        });
     }
 }
 

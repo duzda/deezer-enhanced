@@ -1,3 +1,5 @@
+/* global Bridge, path */
+
 function pollSidebar() {
     let sidebar = document.getElementById('page_sidebar');
     if (sidebar) {
@@ -15,14 +17,14 @@ function hideDeezerLogo(sidebar) {
 
 function embedNavigation(sidebar) {
     Bridge.LazyReader.getOnce(path.join('injections', 'sidebar', 'navigation.html'), (data) => {
-        var controlsElement = document.createElement("div");
+        var controlsElement = document.createElement('div');
         controlsElement.innerHTML = data;
         sidebar.insertBefore(controlsElement, sidebar.firstChild);
     });
 
     Bridge.LazyReader.getOnce(path.join('injections', 'sidebar', 'navigation.js'), (data) => {
-        let script = document.createElement("script");
-        script.setAttribute("type", "text/javascript");
+        let script = document.createElement('script');
+        script.setAttribute('type', 'text/javascript');
         script.innerHTML = data;
         document.body.appendChild(script);
     });

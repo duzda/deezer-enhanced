@@ -1,6 +1,6 @@
 const FileManager = require('../utils/file_manager');
 
-const filename = "preferences.json";
+const filename = 'preferences.json';
 
 const defaults = {
     enableTray: 'true',
@@ -9,19 +9,19 @@ const defaults = {
     songNotifications: 'false',
     volumePower: '4',
     downloadLimit: ''
-}
+};
 
 class Settings extends FileManager {
     constructor() {
-        super(filename, defaults)
+        super(filename, defaults);
         this.callbacks = {};
     }
-
+    
     /**
-     * Sets preference key and launches callback if any is set
-     * @param {*} key 
-     * @param {*} value 
-     */
+    * Sets preference key and launches callback if any is set
+    * @param {*} key 
+    * @param {*} value 
+    */
     setAttribute(key, value) {
         this.preferences[key] = value;
         this.save();
@@ -29,11 +29,11 @@ class Settings extends FileManager {
             this.callbacks[key]();
         }
     }
-
+    
     getAttribute(key) {
         return this.preferences[key];
     }
-
+    
     setCallback(key, callback) {
         this.callbacks[key] = callback;
     }
