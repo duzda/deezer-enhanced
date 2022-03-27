@@ -129,7 +129,7 @@ function changeContentVisiblity(hide) {
 }
 
 function pollSearchHistory() {
-    let searchCategory = document.getElementsByClassName('search-category')[0]
+    let searchCategory = document.getElementsByClassName('search-category')[0];
     if (searchCategory != null) {
         bindLinks();
     } else {
@@ -147,7 +147,7 @@ function reinject() {
 
 // When comming back online try to reinject if settings are missing
 window.addEventListener("online", () => {
-    reinject()
+    reinject();
 })
 
 pollTopbar();
