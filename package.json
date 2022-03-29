@@ -1,6 +1,6 @@
 {
     "name": "deezer-enhanced",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
     "homepage": "https://github.com/duzda/deezer-enhanced",
     "bugs": {
