@@ -7,7 +7,7 @@ class Window extends BrowserWindow {
     constructor(app, parent) {
         let params = {
             title: 'Deezer Enhanced',
-            icon: path.join(__dirname, '..', 'assets', 'icon.png'),
+            icon: path.join(process.resourcesPath, 'assets', 'icon.png'),
             webPreferences: {
                 nodeIntegration: true,
                 nativeWindowOpen: true,
@@ -16,7 +16,7 @@ class Window extends BrowserWindow {
                 preload: path.join(__dirname, '..', 'injections', 'login_injection.js')
             },
             backgroundColor: '#2e2c29',
-            show: false
+            show: true
         };
         super(params);
         this.windowBounds = new WindowBounds(this);
@@ -26,7 +26,6 @@ class Window extends BrowserWindow {
         this.windowSettings = new WindowSettings(this, this.settings, this.parent.tray, this.webContents);
         this.setMenuBarVisibility(false);
         this.loadFile(path.join(__dirname, '..', 'utils', 'loadscreen.html'));
-        this.show();
 
         this.createEvents();
     }
