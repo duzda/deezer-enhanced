@@ -11,6 +11,7 @@
     "main": "src/app.js",
     "scripts": {
         "start": "node_modules/.bin/electron .",
+        "webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/web.css --watch",
         "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
         "build:snap": "node_modules/.bin/electron-builder --linux snap",
         "build:deb": "node_modules/.bin/electron-builder --linux deb",
@@ -24,9 +25,11 @@
     "devDependencies": {
         "electron": "^17.0.0",
         "electron-builder": "^22.11.11",
-        "eslint": "^8.12.0"
+        "eslint": "^8.12.0",
+        "tailwindcss": "^3.0.24"
     },
     "dependencies": {
+        "express": "^4.18.1",
         "mpris-service": "^2.1.2",
         "path": "^0.12.7"
     },

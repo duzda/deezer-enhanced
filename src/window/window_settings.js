@@ -1,6 +1,7 @@
 const path = require('path');
 const LazyReader = require('../utils/lazy_reader');
 const AppTray = require('../controllers/app_tray');
+const WebServer = require('../controllers/web_server');
 
 class WindowSettings {
     constructor(window, settings, tray, webContents) {
@@ -23,6 +24,7 @@ class WindowSettings {
             this.checkOptimize();
             this.setTray();
             this.hookVolumeControls();
+            this.startWebServer();
 
             this.settings.setCallback('optimizeApp', () => {
                 this.checkOptimize();
@@ -175,6 +177,10 @@ class WindowSettings {
                 this.webContents.executeJavaScript(data);
             }
         );
+    }
+
+    startWebServer() {
+        this.webserver = new WebServer(this.window, this.settings.getAttribute('webPort'));
     }
 
     setTray() {

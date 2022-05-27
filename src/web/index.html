@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/web.css" rel="stylesheet">
+</head>
+
+<body class="bg-black text-slate-200">
+    <div class="max-w-md w-full mt-6 pb-3 mx-auto bg-slate-800 rounded-lg border border-slate-600 text-center overflow-hidden">
+
+        <div class="text-3xl pt-6">
+            <!-- Icons by Ant Design -->
+            <span class="inline-block" onClick="doPrev()">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                    <path fill="currentColor"
+                        d="m347.6 528.95l383.2 301.02c14.25 11.2 35.2 1.1 35.2-16.95V210.97c0-18.05-20.95-28.14-35.2-16.94L347.6 495.05a21.53 21.53 0 0 0 0 33.9M330 864h-64a8 8 0 0 1-8-8V168a8 8 0 0 1 8-8h64a8 8 0 0 1 8 8v688a8 8 0 0 1-8 8" />
+                </svg>
+            </span>
+            <span class="inline-block" onClick="doPlayPause()">
+                <span id="isPlaying">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                            d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm-80 600c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V360c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v304zm224 0c0 4.4-3.6 8-8 8h-48c-4.4 0-8-3.6-8-8V360c0-4.4 3.6-8 8-8h48c4.4 0 8 3.6 8 8v304z" />
+                    </svg>
+                </span>
+                <span id="isPaused">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                        <path fill="currentColor"
+                            d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448s448-200.6 448-448S759.4 64 512 64zm144.1 454.9L437.7 677.8a8.02 8.02 0 0 1-12.7-6.5V353.7a8 8 0 0 1 12.7-6.5L656.1 506a7.9 7.9 0 0 1 0 12.9z" />
+                    </svg>
+                </span>
+            </span>
+            <span class="inline-block" onClick="doNext()">
+                <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                    preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                    <path fill="currentColor"
+                        d="M676.4 528.95L293.2 829.97c-14.25 11.2-35.2 1.1-35.2-16.95V210.97c0-18.05 20.95-28.14 35.2-16.94l383.2 301.02a21.53 21.53 0 0 1 0 33.9M694 864h64a8 8 0 0 0 8-8V168a8 8 0 0 0-8-8h-64a8 8 0 0 0-8 8v688a8 8 0 0 0 8 8" />
+                </svg>
+            </span>
+        </div>
+        <div class="pt-3 pb-3">
+            <img src="" class="w-80% mx-auto" id="album" />
+        </div>
+        <div class="text-2xl pt-2">
+            <span id="cursong">
+            </span>
+            -
+            <span id="artist">
+            </span>
+        </div>
+    </div>
+</body>
+<script>
+    function checkStatus() {
+        fetch('/api/cursong')
+            .then(response => response.json())
+            .then(cursong => {
+                document.getElementById('cursong').textContent = cursong.SNG_TITLE
+                document.getElementById('artist').textContent = cursong.ART_NAME
+                document.getElementById('album').setAttribute('src', 'https://e-cdns-images.dzcdn.net/images/cover/' + cursong.ALB_PICTURE + '/380x380-000000-80-0-0.jpg')
+            });
+        fetch('/api/playing')
+            .then(response => response.json())
+            .then(playing => {
+                if (playing) {
+                    document.getElementById('isPlaying').hidden = false
+                    document.getElementById('isPaused').hidden = true
+                } else {
+                    document.getElementById('isPlaying').hidden = true
+                    document.getElementById('isPaused').hidden = false
+                }
+            });
+    }
+    function doPrev() {
+        fetch('/api/prev')
+            .then(checkStatus)
+    }
+    function doPlayPause() {
+        fetch('/api/playpause')
+            .then(checkStatus)
+    }
+    function doNext() {
+        fetch('/api/next')
+            .then(checkStatus)
+    }
+    setInterval(checkStatus, 1000)
+</script>
+
+</html>
