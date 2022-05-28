@@ -8,7 +8,8 @@ const defaults = {
     optimizeApp: 'false',
     songNotifications: 'false',
     volumePower: '4',
-    downloadLimit: ''
+    downloadLimit: '',
+    webPort: 3000
 };
 
 class Settings extends FileManager {

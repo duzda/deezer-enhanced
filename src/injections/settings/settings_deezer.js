@@ -39,6 +39,7 @@ function initializeSettingsStates() {
         setVisualSwitch(data.songNotifications, songNotificationsLabel);
         setVisualTextbox(data.volumePower, inputVolumePower);
         setVisualTextbox(data.downloadLimit, inputDownloadSpeed);
+        setVisualTextbox(data.webPort, inputWebPort);
     });
 }
 
@@ -51,6 +52,7 @@ function invokeAllCallbacks() {
     invokeSwitch('songNotifications', songNotificationsLabel);
     invokeInput('volumePower', inputVolumePower);
     invokeInput('downloadLimit', inputDownloadSpeed);
+    invokeInput('webPort', inputWebPort);
 }
 
 // Create animations
@@ -72,6 +74,7 @@ let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
 let inputVolumePower = document.getElementById('volumePower');
 let inputDownloadSpeed = document.getElementById('downloadLimit');
+let inputWebPort = document.getElementById('webPort');
 
 // All the settings... Yes, you must bind it to input, otherwise function gets called twice!
 enableTrayLabel.getElementsByTagName('input')[0].addEventListener('click', function () {
@@ -91,6 +94,10 @@ inputVolumePower.addEventListener('blur', function () {
 });
 inputDownloadSpeed.addEventListener('blur', function () {
     invokeInput('downloadLimit', inputDownloadSpeed);
+});
+
+inputWebPort.addEventListener('blur', function () {
+    invokeInput('webPort', inputWebPort);
 });
 
 initializeSettingsStates();
