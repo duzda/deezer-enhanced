@@ -31,7 +31,6 @@ class Window extends BrowserWindow {
     }
 
     createEvents() {
-        this.freshWindow = true;
         this.webContents.on('did-fail-load', (e, errCode, errorDescription) => {
             let message = errorDescription;
             switch (errCode) {
@@ -41,14 +40,11 @@ class Window extends BrowserWindow {
             this.destroy();
             this.app.quit(errCode);
         });
-        this.on('ready-to-show', () => {
+        this.once('ready-to-show', () => {
             // Change to deezer because right now, we're at "loading screen"
-            if (this.freshWindow) {
-                this.loadURL('https://deezer.com', { userAgent: process.env.userAgent });
-                this.freshWindow = false;
-            }
+            this.loadURL('https://deezer.com', { userAgent: process.env.userAgent });
         });
-        this.on('close', event => {
+        this.on('close', (event) => {
             this.windowBounds.preferences = { 
                 bounds: this.getBounds(),
                 maximized: this.isMaximized()
