@@ -1,6 +1,4 @@
-/* global Bridge */
-
-const path = require('path');
+/* global Bridge, path */
 
 let injected = false;
 
