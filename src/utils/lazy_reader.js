@@ -24,9 +24,10 @@ class LazyReader {
     static getUniversal(file, useCache, callback) {
         if (file in this.files) {
             callback(this.files[file]);
+        } else {
+            LazyReader.loadFile(file);
+            LazyReader.asyncLoading(file, callback, useCache);
         }
-        LazyReader.loadFile(file);
-        LazyReader.asyncLoading(file, callback, useCache);
     }
 
     /**
