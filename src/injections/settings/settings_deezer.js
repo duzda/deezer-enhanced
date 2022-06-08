@@ -102,19 +102,6 @@ inputWebPort.addEventListener('blur', function () {
 
 initializeSettingsStates();
 
-// Cache
-
-let clearCacheButton = document.getElementById('clearCache');
-
-clearCacheButton.addEventListener('click', function() {
-    ipcRenderer.send('clearCache');
-    document.getElementById('cache-popup').style.display = '';
-    
-    setTimeout(() => {
-        document.getElementById('cache-popup').style.display = 'none';
-    }, 3000);
-});
-
 // Reset settings
 
 let resetSettingsButton = document.getElementById('resetSettings');
