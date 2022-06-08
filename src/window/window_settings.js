@@ -2,6 +2,8 @@ const path = require('path');
 const LazyReader = require('../utils/lazy_reader');
 const AppTray = require('../controllers/app_tray');
 const WebServer = require('../controllers/web_server');
+const Downloader = require('../controllers/downloader');
+const { session } = require('electron');
 
 class WindowSettings {
     constructor(window, settings, tray, webContents) {
@@ -25,6 +27,7 @@ class WindowSettings {
             this.setTray();
             this.hookVolumeControls();
             this.startWebServer();
+            this.initializeDownloader();
 
             this.settings.setCallback('optimizeApp', () => {
                 this.checkOptimize();
@@ -218,6 +221,15 @@ class WindowSettings {
                 this.webContents.executeJavaScript(data);
             }
         );
+    }
+
+    initializeDownloader() {
+        const cookie = { url: 'https://www.deezer.com', name: 'arl' };
+        session.defaultSession.cookies.get(cookie).then((arlCookie) => {
+            this.window.parent.downloader = new Downloader(this.window, arlCookie[0].value);
+        }, (error) => {
+            console.error(error);
+        });
     }
 }
 

@@ -47,6 +47,7 @@ class Deezer {
         this.tray = null;
         this.win = null;
         this.mpris = null;
+        this.downloader = null;
     }
     
     async createWin() {
@@ -58,6 +59,7 @@ class Deezer {
         this.win = new Window(app, this);
         this.registerMediaKeys();
         this.mpris = new Mpris(this.win);
+        // this.downloader gets initialized in window_settings.js, to respect user's settings
         this.initIPC();
     }
     
@@ -150,6 +152,9 @@ class Deezer {
                 
                 fs.unlink(cacheFolder, () => {});
             });
+        });
+        ipcMain.on('download', (event, url) => {
+            this.downloader.downloadURL(url);
         });
     }
 }

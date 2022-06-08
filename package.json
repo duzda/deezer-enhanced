@@ -31,6 +31,7 @@
     "dependencies": {
         "express": "^4.18.1",
         "mpris-service": "^2.1.2",
+        "deemix": "^3.6.7",
         "path": "^0.12.7"
     },
     "build": {
