@@ -1,5 +1,5 @@
 /* eslint no-unused-vars: ["error", { "args": "none" }]*/
-/* global dzPlayer, exportedValues, Events, dataLayer */
+/* global dzPlayer, Bridge, Events, dataLayer */
 
 // Gets called first
 function pollDzPlayer() {
@@ -27,9 +27,9 @@ function injectSetVolume() {
             t = t || !1;
             dzPlayer.volume = e;
 
-            // volumePower is exported by another script, yet we can access it freely via exportedValues
-            if (!isNaN(exportedValues.volumePower) && isFinite(exportedValues.volumePower) && exportedValues.volumePower > 0) {
-                dzPlayer.trigger('audioPlayer_setVolume', [Math.pow(e, exportedValues.volumePower)]);
+            // volumePower is exported by another script, yet we can access it freely via Bridge
+            if (!isNaN(Bridge.volumePower) && isFinite(Bridge.volumePower) && Bridge.volumePower > 0) {
+                dzPlayer.trigger('audioPlayer_setVolume', [Math.pow(e, Bridge.volumePower)]);
             } else {
                 dzPlayer.trigger('audioPlayer_setVolume', [e]);
             }

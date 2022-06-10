@@ -1,10 +1,18 @@
 const path = require('path');
-const { BrowserWindow, dialog } = require('electron');
-const WindowSettings = require('./window_settings');
+const { app, BrowserWindow, dialog } = require('electron');
 const WindowBounds = require('../controllers/window_bounds');
+const Settings = require('../controllers/settings');
+const { initializeHooks } = require('./hooker.js');
+const { isLoggedIn } = require('../ipc_handler');
 
 class Window extends BrowserWindow {
-    constructor(app, parent) {
+    // this.tray
+    // this.settings
+    // this.webserver
+    // this.downloader
+    // this.mpris
+
+    constructor(parent) {
         let params = {
             title: 'Deezer Enhanced',
             icon: path.join(process.resourcesPath, 'assets', 'icon.png'),
@@ -20,10 +28,8 @@ class Window extends BrowserWindow {
         };
         super(params);
         this.windowBounds = new WindowBounds(this);
-        this.app = app;
         this.parent = parent;
-        this.settings = this.parent.settings;
-        this.windowSettings = new WindowSettings(this, this.settings, this.parent.tray, this.webContents);
+        this.settings = new Settings();
         this.setMenuBarVisibility(false);
         this.loadFile(path.join(__dirname, '..', 'utils', 'loadscreen.html'));
 
@@ -38,7 +44,7 @@ class Window extends BrowserWindow {
             }
             dialog.showErrorBox('Error', message + ', Error ID: ' + errCode);
             this.destroy();
-            this.app.quit(errCode);
+            app.quit(errCode);
         });
         this.once('ready-to-show', () => {
             // Change to deezer because right now, we're at "loading screen"
@@ -52,15 +58,26 @@ class Window extends BrowserWindow {
             this.windowBounds.save(false);
             if (this.settings.getAttribute('closeToTray') == 'true' &&
                 this.settings.getAttribute('enableTray') == 'true' &&
-                this.parent.loginHooked) {
+                isLoggedIn()) {
                 event.preventDefault();
                 this.hide();
                 return false;
             } else {
                 this.destroy();
-                this.app.quit();
+                app.quit();
             }
         });
+    }
+
+    // Called from ipc_handler.js when user logs in
+    initializeSettings() {
+        if (this.settings.finishedLoading) {
+            initializeHooks(this, this.settings);
+        } else {
+            this.settings.onload = () => {
+                this.initializeSettings();
+            };
+        }
     }
 }
 

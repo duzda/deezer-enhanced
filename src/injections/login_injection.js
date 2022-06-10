@@ -10,7 +10,8 @@ bindHistory();
 // Exposes the API
 window.Bridge = {
     LazyReader: LazyReader,
-    bindHistoryCallback: bindHistoryCallback
+    bindHistoryCallback: bindHistoryCallback,
+    volumePower: 0
 };
 
 window.path = path;
