@@ -95,7 +95,6 @@ inputVolumePower.addEventListener('blur', function () {
 inputDownloadSpeed.addEventListener('blur', function () {
     invokeInput('downloadLimit', inputDownloadSpeed);
 });
-
 inputWebPort.addEventListener('blur', function () {
     invokeInput('webPort', inputWebPort);
 });
