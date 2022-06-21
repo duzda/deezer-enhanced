@@ -2,13 +2,21 @@ const deemix = require('deemix');
 const deezer = require('deezer-js');
 const LazyReader = require('../utils/lazy_reader');
 const path = require('path');
+const FileManager = require('../utils/file_manager');
 const { app } = require('electron');
+
+// See node_modules/deemix/deemix/settings.js for various settings
+const filename = 'deemix-settings.json';
+
+const defaults = deemix.settings.DEFAULTS;
+defaults.downloadLocation = path.join(app.getPath('music') + '/deezer-enhanced');
+defaults.maxBitrate = deezer.TrackFormats.FLAC;
 
 class Downloader {
     constructor(window, arl) {
         this.window = window;
         this.arl = arl;
-        this.resetDeemixSettings();
+        this.createDefaultSettings();
 
         this.deezerInstance = new deezer.Deezer();
         this.deezerInstance.login_via_arl(arl).then(v => {
@@ -24,16 +32,12 @@ class Downloader {
         });
     }
 
-    setDeemixSettings(newSettings) {
-        this.deemixSettings = newSettings;
-    }
-
-    resetDeemixSettings() {
-        let deemixSettings = deemix.settings.DEFAULTS;
-        deemixSettings.downloadLocation = path.join(app.getPath('music') + '/deezer-enhanced');
-        deemixSettings.maxBitrate = String(deezer.TrackFormats.FLAC);
-        deemixSettings.overwriteFile = deemix.settings.OverwriteOption.DONT_OVERWRITE;
-        this.setDeemixSettings(deemixSettings);
+    // If settings do not exist, creates a new file
+    createDefaultSettings() {
+        this.deemixSettings = new FileManager(filename, defaults);
+        this.deemixSettings.onload = () => {
+            this.deemixSettings.save();
+        };
     }
 
     async downloadURL(url) {
@@ -46,7 +50,7 @@ class Downloader {
             }
         };
 
-        deemix.generateDownloadObject(this.deezerInstance, url, this.deemixSettings.maxBitrate, {}, listener).then((object) => {
+        deemix.generateDownloadObject(this.deezerInstance, url, this.deemixSettings.preferences.maxBitrate, {}, listener).then((object) => {
             if (Array.isArray(object)) {
                 object.forEach(o => {
                     this.downloadObject(o);
@@ -69,7 +73,7 @@ class Downloader {
             }
         };
 
-        let deemixDownloader = new deemix.downloader.Downloader(this.deezerInstance, object, this.deemixSettings, listener);
+        let deemixDownloader = new deemix.downloader.Downloader(this.deezerInstance, object, this.deemixSettings.preferences, listener);
 
         console.log(await deemixDownloader.start());
     }
