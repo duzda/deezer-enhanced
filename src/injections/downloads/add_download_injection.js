@@ -59,9 +59,6 @@ function addDownloadButton(wrapper, element, ...classes) {
         buttonListItem.innerHTML = data;
         // Append download button right after play button
         wrapper.insertBefore(buttonListItem, wrapper.children[1]);
-
-        // if it's already downloaded,
-        // toggleButton();
     });
 }
 
@@ -78,7 +75,7 @@ function download() {
 }
 
 function toggleButton() {
-    document.getElementById('download-icon').classList.toggle('color-primary');
+    document.getElementById('download-icon').classList.add('color-primary');
 }
 
 Bridge.bindHistoryCallback(onUrlChange);
