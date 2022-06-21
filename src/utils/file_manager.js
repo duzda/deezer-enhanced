@@ -17,7 +17,7 @@ class FileManager {
     }
 
     save(asynchronous = true) {
-        let json = JSON.stringify(this.preferences);
+        let json = JSON.stringify(this.preferences, null, 4);
 
         if (asynchronous){
             fs.writeFile(this.file, json, 'utf-8', (err) => {
