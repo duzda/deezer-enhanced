@@ -9,6 +9,10 @@ class WebServerHook extends IHook {
     }
 
     setWebServer() {
+        if (!this.window.webserver) {
+            return;
+        }
+
         if (this.settings.getAttribute(this.callbackName) != 0) {
             if (!this.window.webserver) {
                 this.window.webserver = new WebServer(this.window, this.settings.getAttribute('webPort'));
