@@ -156,17 +156,4 @@ function pollNotifications() {
     }
 }
 
-function reinject() {
-    var injectedSettings = document.getElementById('injected_settings');
-    if (injectedSettings == null) {
-        injected = false;
-        pollTopbar();
-    }
-}
-
-// When comming back online try to reinject if settings are missing
-window.addEventListener('online', () => {
-    reinject();
-});
-
 pollTopbar();
