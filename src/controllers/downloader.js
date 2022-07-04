@@ -43,10 +43,45 @@ class Downloader {
     async downloadURL(url) {
         const listener = {
             send(key, data) {
-                if (key == 'xx') {
-                    console.log(key, data);
-                }
+                switch(key) {
+                case 'startAddingArtist':
+                    break;
+                case 'finishAddingArtist':
+                    break;
+                case 'updateQueue':
+                    break;
+                case 'restoringQueue':
+                    break;
+                case 'cancellingCurrentItem':
+                    break;
+                case 'currentItemCancelled':
+                    break;
+                case 'startConversion':
+                    break;
+                case 'finishConversion':
+                    break;
+                case 'startConvertingSpotifyPlaylist':
+                    break;
+                case 'finishConvertingSpotifyPlaylist':
+                    break;
+                case 'errorMessage':
+                    break;
+                case 'queueError':
+                    break;
+                case 'alreadyInQueue':
+                    break;
+                case 'loginNeededToDownload':
+                    break;
+                case 'startGeneratingItems':
+                    break;
+                case 'finishGeneratingItems':
+                    break;
+                case 'removedAllDownloads':
+                    break;
+                case 'removedFinishedDownloads':
+                    break;
                 //console.log(key, data);
+                }
             }
         };
 
@@ -66,10 +101,14 @@ class Downloader {
     async downloadObject(object) {
         const listener = {
             send(key, data) {
-                if (key == 'finishDownload') {
-                    console.log(key, data);
+                switch(key) {
+                case 'removedFromQueue':
+                    break;
+                case 'currentItemCancelled':
+                    break;
+                case 'finishDownload':
+                    break;
                 }
-                //console.log(key, data);
             }
         };
 
