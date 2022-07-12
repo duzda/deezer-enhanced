@@ -11,7 +11,9 @@ function initIPC(window) {
             }
         }
         
-        window.mpris.updateMetadata(data);
+        if (data) {
+            window.mpris.updateMetadata(data);
+        }
     });
     ipcMain.on('readDZCurPosition', (event, data) => {
         window.mpris.songStart = new Date();
