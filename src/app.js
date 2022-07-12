@@ -19,11 +19,11 @@ class Deezer {
         } else {
             app.on('second-instance', () => {
                 // Someone tried to run a second instance, we should focus our window.
-                if (this.win) {
-                    if (this.win.isMinimized() || !this.win.isVisible()) {
-                        this.win.restore();
+                if (this.window) {
+                    if (this.window.isMinimized() || !this.window.isVisible()) {
+                        this.window.restore();
                     }
-                    this.win.focus();
+                    this.window.focus();
                 }
             });
             
@@ -44,25 +44,25 @@ class Deezer {
         });
         
         this.window = new Window(this);
-        this.registerMediaKeys();
+        this.registerMediaKeys(this.window);
         initIPC(this.window);
     }
     
     // This is for mac/windows, linux uses mpris instead
-    registerMediaKeys() {
+    registerMediaKeys(window) {
         if (!globalShortcut.isRegistered('MediaNextTrack')) {
             globalShortcut.register('MediaNextTrack', () => {
-                this.win.webContents.executeJavaScript('dzPlayer.control.nextSong()');
+                window.webContents.executeJavaScript('dzPlayer.control.nextSong()');
             });
         }
         if (!globalShortcut.isRegistered('MediaPlayPause')) {
             globalShortcut.register('MediaPlayPause', () => {
-                this.win.webContents.executeJavaScript('dzPlayer.control.togglePause();');
+                window.webContents.executeJavaScript('dzPlayer.control.togglePause();');
             });
         }
         if (!globalShortcut.isRegistered('MediaPreviousTrack')) {
             globalShortcut.register('MediaPreviousTrack', () => {
-                this.win.webContents.executeJavaScript('dzPlayer.control.prevSong()');
+                window.webContents.executeJavaScript('dzPlayer.control.prevSong()');
             });
         }
     }
