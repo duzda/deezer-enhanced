@@ -6,7 +6,6 @@ let polling = false;
 let oldWrapper = null;
 
 function onUrlChange(url) {
-    console.log(url);
     if (url.includes('profile') || polling) {
         return;
     }
@@ -66,7 +65,6 @@ function addDownloadButton(wrapper, element, ...classes) {
 // eslint-disable-next-line no-unused-vars
 function download() {
     if (location.href.includes('artist')) {
-        console.log('discography');
         ipcRenderer.send('download', location.href + '/discography');
     } else {
         ipcRenderer.send('download', location.href);

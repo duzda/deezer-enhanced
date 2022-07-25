@@ -37,6 +37,7 @@ function initializeSettingsStates() {
         setVisualSwitch(data.closeToTray, closeToTrayLabel);
         setVisualSwitch(data.optimizeApp, optimizeAppLabel);
         setVisualSwitch(data.songNotifications, songNotificationsLabel);
+        setVisualSwitch(data.deemixIntegration, deemixIntegrationLabel);
         setVisualTextbox(data.volumePower, inputVolumePower);
         setVisualTextbox(data.downloadLimit, inputDownloadSpeed);
         setVisualTextbox(data.webPort, inputWebPort);
@@ -50,6 +51,7 @@ function invokeAllCallbacks() {
     invokeSwitch('closeToTray', closeToTrayLabel);
     invokeSwitch('optimizeApp', optimizeAppLabel);
     invokeSwitch('songNotifications', songNotificationsLabel);
+    invokeSwitch('deemixIntegration', deemixIntegrationLabel);
     invokeInput('volumePower', inputVolumePower);
     invokeInput('downloadLimit', inputDownloadSpeed);
     invokeInput('webPort', inputWebPort);
@@ -72,6 +74,7 @@ let enableTrayLabel = document.getElementById('enableTray');
 let closeToTrayLabel = document.getElementById('closeToTray');
 let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
+let deemixIntegrationLabel = document.getElementById('deemixIntegration');
 let inputVolumePower = document.getElementById('volumePower');
 let inputDownloadSpeed = document.getElementById('downloadLimit');
 let inputWebPort = document.getElementById('webPort');
@@ -88,6 +91,9 @@ optimizeAppLabel.getElementsByTagName('input')[0].addEventListener('click', func
 });
 songNotificationsLabel.getElementsByTagName('input')[0].addEventListener('click', function () {
     invokeSwitch('songNotifications', songNotificationsLabel);
+});
+deemixIntegrationLabel.getElementsByTagName('input')[0].addEventListener('click', function() {
+    invokeSwitch('deemixIntegration', deemixIntegrationLabel);
 });
 inputVolumePower.addEventListener('blur', function () {
     invokeInput('volumePower', inputVolumePower);
