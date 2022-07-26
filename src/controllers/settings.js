@@ -7,6 +7,7 @@ const defaults = {
     closeToTray: 'true',
     optimizeApp: 'false',
     songNotifications: 'false',
+    deemixIntegration: 'false',
     volumePower: '4',
     downloadLimit: '',
     webPort: 3000
