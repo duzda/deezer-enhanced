@@ -15,13 +15,14 @@
         "minify-webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/out/web.css --minify",
         "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
         "build:snap": "node_modules/.bin/electron-builder --linux snap",
+        "build:flatpak": "node_modules/.bin/electron-builder --linux flatpak",
         "build:deb": "node_modules/.bin/electron-builder --linux deb",
         "build:AppImage": "node_modules/.bin/electron-builder --linux AppImage",
         "build:targz": "node_modules/.bin/electron-builder --linux tar.gz",
         "build:mac": "node_modules/.bin/electron-builder --mac dmg pkg mas",
         "build:win-portable": "node_modules/.bin/electron-builder --windows portable",
         "build:win": "node_modules/.bin/electron-builder --windows nsis",
-        "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage"
+        "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage snap"
     },
     "devDependencies": {
         "electron": "^19.0.9",
