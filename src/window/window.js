@@ -51,11 +51,6 @@ class Window extends BrowserWindow {
             this.loadURL('https://deezer.com', { userAgent: process.env.userAgent });
         });
         this.on('close', (event) => {
-            this.windowBounds.preferences = { 
-                bounds: this.getBounds(),
-                maximized: this.isMaximized()
-            };
-            this.windowBounds.save(false);
             if (this.settings.getAttribute('closeToTray') == 'true' &&
                 this.settings.getAttribute('enableTray') == 'true' &&
                 isLoggedIn()) {
@@ -63,10 +58,20 @@ class Window extends BrowserWindow {
                 this.hide();
                 return false;
             } else {
-                this.destroy();
-                app.quit();
+                this.exit();
             }
         });
+    }
+
+    exit() {
+        this.windowBounds.preferences = { 
+            bounds: this.getBounds(),
+            maximized: this.isMaximized()
+        };
+        this.windowBounds.save(false);
+
+        this.destroy();
+        app.quit();
     }
 
     // Called from ipc_handler.js when user logs in

@@ -64,7 +64,7 @@ class AppTray {
         }, {
             type: 'separator'
         }, {
-            label: 'Volume UP',
+            label: 'Volume Up',
             enabled: true,
             click: () => {
                 this.window.webContents.executeJavaScript(`vol = dzPlayer.volume; vol += ${volumeStep}; vol > 1 && (vol = 1); dzPlayer.control.setVolume(vol);`);
@@ -87,8 +87,7 @@ class AppTray {
             label: 'Quit',
             enabled: true,
             click: () => {
-                this.window.close();
-                app.quit();
+                this.window.exit();
             }
         }];
         

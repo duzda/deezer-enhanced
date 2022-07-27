@@ -1,6 +1,6 @@
 {
     "name": "deezer-enhanced",
-    "version": "0.2.2",
+    "version": "0.3.0",
     "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
     "homepage": "https://github.com/duzda/deezer-enhanced",
     "bugs": {
@@ -11,7 +11,8 @@
     "main": "src/app.js",
     "scripts": {
         "start": "node_modules/.bin/electron .",
-        "webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/web.css --watch",
+        "webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/out/web.css --watch",
+        "minify-webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/out/web.css --minify",
         "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
         "build:snap": "node_modules/.bin/electron-builder --linux snap",
         "build:deb": "node_modules/.bin/electron-builder --linux deb",
@@ -23,10 +24,10 @@
         "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage"
     },
     "devDependencies": {
-        "electron": "^17.0.0",
-        "electron-builder": "^22.11.11",
-        "eslint": "^8.12.0",
-        "tailwindcss": "^3.0.24"
+        "electron": "^19.0.9",
+        "electron-builder": "^23.1.0",
+        "eslint": "^8.20.0",
+        "tailwindcss": "^3.1.6"
     },
     "dependencies": {
         "express": "^4.18.1",
