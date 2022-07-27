@@ -10,7 +10,7 @@ const defaults = {
     deemixIntegration: 'false',
     volumePower: '4',
     downloadLimit: '',
-    webPort: 3000
+    webPort: 0
 };
 
 class Settings extends FileManager {
