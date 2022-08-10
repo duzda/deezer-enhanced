@@ -91,11 +91,3 @@
 #app_settings .app-cell-action {
     text-align: right;
 }
-
-#app_settings .account-message {
-    margin-top: 15px;
-}
-
-#app_settings .account-message .alert {
-    margin-bottom: 0;
-}
