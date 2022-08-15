@@ -1,5 +1,5 @@
-var logo = document.getElementById('central_logo');
-var app = document.getElementById('dzr-app');
+let logo = document.getElementById('central_logo');
+let app = document.getElementById('dzr-app');
 
 setTimeout(() => {
     if (logo) {

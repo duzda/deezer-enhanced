@@ -14,7 +14,7 @@ function pollLogo() {
     setTimeout(animateLogo, 100);
 }
 
-var logo = document.getElementById('central_logo');
+let logo = document.getElementById('central_logo');
 if (!logo) {
     pollLogo();
 } else {

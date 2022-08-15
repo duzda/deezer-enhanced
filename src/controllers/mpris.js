@@ -105,9 +105,9 @@ class Mpris {
     }
     
     updateMetadata(data) {
-        var song = data;
+        let song = data;
         this.id = song['SNG_ID'];
-        var artists = [];
+        let artists = [];
         if ('ARTISTS' in song) {
             song['ARTISTS'].forEach(function (artist) {
                 artists.push(artist['ART_NAME']);

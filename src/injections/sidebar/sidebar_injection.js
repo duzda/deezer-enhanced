@@ -17,7 +17,7 @@ function hideDeezerLogo(sidebar) {
 
 function embedNavigation(sidebar) {
     Bridge.LazyReader.getOnce(path.join('injections', 'sidebar', 'navigation.html'), (data) => {
-        var controlsElement = document.createElement('div');
+        let controlsElement = document.createElement('div');
         controlsElement.innerHTML = data;
         sidebar.insertBefore(controlsElement, sidebar.firstChild);
     });

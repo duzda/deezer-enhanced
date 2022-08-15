@@ -1,4 +1,4 @@
-var onUrlChange;
+let onUrlChange;
 
 function bindHistoryCallback(callback) {
     onUrlChange = callback;
@@ -6,7 +6,7 @@ function bindHistoryCallback(callback) {
 
 function bindHistory() {
     // History injection
-    var pushState = history.pushState;
+    let pushState = history.pushState;
     history.pushState = function() {
         pushState.apply(history, arguments);
         if (onUrlChange) {
