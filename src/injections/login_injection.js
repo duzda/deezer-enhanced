@@ -5,6 +5,14 @@ const { ipcRenderer } = require('electron');
 const LazyReader = require('../utils/lazy_reader');
 const { bindHistory, bindHistoryCallback } = require('./history');
 
+ipcRenderer.on('log', (event, data) => {
+    console.log(data);
+});
+
+ipcRenderer.on('err', (event, data) => {
+    console.error(data);
+});
+
 bindHistory();
 
 // Exposes the API

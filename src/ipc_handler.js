@@ -64,8 +64,8 @@ function initIPC(window) {
     ipcMain.on('resetSettings', () => {
         window.settings.clear();
     });
-    ipcMain.on('download', (event, url) => {
-        window.downloader.downloadURL(url);
+    ipcMain.on('download', (event, url, name, type) => {
+        window.downloader.downloadURL(url, name, type);
     });
 }
 
