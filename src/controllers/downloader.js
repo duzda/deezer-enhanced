@@ -63,6 +63,8 @@ class Downloader {
         const downloadScript = exec(`deemix ${url}`);
 
         let splittedUrl = url.split('/');
+        splittedUrl[splittedUrl.length - 1] = splittedUrl[splittedUrl.length - 1].split('?', 1)[0];
+
         // What does the 9 mean?
         let convertedUrl;
         // No notification for tracks :(
