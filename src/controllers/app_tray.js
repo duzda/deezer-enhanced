@@ -58,8 +58,12 @@ class AppTray {
             enabled: true,
             click: () => {
                 this.window.webContents.executeJavaScript(' \
-                actions = document.getElementsByClassName("track-actions")[0].getElementsByTagName("button"); \
-                actions[actions.length - 1].click();');
+                actions = document.getElementsByClassName("track-actions"); \
+                if (actions && actions.length > 0) { \
+                    actions = actions[0].querySelector("button[aria-label=\'Add to favourite tracks\']"); \
+                    if (!actions) { actions = track[0].querySelector("button[aria-label=\'Remove from Favourite tracks\']"); } \
+                    if (actions) { actions.click(); } \
+                }');
             }
         }, {
             type: 'separator'
