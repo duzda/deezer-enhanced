@@ -2,8 +2,10 @@
 <html>
 
 <head>
+    <title>Deezer Enhanced</title>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link href="/out/web.css" rel="stylesheet">
 </head>
 
@@ -12,15 +14,15 @@
 
         <div class="text-3xl pt-6">
             <!-- Icons by Ant Design -->
-            <span class="inline-block" onClick="doPrev()">
+            <span class="inline-block cursor-pointer" onClick="doPrev()">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
                     <path fill="currentColor"
                         d="m347.6 528.95l383.2 301.02c14.25 11.2 35.2 1.1 35.2-16.95V210.97c0-18.05-20.95-28.14-35.2-16.94L347.6 495.05a21.53 21.53 0 0 0 0 33.9M330 864h-64a8 8 0 0 1-8-8V168a8 8 0 0 1 8-8h64a8 8 0 0 1 8 8v688a8 8 0 0 1-8 8" />
                 </svg>
             </span>
-            <span class="inline-block" onClick="doPlayPause()">
-                <span id="isPlaying">
+            <span class="inline-block cursor-pointer" onClick="doPlayPause()">
+                <span id="isPlaying" hidden="">
                     <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
                         preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
                         <path fill="currentColor"
@@ -35,7 +37,7 @@
                     </svg>
                 </span>
             </span>
-            <span class="inline-block" onClick="doNext()">
+            <span class="inline-block cursor-pointer" onClick="doNext()">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
                     preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
                     <path fill="currentColor"
@@ -43,50 +45,172 @@
                 </svg>
             </span>
         </div>
-        <div class="pt-3 pb-3">
+
+        <div class="py-3">
             <img src="" class="w-80% mx-auto" id="album" />
         </div>
+
         <div class="text-2xl pt-2">
-            <span id="cursong">
-            </span>
+            <span id="cursong">Song</span>
             -
-            <span id="artist">
-            </span>
+            <span id="artist">Artist</span>
+        </div>
+
+        <div class="text-s flex flex-row p-5">
+            <span id="curtime">00:00</span>
+            <div class="mx-2">
+                <input onchange="setTime(this.value)" oninput="setTime(this.value)" id="time-range" type="range" min="0" max="0" class="w-80 h-2 cursor-pointer">
+            </div>
+            <span id="maxtime">00:00</span>
+        </div>
+
+        <div class="flex flex-row px-16 align-bottom">
+            <div class="basis-4/12 text-left">
+                <span onclick="doFavorite()" class="cursor-pointer inline-block">
+                    <span id="isNotFavorite">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                            preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                            <path fill="currentColor" 
+                                d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9zM512 814.8S156 586.7 156 385.5C156 283.6 240.3 201 344.3 201c73.1 0 136.5 40.8 167.7 100.4C543.2 241.8 606.6 201 679.7 201c104 0 188.3 82.6 188.3 184.5 0 201.2-356 429.3-356 429.3z"/>
+                        </svg>
+                    </span>
+                    <span id="isFavorite" hidden="">
+                        <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                            preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                            <path fill="currentColor" 
+                                d="M923 283.6a260.04 260.04 0 0 0-56.9-82.8 264.4 264.4 0 0 0-84-55.5A265.34 265.34 0 0 0 679.7 125c-49.3 0-97.4 13.5-139.2 39-10 6.1-19.5 12.8-28.5 20.1-9-7.3-18.5-14-28.5-20.1-41.8-25.5-89.9-39-139.2-39-35.5 0-69.9 6.8-102.4 20.3-31.4 13-59.7 31.7-84 55.5a258.44 258.44 0 0 0-56.9 82.8c-13.9 32.3-21 66.6-21 101.9 0 33.3 6.8 68 20.3 103.3 11.3 29.5 27.5 60.1 48.2 91 32.8 48.9 77.9 99.9 133.9 151.6 92.8 85.7 184.7 144.9 188.6 147.3l23.7 15.2c10.5 6.7 24 6.7 34.5 0l23.7-15.2c3.9-2.5 95.7-61.6 188.6-147.3 56-51.7 101.1-102.7 133.9-151.6 20.7-30.9 37-61.5 48.2-91 13.5-35.3 20.3-70 20.3-103.3.1-35.3-7-69.6-20.9-101.9z"/>
+                        </svg>
+                    </span>
+                </span>
+
+                <span onclick="doRepeat()" class="cursor-pointer inline-block">
+                    <span id="isNoRepeat">
+                    NR
+                    </span>
+                    <span id="isRepeatOne" hidden="">
+                    R
+                    </span>
+                    <span id="isRepeatFull" hidden="">
+                    RT
+                    </span>
+                </span>
+
+                <span onclick="doShuffle()" class="cursor-pointer inline-block">
+                    <span id="isNoShuffle">
+                    NS
+                    </span>
+                    <span id="isShuffle" hidden="">
+                    S
+                    </span>
+                </span>
+            </div>
+
+            <div class="basis-8/12 text-right">
+                <span class="inline-block px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" width="1em" height="1em"
+                        preserveAspectRatio="xMidYMid meet" viewBox="0 0 1024 1024">
+                        <path fill="currentColor" 
+                            d="M892.1 737.8l-110.3-63.7a15.9 15.9 0 0 0-21.7 5.9l-19.9 34.5c-4.4 7.6-1.8 17.4 5.8 21.8L856.3 800a15.9 15.9 0 0 0 21.7-5.9l19.9-34.5c4.4-7.6 1.7-17.4-5.8-21.8zM760 344a15.9 15.9 0 0 0 21.7 5.9L892 286.2c7.6-4.4 10.2-14.2 5.8-21.8L878 230a15.9 15.9 0 0 0-21.7-5.9L746 287.8a15.99 15.99 0 0 0-5.8 21.8L760 344zm174 132H806c-8.8 0-16 7.2-16 16v40c0 8.8 7.2 16 16 16h128c8.8 0 16-7.2 16-16v-40c0-8.8-7.2-16-16-16zM625.9 115c-5.9 0-11.9 1.6-17.4 5.3L254 352H90c-8.8 0-16 7.2-16 16v288c0 8.8 7.2 16 16 16h164l354.5 231.7c5.5 3.6 11.6 5.3 17.4 5.3 16.7 0 32.1-13.3 32.1-32.1V147.1c0-18.8-15.4-32.1-32.1-32.1z"/>
+                    </svg>
+                </span>
+                <input onchange="setVolume(this.value)" oninput="setVolume(this.value)" id="volume-range" type="range" min="0" max="1" step="0.01" class="w-40 h-2 cursor-pointer">
+            </div>
         </div>
     </div>
 </body>
 <script>
+    let repeatArray = ['isNoRepeat', 'isRepeatOne', 'isRepeatFull'];
+
     function checkStatus() {
+        fetch('/api/gettime')
+            .then(response => response.json())
+            .then(curtime => {
+                document.getElementById('curtime').textContent = parseTime(curtime);
+                document.getElementById('time-range').value = curtime;
+            });
         fetch('/api/cursong')
             .then(response => response.json())
             .then(cursong => {
-                document.getElementById('cursong').textContent = cursong.SNG_TITLE
-                document.getElementById('artist').textContent = cursong.ART_NAME
-                document.getElementById('album').setAttribute('src', 'https://e-cdns-images.dzcdn.net/images/cover/' + cursong.ALB_PICTURE + '/380x380-000000-80-0-0.jpg')
+                if (cursong && cursong.result == 'error') {
+                    return;
+                }
+
+                document.getElementById('maxtime').textContent = parseTime(cursong.DURATION);
+                document.getElementById('time-range').setAttribute('max', cursong.DURATION);
+                document.getElementById('cursong').textContent = cursong.SNG_TITLE;
+                document.getElementById('artist').textContent = cursong.ART_NAME;
+                document.getElementById('album').setAttribute('src', 'https://e-cdns-images.dzcdn.net/images/cover/' + cursong.ALB_PICTURE + '/380x380-000000-80-0-0.jpg');
             });
         fetch('/api/playing')
             .then(response => response.json())
             .then(playing => {
-                if (playing) {
-                    document.getElementById('isPlaying').hidden = false
-                    document.getElementById('isPaused').hidden = true
-                } else {
-                    document.getElementById('isPlaying').hidden = true
-                    document.getElementById('isPaused').hidden = false
-                }
+                document.getElementById(!playing ? 'isPlaying' : 'isPaused').hidden = true;
+                document.getElementById(playing ? 'isPlaying' : 'isPaused').hidden = false;
+            });
+        fetch('/api/getfavorite')
+            .then(response => response.json())
+            .then(favorite => {
+                document.getElementById(!favorite ? 'isFavorite' : 'isNotFavorite').hidden = true;
+                document.getElementById(favorite ? 'isFavorite' : 'isNotFavorite').hidden = false;
+            });
+        fetch('/api/getshuffle')
+            .then(response => response.json())
+            .then(shuffle => {
+                document.getElementById(!shuffle ? 'isShuffle' : 'isNoShuffle').hidden = true;
+                document.getElementById(shuffle ? 'isShuffle' : 'isNoShuffle').hidden = false;
+            });
+        fetch('/api/getrepeat')
+            .then(response => response.json())
+            .then(repeat => {
+                document.getElementById(repeatArray[(repeat + 2) % 3]).hidden = true;
+                document.getElementById(repeatArray[repeat]).hidden = false;
+            });
+        fetch('/api/getvolume')
+            .then(response => response.json())
+            .then(volume => {
+                document.getElementById('volume-range').value = volume;
             });
     }
     function doPrev() {
         fetch('/api/prev')
-            .then(checkStatus)
+            .then(checkStatus);
     }
     function doPlayPause() {
         fetch('/api/playpause')
-            .then(checkStatus)
+            .then(checkStatus);
     }
     function doNext() {
         fetch('/api/next')
-            .then(checkStatus)
+            .then(checkStatus);
+    }
+    function doFavorite() {
+        fetch('/api/setfavorite')
+            .then(checkStatus);
+    }
+    function doRepeat() {
+        fetch('/api/setrepeat')
+            .then(checkStatus);
+    }
+    function doShuffle() {
+        fetch('/api/setshuffle')
+            .then(checkStatus);
+    }
+    function setVolume(value) {
+        fetch(`/api/setvolume?volume=${value}`)
+            .then(checkStatus);
+    }
+    function setTime(value) {
+        fetch(`/api/settime?time=${value}`)
+            .then(checkStatus);
+    }
+    // 169 => 02:49
+    function parseTime(inputTime) {
+        let minutes = Math.floor(inputTime / 60);
+        let seconds = inputTime % 60;
+
+        minutes = minutes < 10 ? '0' + minutes.toString() : minutes.toString();
+        seconds = seconds < 10 ? '0' + seconds.toString() : seconds.toString();
+        return minutes + ':' + seconds;
     }
     setInterval(checkStatus, 1000)
 </script>
