@@ -17,7 +17,7 @@ Deezer application primarly, but not only, for Linux that is not just an electro
 
 Feel free to download the source code and build the app yourself, if that's not your prefered way of doing things, then there are also binaries available on the right side of the github website. If you're interested in pushing the app onto the snapstore, flatpak or any other platform, please reach out to me via [snapstore](https://github.com/duzda/deezer-enhanced/issues/21), [flatpak](https://github.com/duzda/deezer-enhanced/issues/22) issues or an [e-mail](https://github.com/duzda).
 
-If you're using Arch-based Linux you may want to use aur instead, use [deezer-enhanced-git](https://aur.archlinux.org/packages/deezer-enhanced-git/) for git version (contains build dependencies), and [deezer-enhanced-bin](https://aur.archlinux.org/packages/deezer-enhanced-bin/) for binaries (suitable for most users).
+If you're using Arch-based Linux you may want to use aur instead, use [deezer-enhanced-git](https://aur.archlinux.org/packages/deezer-enhanced-git/) for git version (contains build dependencies and more frequent but less stable updates), and [deezer-enhanced-bin](https://aur.archlinux.org/packages/deezer-enhanced-bin/) for binaries (suitable for most users).
 
 # FAQ
 
