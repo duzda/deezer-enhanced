@@ -44,10 +44,6 @@ class Downloader {
             } else if (line.includes('Finished downloading')) {
                 let name = this.idMap.get(id);
 
-                console.log(id);
-                console.log(name);
-                console.log(this.idMap);
-
                 if (this.idMap.delete(id)) {
                     this.window.webContents.send('downloadFinished', 'SUCCESS', name);
                 }
@@ -71,8 +67,6 @@ class Downloader {
         if (type != 'track') {
             convertedUrl = type + '_' + splittedUrl[splittedUrl.length - 1] + '_9';
         }
-
-        console.log(convertedUrl);
 
         this.idMap.set(convertedUrl, name);
 
