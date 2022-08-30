@@ -46,15 +46,17 @@ ipcRenderer.on('downloadFinished', (event, error, name) => {
 }); 
 
 function onUrlChange(url) {
-    if (url.includes('profile') || polling) {
-        return;
-    }
-    if (url.includes('album') || 
-            url.includes('playlist')) {
-        pollButtonWrapper();
-    } else if (url.includes('artist')) {
-        pollUnorderedList();
-    }
+    setTimeout(() => {
+        if (url.includes('profile') || polling) {
+            return;
+        }
+        if (url.includes('album') || 
+                url.includes('playlist')) {
+            pollButtonWrapper();
+        } else if (url.includes('artist')) {
+            pollUnorderedList();
+        }
+    }, 100);
 }
 
 function pollButtonWrapper() {
@@ -73,12 +75,12 @@ function poll(className, executeFunction) {
         return;
     }
 
+    polling = false;
+
     buttonwrapper = buttonwrapper[0];
     oldWrapper = buttonwrapper;
 
     executeFunction(buttonwrapper);
-
-    polling = false;
 }
 
 function addDownloadCommon(wrapper) {
