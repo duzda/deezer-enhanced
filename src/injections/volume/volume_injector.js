@@ -1,6 +1,8 @@
 /* eslint no-unused-vars: ["error", { "args": "none" }]*/
 /* global dzPlayer, Bridge, Events, dataLayer */
 
+let sliderVolume = 0.0;
+
 // Gets called first
 function pollDzPlayer() {
     if (dzPlayer != null) {
@@ -11,6 +13,10 @@ function pollDzPlayer() {
 }
 
 function injectSetVolume() {
+    dzPlayer.getVolume = () => {
+        return sliderVolume;
+    };
+
     // e - new volume level
     // t - did user specifically click the volume bar?
     dzPlayer.control.setVolume = (e, t) => {
@@ -26,6 +32,7 @@ function injectSetVolume() {
             dzPlayer.isMuted() && e > 0 && dzPlayer.control.mute(!1);
             t = t || !1;
             dzPlayer.volume = e;
+            sliderVolume = e;
 
             // volumePower is exported by another script, yet we can access it freely via Bridge
             if (!isNaN(Bridge.volumePower) && isFinite(Bridge.volumePower) && Bridge.volumePower > 0) {
