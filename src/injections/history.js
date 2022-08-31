@@ -13,6 +13,12 @@ function bindHistory() {
             onUrlChange(arguments[2]);
         }
     };
+
+    addEventListener('popstate', () => {
+        if (onUrlChange) {
+            onUrlChange(document.location.href);
+        }
+    });
 }
 
 module.exports = { bindHistory, bindHistoryCallback };
