@@ -40,7 +40,7 @@ class Window extends BrowserWindow {
         this.webContents.on('did-fail-load', (e, errCode, errorDescription) => {
             let message = errorDescription;
             switch (errCode) {
-            case -2: message = 'No internet connection, if you\'re updating the app, delete the ~/.config/deezer-enhanced folder';
+            case -2: message = 'No internet connection';
             }
             dialog.showErrorBox('Error', message + ', Error ID: ' + errCode);
             this.destroy();
