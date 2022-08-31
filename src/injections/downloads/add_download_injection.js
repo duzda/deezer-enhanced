@@ -1,10 +1,5 @@
 /* global ipcRenderer, Bridge, path */
 
-// Lock to prevent spawning multiple polling threads
-let polling = false;
-// To prevent adding the button to the old page that is just getting removed
-let oldWrapper = null;
-
 let pageAlerts;
 
 // error is type of string with values SUCCESS, WARNING, ERROR
@@ -46,61 +41,8 @@ ipcRenderer.on('downloadFinished', (event, error, name) => {
 }); 
 
 function onUrlChange(url) {
-    setTimeout(() => {
-        if (url.includes('profile') || polling) {
-            return;
-        }
-        if (url.includes('album') || 
-                url.includes('playlist')) {
-            pollButtonWrapper();
-        } else if (url.includes('artist')) {
-            pollUnorderedList();
-        }
-    }, 100);
-}
-
-function pollButtonWrapper() {
-    poll('_2tIG4', addDownloadCommon);
-}
-
-function pollUnorderedList() {
-    poll('_1k3N9', addDownloadArtist);
-}
-
-function poll(className, executeFunction) {
-    polling = true;
-    let buttonwrapper = document.getElementsByClassName(className);
-    if (buttonwrapper.length == 0 || buttonwrapper[0] == oldWrapper) {
-        setTimeout(poll, 100, className, executeFunction);
-        return;
-    }
-
-    polling = false;
-
-    buttonwrapper = buttonwrapper[0];
-    oldWrapper = buttonwrapper;
-
-    executeFunction(buttonwrapper);
-}
-
-function addDownloadCommon(wrapper) {
-    addDownloadButton(wrapper, 'div', ['aLCv2']);
-}
-
-function addDownloadArtist(wrapper) {
-    addDownloadButton(wrapper.children[0], 'li', ['list-actions-item']);
-}
-
-function addDownloadButton(wrapper, element, ...classes) {
-    Bridge.LazyReader.get(path.join('injections', 'downloads', 'download_button.html'), (data) => {
-        let buttonListItem = document.createElement(element);
-        classes.forEach(c => {
-            buttonListItem.classList.add(c);
-        });
-        buttonListItem.innerHTML = data;
-        // Append download button right after play button
-        wrapper.insertBefore(buttonListItem, wrapper.children[1]);
-    });
+    document.getElementById('download-icon').classList.remove('color-primary');
+    document.getElementById('download-button-wrapper').hidden = !(url.includes('album') || url.includes('playlist') || url.includes('artist'));
 }
 
 // This is called via html
@@ -126,10 +68,6 @@ function download() {
     } else {
         ipcRenderer.send('download', location.href, name, type);
     }
-    toggleButton();
-}
-
-function toggleButton() {
     document.getElementById('download-icon').classList.add('color-primary');
 }
 
@@ -144,5 +82,27 @@ function getPageAlerts() {
     }
 }
 
+function injectDownload() {
+    let topbar = document.getElementById('page_topbar');
+    if (topbar != null) {
+        let poppers = topbar.getElementsByClassName('popper-wrapper');
+        if (topbar != null && poppers != null && poppers.length > 1 && poppers[1] != null) {
+            Bridge.LazyReader.getOnce(path.join('injections', 'downloads', 'download-button.html'), (data) => {
+                let div = document.createElement('div');
+                div.className = 'popper-wrapper topbar-action';
+                div.id = 'download-button-wrapper';
+                div.hidden = true;
+                div.innerHTML = data;
+                topbar.insertBefore(div, poppers[1]);
+            });
+        } else {
+            console.warn('There\'s nowhere to put downloads button');
+        }
+    } else {
+        setTimeout(injectDownload, 100);
+    }
+}
+
 getPageAlerts();
+injectDownload();
 Bridge.bindHistoryCallback(onUrlChange);
