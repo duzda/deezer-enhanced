@@ -5,6 +5,7 @@ function animateLogo() {
 }
 
 function pollLogo() {
+    let logo = document.getElementById('central_logo');
     logo = document.createElement('span');
     logo.id = 'central_logo';
     logo.classList = 'logo logo-deezer-black';
@@ -14,8 +15,7 @@ function pollLogo() {
     setTimeout(animateLogo, 100);
 }
 
-let logo = document.getElementById('central_logo');
-if (!logo) {
+if (!document.getElementById('central_logo')) {
     pollLogo();
 } else {
     animateLogo();
