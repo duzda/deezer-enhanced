@@ -38,6 +38,7 @@ function initializeSettingsStates() {
         setVisualSwitch(data.optimizeApp, optimizeAppLabel);
         setVisualSwitch(data.songNotifications, songNotificationsLabel);
         setVisualSwitch(data.deemixIntegration, deemixIntegrationLabel);
+        setVisualSwitch(data.discordRPC, discordRPCLabel);
         setVisualTextbox(data.volumePower, inputVolumePower);
         setVisualTextbox(data.downloadLimit, inputDownloadSpeed);
         setVisualTextbox(data.webPort, inputWebPort);
@@ -52,6 +53,7 @@ function invokeAllCallbacks() {
     invokeSwitch('optimizeApp', optimizeAppLabel);
     invokeSwitch('songNotifications', songNotificationsLabel);
     invokeSwitch('deemixIntegration', deemixIntegrationLabel);
+    invokeSwitch('discordRPC', discordRPCLabel);
     invokeInput('volumePower', inputVolumePower);
     invokeInput('downloadLimit', inputDownloadSpeed);
     invokeInput('webPort', inputWebPort);
@@ -75,6 +77,7 @@ let closeToTrayLabel = document.getElementById('closeToTray');
 let optimizeAppLabel = document.getElementById('optimizeApp');
 let songNotificationsLabel = document.getElementById('songNotifications');
 let deemixIntegrationLabel = document.getElementById('deemixIntegration');
+let discordRPCLabel = document.getElementById('discordRPC');
 let inputVolumePower = document.getElementById('volumePower');
 let inputDownloadSpeed = document.getElementById('downloadLimit');
 let inputWebPort = document.getElementById('webPort');
@@ -94,6 +97,9 @@ songNotificationsLabel.getElementsByTagName('input')[0].addEventListener('click'
 });
 deemixIntegrationLabel.getElementsByTagName('input')[0].addEventListener('click', function() {
     invokeSwitch('deemixIntegration', deemixIntegrationLabel);
+});
+discordRPCLabel.getElementsByTagName('input')[0].addEventListener('click', function() {
+    invokeSwitch('discordRPC', discordRPCLabel);
 });
 inputVolumePower.addEventListener('blur', function () {
     invokeInput('volumePower', inputVolumePower);

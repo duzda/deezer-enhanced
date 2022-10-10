@@ -10,7 +10,8 @@ const defaults = {
     deemixIntegration: 'false',
     volumePower: '4',
     downloadLimit: '',
-    webPort: 0
+    webPort: 0,
+    discordRPC: 'false'
 };
 
 class Settings extends FileManager {

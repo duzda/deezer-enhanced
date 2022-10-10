@@ -33,7 +33,8 @@
     "dependencies": {
         "express": "^4.18.1",
         "mpris-service": "^2.1.2",
-        "path": "^0.12.7"
+        "path": "^0.12.7",
+        "discord-rpc": "^4.0.1"
     },
     "build": {
         "appId": "com.deezerenhanced.app",

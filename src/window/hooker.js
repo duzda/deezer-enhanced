@@ -1,4 +1,5 @@
 const ChromecastHook = require('./hooks/chromecast_hook');
+const DiscordHook = require('./hooks/discord_hook');
 const DownloaderHook = require('./hooks/downloader_hook');
 const LimitHook = require('./hooks/limit_hook');
 const MprisHook = require('./hooks/mpris_hook');
@@ -12,6 +13,7 @@ const WebServerHook = require('./hooks/web_server_hook');
 
 const Hooks = [
     ChromecastHook,
+    DiscordHook,
     DownloaderHook,
     LimitHook,
     MprisHook,

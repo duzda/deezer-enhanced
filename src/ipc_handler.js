@@ -11,8 +11,10 @@ function initIPC(window) {
             }
         }
         
-        if (data) {
-            window.mpris.updateMetadata(data);
+        if (data['SNG_ID']) {
+            window.mpris.updateMetadataSong(data);
+        } else if (data['EPISODE_ID']) {
+            window.mpris.updateMetadataPodcast(data);
         }
     });
     ipcMain.on('readDZCurPosition', (event, data) => {
