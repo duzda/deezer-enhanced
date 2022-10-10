@@ -105,24 +105,37 @@ class Mpris {
     }
     
     updateMetadata(data) {
-        let song = data;
-        this.id = song['SNG_ID'];
-        let artists = [];
-        if ('ARTISTS' in song) {
-            song['ARTISTS'].forEach(function (artist) {
-                artists.push(artist['ART_NAME']);
-            });
-        } else {
-            artists = [song['ART_NAME']];
+        if (data['SNG_ID']) {
+            let song = data;
+            this.id = song['SNG_ID'];
+            let artists = [];
+            if ('ARTISTS' in song) {
+                song['ARTISTS'].forEach(function (artist) {
+                    artists.push(artist['ART_NAME']);
+                });
+            } else {
+                artists = [song['ART_NAME']];
+            }
+            this.player.metadata = {
+                'mpris:trackid': this.player.objectPath('track/0'), // Setting SNG_ID causes problems, might wanna fix later though
+                'mpris:length': song['DURATION'] * 1000 * 1000, // In microseconds
+                'mpris:artUrl': 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg',
+                'xesam:title': song['SNG_TITLE'],
+                'xesam:album': song['ALB_TITLE'],
+                'xesam:artist': artists
+            };
+        } else if (data['EPISODE_ID']) {
+            let episode = data;
+            this.id = episode['EPISODE_ID'];
+            this.player.metadata = {
+                'mpris:trackid': this.player.objectPath('track/0'), // Setting SNG_ID causes problems, might wanna fix later though
+                'mpris:length': episode['DURATION'] * 1000 * 1000, // In microseconds
+                'mpris:artUrl': 'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/380x380-000000-80-0-0.jpg',
+                'xesam:title': episode['EPISODE_TITLE'],
+                'xesam:album': episode['SHOW_NAME'],
+                'xesam:artist': [episode['SHOW_NAME']]
+            };
         }
-        this.player.metadata = {
-            'mpris:trackid': this.player.objectPath('track/0'), // Setting SNG_ID causes problems, might wanna fix later though
-            'mpris:length': song['DURATION'] * 1000 * 1000, // In microseconds
-            'mpris:artUrl': 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg',
-            'xesam:title': song['SNG_TITLE'],
-            'xesam:album': song['ALB_TITLE'],
-            'xesam:artist': artists
-        };
     }
 }
 
