@@ -170,7 +170,6 @@ $RECYCLE.BIN/
 dist
 
 package-lock.json
-yarn.lock
 
 bugs
 
