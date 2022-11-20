@@ -3,8 +3,8 @@ const FileManager = require('../utils/file_manager');
 const filename = 'preferences.json';
 
 const defaults = {
-    enableTray: 'true',
-    closeToTray: 'true',
+    enableTray: 'false',
+    closeToTray: 'false',
     optimizeApp: 'false',
     songNotifications: 'false',
     deemixIntegration: 'false',
