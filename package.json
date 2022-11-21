@@ -37,7 +37,7 @@
         "path": "^0.12.7"
     },
     "build": {
-        "appId": "com.deezerenhanced.app",
+        "appId": "com.duzda.deezer-enhanced",
         "productName": "Deezer Enhanced",
         "linux": {
             "icon": "./build/icon.icns",
