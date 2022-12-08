@@ -25,12 +25,14 @@ window.Bridge = {
 window.path = path;
 window.ipcRenderer = ipcRenderer;
 
-function pollDzUID() {
-    if (typeof dataLayer !== 'undefined' && dataLayer[0].deezer_user_id != 0) {
-        ipcRenderer.invoke('onLogin');
-    } else {
-        setTimeout(pollDzUID, 100);
+(function() {
+    function pollDzUID() {
+        if (typeof dataLayer !== 'undefined' && dataLayer[0].deezer_user_id != 0) {
+            ipcRenderer.invoke('onLogin');
+        } else {
+            setTimeout(pollDzUID, 100);
+        }
     }
-}
 
-pollDzUID();
+    pollDzUID();
+})();
