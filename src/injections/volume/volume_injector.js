@@ -51,6 +51,8 @@
                 console.error(e);
             }
         };
+
+        dzPlayer.control.setVolume(parseFloat(window.localStorage.getItem('volume_' + dataLayer[0].deezer_user_id)), 0);
     }
 
     pollDzPlayer();
