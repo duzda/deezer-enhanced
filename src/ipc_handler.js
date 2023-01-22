@@ -1,4 +1,4 @@
-const { ipcMain, Notification } = require('electron');
+const { ipcMain, Notification, nativeImage } = require('electron');
 const Player = require('mpris-service');
 
 let loginHooked = false;
@@ -7,13 +7,21 @@ function initIPC(window) {
     ipcMain.on('readDZCurSong', (event, data) => {
         if (data['SNG_ID']) {
             if (window.settings.getAttribute('songNotifications') == 'true' && data['SNG_ID'] != window.mpris.id) {
-                new Notification({ title: data['SNG_TITLE'], body: data['ART_NAME'], icon: 'https://e-cdns-images.dzcdn.net/images/cover/' + data['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg' }).show();
+                new Notification({ 
+                    title: data['SNG_TITLE'], 
+                    body: data['ART_NAME'], 
+                    image: nativeImage.createFromDataURL('https://e-cdns-images.dzcdn.net/images/cover/' + data['ALB_PICTURE'] + '/380x380-000000-80-0-0.jpg'),
+                }).show();
             }
 
             window.mpris.updateMetadataSong(data);
         } else if (data['EPISODE_ID']) {
             if (window.settings.getAttribute('songNotifications') == 'true' && data['EPISODE_ID'] != window.mpris.id) {
-                new Notification({ title: data['EPISODE_TITLE'], body: data['SHOW_NAME'], icon: 'https://e-cdns-images.dzcdn.net/images/cover/' + data['SHOW_ART_MD5'] + '/380x380-000000-80-0-0.jpg' }).show();
+                new Notification({ 
+                    title: data['EPISODE_TITLE'], 
+                    body: data['SHOW_NAME'], 
+                    image: nativeImage.createFromDataURL('https://e-cdns-images.dzcdn.net/images/cover/' + data['SHOW_ART_MD5'] + '/380x380-000000-80-0-0.jpg'),
+                }).show();
             }
 
             window.mpris.updateMetadataPodcast(data);
