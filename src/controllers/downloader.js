@@ -1,7 +1,7 @@
 const LazyReader = require('../utils/lazy_reader');
 const path = require('path');
 const fs = require('fs');
-const { app } = require('electron');
+const { app, dialog } = require('electron');
 const exec = require('child_process').exec;
 
 const deemixARL = path.join(app.getPath('appData'), 'deemix', '.arl');
@@ -14,6 +14,7 @@ class Downloader {
         fs.writeFile(deemixARL, arl, (err) => {
             if (err) {
                 console.error(err);
+                dialog.showErrorBox('Deemix error', 'deemix has not been found! Make sure to use the correct version: https://gitlab.com/RemixDev/deemix-py\nerror: ' + err);
             }
         });
 
