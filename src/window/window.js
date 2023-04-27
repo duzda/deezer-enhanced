@@ -1,5 +1,5 @@
 const path = require('path');
-const { app, BrowserWindow, dialog } = require('electron');
+const { app, BrowserWindow, dialog, nativeTheme } = require('electron');
 const WindowBounds = require('../controllers/window_bounds');
 const Settings = require('../controllers/settings');
 const { initializeHooks } = require('./hooker.js');
