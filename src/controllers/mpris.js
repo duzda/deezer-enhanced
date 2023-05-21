@@ -37,6 +37,10 @@ class Mpris {
             }
             return (songCurrent - this.songStart) * 1000 + this.songOffset;
         };
+
+        this.player.isPlaying = () => {
+            return this.player.playbackStatus == Player.PLAYBACK_STATUS_PLAYING;
+        };
         
         this.player.on('quit', () => {
             process.exit();
@@ -103,6 +107,7 @@ class Mpris {
             this.win.webContents.executeJavaScript(`dzPlayer.control.seek((dzPlayer.getPosition() + ${offset}) / ${length});`);
         });
     }
+
     
     updateMetadataSong(data) {
         let song = data;
@@ -125,8 +130,18 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'], 
-                'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg');
+            let endTimeStamp = null;  // Date.now() + this.song['DURATION'] * 1000;
+            endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() + (song['DURATION'] * 1000) - Math.floor(this.player.getPosition / 1000)) + (3 * 1000)) : null; // - this.player.getPosition() : null;
+            /*console.log(Date.now());
+            console.log(this.song['DURATION']);
+            console.log(this.player.getPosition());
+            console.log(endTimeStamp);
+            console.log(this.songOffset);
+            console.log('-----');*/
+            this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'],
+                'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg',
+                song['ALB_TITLE'], endTimeStamp
+            );
         }
     }
 
