@@ -2,8 +2,8 @@ const Player = require('mpris-service');
 const LazyReader = require('../utils/lazy_reader');
 const path = require('path');
 // TODO change to main repo befor merge
-const playIcon = 'https://raw.githubusercontent.com/lm41/deezer-enhanced/master/assets/discord/playIcon.png';
-const pauseIcon = 'https://raw.githubusercontent.com/lm41/deezer-enhanced/master/assets/discord/pauseIcon.png';
+const playIcon = 'https://raw.githubusercontent.com/lm41/deezer-enhanced/improved-discord-rpc/assets/discord/playIcon.png';
+const pauseIcon = 'https://raw.githubusercontent.com/lm41/deezer-enhanced/improved-discord-rpc/assets/discord/pauseIcon.png';
 
 class Mpris {
     constructor(win) {
