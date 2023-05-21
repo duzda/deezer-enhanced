@@ -14,13 +14,15 @@ class DiscordRPC {
         this.client.destroy();
     }
 
-    setActivity(title, artist, cover, albumName, endTimeStamp) {
+    setActivity(title, artist, cover, albumName, endTimeStamp, smallImageKey, smallImageText) {
         let config = {
             'details': title,
             'state': artist,
             'largeImageKey': cover,
             'largeImageText' : albumName,
-            'endTimestamp' : endTimeStamp
+            'endTimestamp' : endTimeStamp,
+            'smallImageKey' : smallImageKey,
+            'smallImageText' : smallImageText
         };
         this.client.setActivity(config);
     }

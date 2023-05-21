@@ -2,6 +2,10 @@ const Player = require('mpris-service');
 const LazyReader = require('../utils/lazy_reader');
 const path = require('path');
 
+//TODO: Add to /assets/discord and use raw.githubusercontent.com
+const playIcon = 'https://github.com/duzda/deezer-enhanced/assets/59062169/a53ba68e-71db-4bf1-918d-86e929d6b6ea';
+const pauseIcon = 'https://github.com/duzda/deezer-enhanced/assets/59062169/ae190a2f-1991-4744-b1b9-41e03be516cd';
+
 class Mpris {
     constructor(win) {
         this.win = win;
@@ -131,9 +135,11 @@ class Mpris {
 
         if (this.win.discordRPC) {
             let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (song['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition()))/1000) : null; // - this.player.getPosition() : null;
+            let smallImageKey = this.player.isPlaying() ? playIcon : pauseIcon;
+            let smallImageText = this.player.isPlaying() ? 'Playing' : 'Paused';
             this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg',
-                song['ALB_TITLE'], endTimeStamp
+                song['ALB_TITLE'], endTimeStamp, smallImageKey, smallImageText
             );
         }
     }
@@ -152,9 +158,12 @@ class Mpris {
 
         if (this.win.discordRPC) {
             let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (episode['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition()))/1000) : null; // - this.player.getPosition() : null;
-            this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'], 
+            let smallImageKey = this.player.isPlaying() ? playIcon : pauseIcon;
+            let smallImageText = this.player.isPlaying() ? 'Playing' : 'Paused';
+            this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg',
-                episode['SHOW_NAME'], endTimeStamp);
+                episode['SHOW_NAME'], endTimeStamp, smallImageKey, smallImageText
+            );
         }
     }
 }
