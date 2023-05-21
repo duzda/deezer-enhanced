@@ -151,8 +151,10 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
+            let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (episode['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition()))/1000) : null; // - this.player.getPosition() : null;
             this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'], 
-                'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg');
+                'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg',
+                episode['SHOW_NAME'], endTimeStamp);
         }
     }
 }
