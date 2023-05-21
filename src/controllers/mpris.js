@@ -130,14 +130,7 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            let endTimeStamp = null;  // Date.now() + this.song['DURATION'] * 1000;
-            endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() + (song['DURATION'] * 1000) - Math.floor(this.player.getPosition / 1000)) + (3 * 1000)) : null; // - this.player.getPosition() : null;
-            /*console.log(Date.now());
-            console.log(this.song['DURATION']);
-            console.log(this.player.getPosition());
-            console.log(endTimeStamp);
-            console.log(this.songOffset);
-            console.log('-----');*/
+            let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (song['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition()))/1000) : null; // - this.player.getPosition() : null;
             this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg',
                 song['ALB_TITLE'], endTimeStamp
