@@ -133,7 +133,7 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (song['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition()))/1000) : null; // - this.player.getPosition() : null;
+            let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (song['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition() || 0))/1000) : null; // - this.player.getPosition() : null;
             let smallImageKey = this.player.isPlaying() ? playIcon : pauseIcon;
             let smallImageText = this.player.isPlaying() ? 'Playing' : 'Paused';
             this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'],
