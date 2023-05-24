@@ -11,6 +11,7 @@ class Window extends BrowserWindow {
     // this.webserver
     // this.downloader
     // this.mpris
+    // this.discordRPC
 
     constructor(parent) {
         let params = {

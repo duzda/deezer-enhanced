@@ -1,16 +1,13 @@
 const Player = require('mpris-service');
 const LazyReader = require('../utils/lazy_reader');
 const path = require('path');
-// TODO change to main repo befor merge
-const playIcon = 'https://raw.githubusercontent.com/lm41/deezer-enhanced/improved-discord-rpc/assets/discord/playIcon.png';
-const pauseIcon = 'https://raw.githubusercontent.com/lm41/deezer-enhanced/improved-discord-rpc/assets/discord/pauseIcon.png';
 
 class Mpris {
     constructor(win) {
         this.win = win;
         // To obtain current position
         this.songStart;
-        this.songOffset;
+        this.songOffset = 0;
         // For notifications, as we do not set trackid in metadata
         this.songId = 0;
         
@@ -38,7 +35,7 @@ class Mpris {
             if (this.player.playbackStatus == Player.PLAYBACK_STATUS_PAUSED) {
                 return this.songOffset;
             }
-            return (songCurrent - this.songStart) * 1000 + this.songOffset;
+            return (songCurrent - (this.songStart ?? songCurrent)) * 1000 + this.songOffset;
         };
 
         this.player.isPlaying = () => {
@@ -133,12 +130,9 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (song['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition() || 0))/1000) : null; // - this.player.getPosition() : null;
-            let smallImageKey = this.player.isPlaying() ? playIcon : pauseIcon;
-            let smallImageText = this.player.isPlaying() ? 'Playing' : 'Paused';
             this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg',
-                song['ALB_TITLE'], endTimeStamp, smallImageKey, smallImageText
+                song['ALB_TITLE'], this
             );
         }
     }
@@ -156,12 +150,9 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            let endTimeStamp = this.player.isPlaying() ? Math.floor((Date.now() * 1000 + (episode['DURATION'] * 1000 * 1000) - Math.floor(this.player.getPosition()))/1000) : null; // - this.player.getPosition() : null;
-            let smallImageKey = this.player.isPlaying() ? playIcon : pauseIcon;
-            let smallImageText = this.player.isPlaying() ? 'Playing' : 'Paused';
             this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg',
-                episode['SHOW_NAME'], endTimeStamp, smallImageKey, smallImageText
+                episode['SHOW_NAME'], this
             );
         }
     }
