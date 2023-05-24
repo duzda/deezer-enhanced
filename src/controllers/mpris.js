@@ -132,7 +132,7 @@ class Mpris {
         if (this.win.discordRPC) {
             this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg',
-                song['ALB_TITLE'], this
+                song['ALB_TITLE'], this.player
             );
         }
     }
@@ -152,7 +152,7 @@ class Mpris {
         if (this.win.discordRPC) {
             this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'],
                 'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg',
-                episode['SHOW_NAME'], this
+                episode['SHOW_NAME'], this.player
             );
         }
     }
