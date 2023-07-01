@@ -7,7 +7,7 @@ class Mpris {
         this.win = win;
         // To obtain current position
         this.songStart;
-        this.songOffset;
+        this.songOffset = 0;
         // For notifications, as we do not set trackid in metadata
         this.songId = 0;
         
@@ -35,7 +35,11 @@ class Mpris {
             if (this.player.playbackStatus == Player.PLAYBACK_STATUS_PAUSED) {
                 return this.songOffset;
             }
-            return (songCurrent - this.songStart) * 1000 + this.songOffset;
+            return (songCurrent - (this.songStart ?? songCurrent)) * 1000 + this.songOffset;
+        };
+
+        this.player.isPlaying = () => {
+            return this.player.playbackStatus == Player.PLAYBACK_STATUS_PLAYING;
         };
         
         this.player.on('quit', () => {
@@ -103,6 +107,7 @@ class Mpris {
             this.win.webContents.executeJavaScript(`dzPlayer.control.seek((dzPlayer.getPosition() + ${offset}) / ${length});`);
         });
     }
+
     
     updateMetadataSong(data) {
         let song = data;
@@ -125,8 +130,10 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            this.win.discordRPC.setActivity(song['SNG_TITLE'], song['ART_NAME'], 
-                'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg');
+            this.win.discordRPC.setActivity(song['SNG_TITLE'], artists.join(', '),
+                'https://e-cdns-images.dzcdn.net/images/cover/' + song['ALB_PICTURE'] + '/512x512-000000-80-0-0.jpg',
+                song['ALB_TITLE'], this.player
+            );
         }
     }
 
@@ -143,8 +150,10 @@ class Mpris {
         };
 
         if (this.win.discordRPC) {
-            this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'], 
-                'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg');
+            this.win.discordRPC.setActivity(episode['EPISODE_TITLE'], episode['SHOW_NAME'],
+                'https://e-cdns-images.dzcdn.net/images/talk/' + episode['SHOW_ART_MD5'] + '/512x512-000000-80-0-0.jpg',
+                episode['SHOW_NAME'], this.player
+            );
         }
     }
 }
