@@ -10,6 +10,7 @@ class Downloader {
     constructor(window, arl) {
         this.window = window;
         this.idMap = new Map();
+        this.warningsSet = new Set();
 
         fs.writeFile(deemixARL, arl, (err) => {
             if (err) {
@@ -42,11 +43,15 @@ class Downloader {
                 // Url because we are not sure with the name
                 this.window.webContents.send('downloadFinished', 'ERROR', url);
                 this.window.webContents.send('err', 'deemix: ' + line);
+            } else if (line.includes('Traceback (most recent call last):')) {
+                this.warningsSet.add(this.idMap.delete(id));
+                this.window.webContents.send('err', 'deemix ' + line);
             } else if (line.includes('Finished downloading')) {
                 let name = this.idMap.get(id);
 
                 if (this.idMap.delete(id)) {
-                    this.window.webContents.send('downloadFinished', 'SUCCESS', name);
+                    this.window.webContents.send('downloadFinished', this.warningsSet.has(id) ? 'WARNING' : 'SUCCESS', name);
+                    this.warningsSet.delete(id);
                 }
 
                 this.window.webContents.send('log', 'deemix: ' + line);
