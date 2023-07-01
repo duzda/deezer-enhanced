@@ -7,17 +7,28 @@ const PAUSE_ICON = 'https://raw.githubusercontent.com/duzda/deezer-enhanced/mast
 
 class DiscordRPC {
     connect() {
-        this.client = new RPC.Client({
-            transport: 'ipc'
-        });
-        this.client.login({ clientId: CLIENT_ID });
+        this.logIn();
     }
 
     disconnect() {
         this.client.destroy();
     }
+    
+    async logIn() {
+        this.client = new RPC.Client({
+            transport: 'ipc'
+        });
 
-    setActivity(title, artist, cover, albumName, player) {
+        await this.client.login({ clientId: CLIENT_ID }).then(() => {
+            this.loggedIn = true;
+            console.warn('Found Discord!');
+        }).catch(() => {
+            this.loggedIn = false;
+            console.warn('Unable to communicate with Discord');
+        });
+    }
+
+    async setActivity(title, artist, cover, albumName, player) {
         const current = Date.now();
         const position = player.getPosition() / 1000;
         const startTimeStamp = player.isPlaying() ? (current - position) : null;
@@ -33,7 +44,14 @@ class DiscordRPC {
             'smallImageKey': smallImageKey,
             'smallImageText': smallImageText
         };
-        this.client.setActivity(config);
+
+        if (!this.loggedIn) {
+            await this.logIn();
+        } 
+
+        this.client.setActivity(config).catch(() => {
+            console.warn('Unable to set Discord activity');
+        });
     }
 }
 
