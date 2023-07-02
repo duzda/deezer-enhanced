@@ -14,13 +14,15 @@
     }
 
     function injectSetVolume() {
+        const startupVolume = parseFloat(window.localStorage.getItem('volume_' + dataLayer[0].deezer_user_id ?? 0));
+
         dzPlayer.getVolume = () => {
             return sliderVolume;
         };
 
         // e - new volume level
         // t - did user specifically click the volume bar?
-        dzPlayer.control.setVolume = (e, t) => {
+        dzPlayer.control.setVolume = (e, _) => {
             try {
                 if (dzPlayer.chromecast.isLoading()) {
                     return !1;
@@ -31,7 +33,6 @@
                 //    return !1;
                 
                 dzPlayer.isMuted() && e > 0 && dzPlayer.control.mute(!1);
-                t = t || !1;
                 dzPlayer.volume = e;
                 sliderVolume = e;
 
@@ -44,7 +45,7 @@
 
                 Events.trigger(Events.player.volume_changed, Math.round(100 * e));
                 // Disabled, to allow setting the local storage even when changed via mpris
-                // if (t === true) {
+                // if (_ === true) {
                 window.localStorage.setItem('volume_' + dataLayer[0].deezer_user_id, e);
                 // }
             } catch (e) {
@@ -52,7 +53,7 @@
             }
         };
 
-        dzPlayer.control.setVolume(parseFloat(window.localStorage.getItem('volume_' + dataLayer[0].deezer_user_id)), 0);
+        dzPlayer.control.setVolume(startupVolume, 0);
     }
 
     pollDzPlayer();
