@@ -14,7 +14,7 @@
     }
 
     function injectSetVolume() {
-        const startupVolume = parseFloat(window.localStorage.getItem('volume_' + dataLayer[0].deezer_user_id ?? 0));
+        const startupVolume = parseFloat(window.localStorage.getItem('volume_' + dataLayer[0].deezer_user_id) ?? 0.5);
 
         dzPlayer.getVolume = () => {
             return sliderVolume;
