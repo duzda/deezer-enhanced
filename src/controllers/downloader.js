@@ -5,18 +5,25 @@ const { app, dialog } = require('electron');
 const exec = require('child_process').exec;
 
 const deemixARL = path.join(app.getPath('appData'), 'deemix', '.arl');
+const deemixConfig = path.join(app.getPath('appData'), 'deemix', 'config.json');
 
 class Downloader {
     constructor(window, arl) {
         this.window = window;
         this.idMap = new Map();
         this.warningsSet = new Set();
+        this.bitrate = 3;
 
         fs.writeFile(deemixARL, arl, (err) => {
             if (err) {
                 console.error(err);
                 dialog.showErrorBox('Deemix error', 'deemix has not been found! Make sure to use the correct version: https://gitlab.com/RemixDev/deemix-py\nerror: ' + err);
             }
+        });
+
+        fs.readFile(deemixConfig, (err, data) => {
+            const settings = JSON.parse(data);
+            this.bitrate = settings['maxBitrate'];
         });
 
         LazyReader.getOnce(path.join('injections', 'downloads', 'add_download_injection.js'), (data) => {
@@ -67,11 +74,10 @@ class Downloader {
         let splittedUrl = url.split('/');
         splittedUrl[splittedUrl.length - 1] = splittedUrl[splittedUrl.length - 1].split('?', 1)[0];
 
-        // What does the 9 mean?
         let convertedUrl;
         // No notification for tracks :(
         if (type != 'track') {
-            convertedUrl = type + '_' + splittedUrl[splittedUrl.length - 1] + '_9';
+            convertedUrl = type + '_' + splittedUrl[splittedUrl.length - 1] + '_' + this.bitrate;
         }
 
         this.idMap.set(convertedUrl, name);
