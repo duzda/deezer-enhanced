@@ -64,7 +64,7 @@
             if (topbar != null && poppers != null && poppers.length > 1 && poppers[1] != null) {
                 Bridge.LazyReader.getOnce(path.join('injections', 'downloads', 'download-button.html'), (data) => {
                     let div = document.createElement('div');
-                    div.className = 'popper-wrapper topbar-action';
+                    div.className = 'popper-wrapper';
                     div.id = 'download-button-wrapper';
                     div.hidden = true;
                     div.innerHTML = data;

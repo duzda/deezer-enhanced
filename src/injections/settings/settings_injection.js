@@ -7,10 +7,17 @@
     function pollTopbar() {
         let topbar = document.getElementById('page_topbar');
         if (topbar != null) {
+            loadCssAndJs(topbar);
             inject(topbar);
         } else {
             setTimeout(pollTopbar, 100);
         }
+    }
+
+    function loadCssAndJs(topbar) {
+        const profileButton = topbar.getElementsByClassName('topbar-action')[0].children[0];
+        profileButton.click();
+        profileButton.click();
     }
 
     // Injects new button onto the top bar next to notifications
@@ -19,7 +26,7 @@
         if (topbar != null && poppers != null && poppers.length > 1 && poppers[1] != null) {
             Bridge.LazyReader.getOnce(path.join('injections', 'settings', 'settings-element.html'), (data) => {
                 let div = document.createElement('div');
-                div.className = 'popper-wrapper topbar-action';
+                div.className = 'popper-wrapper';
                 div.innerHTML = data;
                 topbar.insertBefore(div, poppers[1]);
                 initSettingsJavacript();
