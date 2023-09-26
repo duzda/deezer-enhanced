@@ -10,6 +10,7 @@ const TrayHook = require('./hooks/tray_hook');
 const VolumeHook = require('./hooks/volume_hook');
 const VolumeScrollHook = require('./hooks/volume_scroll_hook');
 const WebServerHook = require('./hooks/web_server_hook');
+const ThemeHook = require('./hooks/theme_hook');
 
 const Hooks = [
     ChromecastHook,
@@ -23,7 +24,8 @@ const Hooks = [
     TrayHook,
     VolumeHook,
     VolumeScrollHook,
-    WebServerHook
+    WebServerHook,
+    ThemeHook
 ];
 
 function initializeHooks(window, settings) {
