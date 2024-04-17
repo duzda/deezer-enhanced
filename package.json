@@ -1,51 +1,70 @@
 {
-    "name": "deezer-enhanced",
-    "version": "0.3.3",
-    "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
-    "homepage": "https://github.com/duzda/deezer-enhanced",
-    "bugs": {
-        "url": "https://github.com/duzda/deezer-enhanced/issues"
-    },
-    "license": "MIT",
-    "author": "duzda <duzda@disroot.org>",
-    "main": "src/app.js",
-    "scripts": {
-        "start": "node_modules/.bin/electron .",
-        "webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/out/web.css --watch",
-        "minify-webcss": "npx tailwindcss -i ./src/web/input.css -o ./src/web/out/web.css --minify",
-        "build:pacman": "node_modules/.bin/electron-builder --linux pacman",
-        "build:snap": "node_modules/.bin/electron-builder --linux snap",
-        "build:flatpak": "node_modules/.bin/electron-builder --linux flatpak",
-        "build:deb": "node_modules/.bin/electron-builder --linux deb",
-        "build:AppImage": "node_modules/.bin/electron-builder --linux AppImage",
-        "build:targz": "node_modules/.bin/electron-builder --linux tar.gz",
-        "build:mac": "node_modules/.bin/electron-builder --mac dmg pkg mas",
-        "build:win-portable": "node_modules/.bin/electron-builder --windows portable",
-        "build:win": "node_modules/.bin/electron-builder --windows nsis",
-        "release:all-supported": "node_modules/.bin/electron-builder --linux pacman deb AppImage snap"
-    },
-    "devDependencies": {
-        "electron": "^21.3.0",
-        "electron-builder": "^23.1.0",
-        "eslint": "^8.20.0",
-        "tailwindcss": "^3.1.6"
-    },
-    "dependencies": {
-        "discord-rpc": "^4.0.1",
-        "express": "^4.18.1",
-        "mpris-service": "^2.1.2",
-        "path": "^0.12.7"
-    },
-    "build": {
-        "appId": "com.duzda.deezer-enhanced",
-        "productName": "Deezer Enhanced",
-        "linux": {
-            "icon": "./build/icon.icns",
-            "synopsis": "An unofficial application for Deezer with enhanced features",
-            "category": "Audio"
-        },
-        "extraResources": [
-            "./assets/**"
-        ]
-    }
+  "name": "deezer-enhanced",
+  "productName": "deezer-enhanced",
+  "version": "1.0.0",
+  "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
+  "homepage": "https://github.com/duzda/deezer-enhanced",
+  "bugs": {
+    "url": "https://github.com/duzda/deezer-enhanced/issues"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "duzda",
+    "email": "duzda@disroot.org"
+  },
+  "main": ".vite/build/main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish",
+    "lint": "eslint --ext .ts,.tsx ."
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.3.0",
+    "@electron-forge/maker-deb": "^7.3.0",
+    "@electron-forge/maker-flatpak": "^7.4.0",
+    "@electron-forge/maker-rpm": "^7.3.0",
+    "@electron-forge/maker-snap": "^7.4.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.3.0",
+    "@electron-forge/plugin-fuses": "^7.3.0",
+    "@electron-forge/plugin-vite": "^7.3.0",
+    "@electron/fuses": "^1.7.0",
+    "@reforged/maker-appimage": "^4.0.2",
+    "@types/discord-rpc": "^4.0.8",
+    "@types/node": "^20.11.20",
+    "@types/react": "^18.2.58",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "autoprefixer": "^10.4.17",
+    "daisyui": "^4.7.2",
+    "electron": "29.0.1",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-jsx-a11y": "^6.8.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-react": "^7.33.2",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "postcss": "^8.4.35",
+    "prettier": "^3.2.5",
+    "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.1.4"
+  },
+  "dependencies": {
+    "discord-rpc": "^4.0.1",
+    "electron-context-menu": "^3.6.1",
+    "electron-squirrel-startup": "^1.0.0",
+    "mpris-service": "^2.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.1",
+    "recoil": "^0.7.7"
+  },
+  "private": "true"
 }

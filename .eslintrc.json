@@ -1,39 +1,28 @@
 {
-    "env": {
-        "browser": true,
-        "commonjs": true,
-        "es2021": true,
-        "node": true
-    },
-    "extends": "eslint:recommended",
-    "parserOptions": {
-        "ecmaVersion": "latest"
-    },
-    "rules": {
-        "indent": [
-            "error",
-            4
-        ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
-        "curly": [
-            "error"
-        ],
-        "eol-last": [
-            "error"
-        ],
-        "brace-style": [
-            "error"
-        ]
-    }
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
+  },
+  "extends": [
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/electron",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:prettier/recommended"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "project": [ "tsconfig.json" ]
+  },
+  "plugins": ["react", "import", "@typescript-eslint", "prettier"],
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "prettier/prettier": "error",
+    "import/prefer-default-export": "off",
+    "global-require": "off"
+  }
 }
