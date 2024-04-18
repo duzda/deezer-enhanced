@@ -1,0 +1,22 @@
+name: default
+
+on:
+  push:
+    branches:
+    - "*"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Compile
+        run: npm run package

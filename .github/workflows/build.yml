@@ -1,0 +1,45 @@
+name: Build and draft
+
+on: workflow_dispatch
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v3
+
+      - name: Install build tools
+        run: sudo apt install libarchive-tools rpm flatpak flatpak-builder elfutils
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+
+      - name: Get npm version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@main
+
+      - name: Install dependencies
+        run: npm i
+
+      - name: Build dist
+        run: npm run make
+        env: 
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create draft release
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          draft: true
+          prerelease: false
+          tag_name: v${{ steps.package-version.outputs.current-version }}
+          body: "Changelog: \n- "
+          files: |
+            out/make/deezer-enhanced-${{ steps.package-version.outputs.current-version }}.pacman
+            out/make/deb/x64/deezer-enhanced_${{ steps.package-version.outputs.current-version }}_amd64.deb
+            out/make/rpm/x64/deezer-enhanced-${{ steps.package-version.outputs.current-version }}-1.x86_64.rpm
+            out/make/AppImage/x64/Deezer Enhanced-${{ steps.package-version.outputs.current-version }}-x64.AppImage
