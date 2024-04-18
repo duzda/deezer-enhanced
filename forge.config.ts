@@ -1,5 +1,6 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
-import { MakerAppImage } from '@reforged/maker-appimage';
+import { MakerAppImage } from 'electron-forge-maker-appimage';
+import { MakerPacman } from 'electron-forge-maker-pacman';
 import { MakerFlatpak } from '@electron-forge/maker-flatpak';
 import { MakerSnap } from '@electron-forge/maker-snap';
 import { MakerDeb } from '@electron-forge/maker-deb';
@@ -10,10 +11,11 @@ import { FuseV1Options, FuseVersion } from '@electron/fuses';
 
 const config: ForgeConfig = {
   packagerConfig: {
+    appBundleId: "com.duzda.deezer-enhanced",
     asar: true,
     extraResource: [
       './assets'
-    ]
+    ],
   },
   rebuildConfig: {},
   makers: [
@@ -24,9 +26,16 @@ const config: ForgeConfig = {
         categories: ["Audio"],
       }
     }), 
+    new MakerPacman({}),
     // new MakerFlatpak({}), 
     // new MakerSnap({}), 
-    // new MakerDeb({}), 
+    new MakerDeb({
+      options: {
+        productName: "Deezer Enhanced",
+        icon: "./build/icon.svg",
+        categories: ["Audio"]
+      }
+    }), 
     // new MakerRpm({})
   ],
   plugins: [
