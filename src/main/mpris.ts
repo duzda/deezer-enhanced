@@ -84,7 +84,10 @@ const updateMetadataSong = (player: Player, data: Song) => {
       DEEZER_SONG_ART_URL + data.ALB_PICTURE + DEEZER_ART_RESOLUTION,
     'xesam:title': data.SNG_TITLE,
     'xesam:album': data.ALB_TITLE,
-    'xesam:artist': data.ARTISTS.map((artist) => artist.ART_NAME),
+    'xesam:artist':
+      data.ARTISTS !== undefined
+        ? data.ARTISTS.map((artist) => artist.ART_NAME)
+        : [data.ART_NAME],
   };
 };
 
@@ -110,7 +113,9 @@ const createMprisListeners = (player: Player) => {
       if (isDiscordEnabled()) {
         setDiscordActivity(
           songData.SNG_TITLE,
-          songData.ARTISTS.map((artist) => artist.ART_NAME).join(', '),
+          songData.ARTISTS !== undefined
+            ? songData.ARTISTS.map((artist) => artist.ART_NAME).join(', ')
+            : songData.ART_NAME,
           songData.ALB_TITLE,
           DEEZER_SONG_ART_URL + songData.ALB_PICTURE + DEEZER_ART_RESOLUTION,
           player.isPlaying(),

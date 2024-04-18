@@ -35,7 +35,7 @@ export type Song = {
   ALB_ID: string; // number
   ALB_PICTURE: string;
   ALB_TITLE: string;
-  ARTISTS: Array<Artist>;
+  ARTISTS?: Array<Artist>;
   ART_ID: string; // number
   ART_NAME: string;
   DIGITAL_RELEASE_DATE: string; // Date
