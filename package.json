@@ -2,7 +2,7 @@
   "name": "deezer-enhanced",
   "productName": "deezer-enhanced",
   "version": "1.0.0",
-  "description": "An unofficial application for Deezer with enhanced features, that is not just an electron wrapper.",
+  "description": "An unofficial application for Deezer with enhanced features.",
   "homepage": "https://github.com/duzda/deezer-enhanced",
   "bugs": {
     "url": "https://github.com/duzda/deezer-enhanced/issues"

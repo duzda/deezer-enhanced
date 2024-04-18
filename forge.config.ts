@@ -1,8 +1,8 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerAppImage } from 'electron-forge-maker-appimage';
 import { MakerPacman } from 'electron-forge-maker-pacman';
-import { MakerFlatpak } from '@electron-forge/maker-flatpak';
-import { MakerSnap } from '@electron-forge/maker-snap';
+// import { MakerFlatpak } from '@electron-forge/maker-flatpak';
+// import { MakerSnap } from '@electron-forge/maker-snap';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
 import { VitePlugin } from '@electron-forge/plugin-vite';
@@ -16,6 +16,7 @@ const config: ForgeConfig = {
     extraResource: [
       './assets'
     ],
+    appCategoryType: 'app-category-type=public.app-category.music',
   },
   rebuildConfig: {},
   makers: [
@@ -24,19 +25,38 @@ const config: ForgeConfig = {
         productName: "Deezer Enhanced",
         icon: "./build/icon.svg",
         categories: ["Audio"],
-      }
+      },
     }), 
     new MakerPacman({}),
-    // new MakerFlatpak({}), 
-    // new MakerSnap({}), 
+    // new MakerFlatpak({
+    //   options: {
+    //     files: 
+    //     productName: "Deezer Enhanced",
+    //     icon: "./build/icon.svg",
+    //     categories: ["Audio"],
+    //   }
+    // }), 
+    // new MakerSnap({
+    //   features: {
+    //     audio: true,
+    //     mpris: 'com.duzda.deezer-enhanced',
+    //     webgl: true,
+    //   }
+    // }), 
     new MakerDeb({
       options: {
         productName: "Deezer Enhanced",
         icon: "./build/icon.svg",
-        categories: ["Audio"]
-      }
+        categories: ["Audio"],
+      },
     }), 
-    // new MakerRpm({})
+    new MakerRpm({
+      options: {
+        productName: "Deezer Enhanced",
+        icon: "./build/icon.svg",
+        categories: ["Audio"],
+      },
+    }),
   ],
   plugins: [
     new VitePlugin({
