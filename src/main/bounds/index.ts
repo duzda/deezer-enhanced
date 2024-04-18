@@ -37,6 +37,8 @@ export const loadBounds = async (window: BrowserWindow) => {
   if (bounds.maximized) {
     window.maximize();
   }
+
+  window.show();
 };
 
 export const saveBounds = (window: BrowserWindow) => {

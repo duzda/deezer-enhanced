@@ -34,6 +34,7 @@ if (!gotTheLock) {
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
       },
+      show: false,
     });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
