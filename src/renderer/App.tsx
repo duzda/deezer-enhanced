@@ -12,6 +12,19 @@ function App(): React.JSX.Element {
   const setCurrentSettings = useSetRecoilState(currentSettingsAtom);
 
   useEffect(() => {
+    document.addEventListener('keydown', (event) => {
+      event.preventDefault();
+      window.renderer.keyboardAPI.sendKeypress({
+        key: event.key,
+        altKey: event.altKey,
+        ctrlKey: event.ctrlKey,
+        shiftKey: event.shiftKey,
+        metaKey: event.metaKey,
+      });
+    });
+  }, []);
+
+  useEffect(() => {
     window.renderer.settingsAPI.onShowSettings(() => {
       navigate('/settings');
     });

@@ -7,6 +7,7 @@ import { getSettings, initializeSettings } from './main/settings';
 import { loadBounds, saveBounds } from './main/bounds';
 import { initializeDownloads } from './main/downloads';
 import { initializePlayer } from './main/mpris';
+import { createKeyboardHandles } from './main/keyboard';
 import { DEEZER_URL } from './main/utils/urls';
 
 const USER_AGENT =
@@ -60,6 +61,7 @@ if (!gotTheLock) {
     initializePlayer(view);
     initializeDownloads(view);
     createHistoryHandles(view);
+    createKeyboardHandles(view);
 
     view.webContents.on('did-finish-load', () => {
       contextMenu({ window: view, ...contextMenuPreset });
