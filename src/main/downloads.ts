@@ -20,8 +20,7 @@ const download = (url: string) => {
 
 const createDownloadHandles = (view: BrowserView) => {
   ipcMain.on(DOWNLOADS_DOWNLOAD, () => {
-    console.log(view.webContents.getURL());
-    download('.');
+    download(view.webContents.getURL());
   });
 };
 
