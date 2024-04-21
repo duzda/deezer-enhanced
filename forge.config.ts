@@ -23,7 +23,7 @@ const config: ForgeConfig = {
     new MakerAppImage({
       options: {
         productName: "Deezer Enhanced",
-        icon: "./build/icon.svg",
+        icon: "./build/icon.png",
         categories: ["Audio"],
       },
     }), 
@@ -46,14 +46,14 @@ const config: ForgeConfig = {
     new MakerDeb({
       options: {
         productName: "Deezer Enhanced",
-        icon: "./build/icon.svg",
+        icon: "./build/icon.png",
         categories: ["Audio"],
       },
     }), 
     new MakerRpm({
       options: {
         productName: "Deezer Enhanced",
-        icon: "./build/icon.svg",
+        icon: "./build/icon.png",
         categories: ["Audio"],
       },
     }),

@@ -36,6 +36,11 @@ if (!gotTheLock) {
         preload: path.join(__dirname, 'preload.js'),
       },
       show: false,
+      icon: path.join(
+        app.isPackaged ? process.resourcesPath : '.',
+        'assets',
+        'icon.png'
+      ),
     });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
