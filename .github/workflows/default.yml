@@ -18,5 +18,8 @@ jobs:
       - name: Install dependencies
         run: npm i
 
+      - name: Lint
+        run: npm run lint
+
       - name: Compile
         run: npm run package
