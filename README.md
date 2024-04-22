@@ -33,7 +33,7 @@ Q: Chromecast support?
 A: As of right now, no, see [issue 33](https://github.com/duzda/deezer-enhanced/issues/33)
 
 Q: I don't like the tray icon  
-A: Tray icon is changeable system-wide via `/opt/Deezer Enhanced/resources/assets/icon.png` or locally via `~/.config/deezer-enhanced/assets`
+A: Tray icon is changeable system-wide via `/opt/deezer-enhanced/resources/assets/icon.png` or locally via `~/.config/deezer-enhanced/assets/icon.png`
 
 # Build Instructions
 

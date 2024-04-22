@@ -16,7 +16,7 @@ const config: ForgeConfig = {
     extraResource: [
       './assets'
     ],
-    appCategoryType: 'app-category-type=public.app-category.music',
+    appCategoryType: 'public.app-category.music',
   },
   rebuildConfig: {},
   makers: [
