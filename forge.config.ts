@@ -1,7 +1,7 @@
 import type { ForgeConfig } from '@electron-forge/shared-types';
 import { MakerAppImage } from 'electron-forge-maker-appimage';
 import { MakerPacman } from 'electron-forge-maker-pacman';
-// import { MakerFlatpak } from '@electron-forge/maker-flatpak';
+import { MakerFlatpak } from '@electron-forge/maker-flatpak';
 // import { MakerSnap } from '@electron-forge/maker-snap';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
@@ -28,14 +28,15 @@ const config: ForgeConfig = {
       },
     }), 
     new MakerPacman({}),
-    // new MakerFlatpak({
-    //   options: {
-    //     files: 
-    //     productName: "Deezer Enhanced",
-    //     icon: "./build/icon.svg",
-    //     categories: ["Audio"],
-    //   }
-    // }), 
+    new MakerFlatpak({
+      options: {
+        files: [],
+        id: "org.duzda.deezer-enhanced",
+        productName: "Deezer Enhanced",
+        icon: "./build/icon.svg",
+        categories: ["Audio"],
+      }
+    }), 
     // new MakerSnap({
     //   features: {
     //     audio: true,
