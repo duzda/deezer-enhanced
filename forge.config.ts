@@ -30,10 +30,40 @@ const config: ForgeConfig = {
     new MakerPacman({}),
     new MakerFlatpak({
       options: {
-        files: [],
+        files: [
+          ["build/icons/16x16.png","/share/icons/hicolor/16x16/apps/org.duzda.deezer-enhanced.png"],
+          ["build/icons/32x32.png","/share/icons/hicolor/32x32/apps/org.duzda.deezer-enhanced.png"],
+          ["build/icons/64x64.png","/share/icons/hicolor/64x64/apps/org.duzda.deezer-enhanced.png"],
+          ["build/icons/128x128.png","/share/icons/hicolor/128x128/apps/org.duzda.deezer-enhanced.png"],
+          ["build/icons/256x256.png","/share/icons/hicolor/256x256/apps/org.duzda.deezer-enhanced.png"],
+          ["build/icons/512x512.png","/share/icons/hicolor/512x512/apps/org.duzda.deezer-enhanced.png"]
+        ],
+        finishArgs: [
+            // Wayland Rendering
+            //"--socket=wayland",
+            //"--socket=fallback-x11",
+            // X Rendering
+            "--socket=x11",
+            "--share=ipc",
+            // Open GL
+            "--device=dri",
+            // Audio output
+            "--socket=pulseaudio",
+            // Read/write home directory access
+            "--filesystem=home",
+            // Chromium uses a socket in tmp for its singleton check
+            "--env=TMPDIR=/var/tmp",
+            // Allow communication with network
+            "--share=network",
+            // System notifications with libnotify
+            "--talk-name=org.freedesktop.Notifications",
+            // Override MPRIS name
+            "--own-name=org.mpris.MediaPlayer2.Deezer"
+        ],
         id: "org.duzda.deezer-enhanced",
         productName: "Deezer Enhanced",
-        icon: "./build/icon.svg",
+        // This doesn't work anyway
+        //icon: "build/icon.png",
         categories: ["Audio"],
       }
     }), 
