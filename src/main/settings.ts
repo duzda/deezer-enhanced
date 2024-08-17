@@ -24,6 +24,12 @@ const loadFromFile = async (file: string) => {
     if (!err) {
       currentSettings = JSON.parse(data);
 
+      Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
+        if (currentSettings[key as keyof Settings] === undefined) {
+          currentSettings[key as keyof Settings] = value as never;
+        }
+      });
+
       OnSet.enableTray(currentSettings.enableTray);
       OnSet.closeToTray(currentSettings.closeToTray);
       OnSet.deemixIntegration(currentSettings.deemixIntegration);
