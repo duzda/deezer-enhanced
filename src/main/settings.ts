@@ -24,11 +24,11 @@ const loadFromFile = async (file: string) => {
     if (!err) {
       currentSettings = JSON.parse(data);
 
+      OnSet.enableTray(currentSettings.enableTray);
       OnSet.closeToTray(currentSettings.closeToTray);
       OnSet.deemixIntegration(currentSettings.deemixIntegration);
-      OnSet.discordRPC(currentSettings.discordRPC);
-      OnSet.enableTray(currentSettings.enableTray);
       OnSet.volumePower(currentSettings.volumePower);
+      OnSet.discordRPC(currentSettings.discordRPC);
     }
   });
 };
