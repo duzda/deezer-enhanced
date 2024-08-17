@@ -32,6 +32,7 @@ const loadFromFile = async (file: string) => {
 
       OnSet.enableTray(currentSettings.enableTray);
       OnSet.closeToTray(currentSettings.closeToTray);
+      OnSet.enableNotifications(currentSettings.enableNotifications);
       OnSet.deemixIntegration(currentSettings.deemixIntegration);
       OnSet.volumePower(currentSettings.volumePower);
       OnSet.discordRPC(currentSettings.discordRPC);
@@ -95,6 +96,7 @@ export const initializeSettings = async (
       }
     },
     closeToTray: () => {},
+    enableNotifications: () => {},
     deemixIntegration: () => {},
     volumePower: () => {},
     discordRPC: (enabled) => {

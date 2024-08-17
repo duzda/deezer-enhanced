@@ -4,6 +4,7 @@ import { setVolumePower } from './injections/volume';
 const OnSet: Setters = {
   enableTray: () => {},
   closeToTray: () => {},
+  enableNotifications: () => {},
   deemixIntegration: () => {},
   volumePower: (newValue: number) => setVolumePower(newValue),
   discordRPC: () => {},
@@ -14,6 +15,7 @@ export const initializeSettings = async () => {
 
   OnSet.enableTray(settings.enableTray);
   OnSet.closeToTray(settings.closeToTray);
+  OnSet.enableNotifications(settings.enableNotifications);
   OnSet.deemixIntegration(settings.deemixIntegration);
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);

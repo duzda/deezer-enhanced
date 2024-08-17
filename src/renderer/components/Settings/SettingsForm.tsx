@@ -36,6 +36,18 @@ function SettingsForm(): React.JSX.Element {
           }}
         />
         <Switch
+          id="enable-notifications"
+          state={currentSettings.enableNotifications}
+          text="Enable notifications on song change"
+          onChange={(newValue) => {
+            setValue('enableNotifications', newValue);
+            setCurrentSettings({
+              ...currentSettings,
+              enableNotifications: newValue,
+            });
+          }}
+        />
+        <Switch
           id="deemix-integration"
           state={currentSettings.deemixIntegration}
           text="Enable Deemix integration"
