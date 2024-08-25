@@ -1,12 +1,14 @@
-function BackButton(): React.JSX.Element {
+type BackButtonProps = {
+  onClick: () => void;
+};
+
+function BackButton({ onClick }: BackButtonProps): React.JSX.Element {
   return (
     <button
       type="button"
       aria-label="Back"
       className="btn btn-sm btn-ghost"
-      onClick={() => {
-        window.renderer.historyAPI.goBack();
-      }}
+      onClick={onClick}
     >
       {/* ICON CREDITS: https://iconscout.com/icon/left-chevron */}
       <svg

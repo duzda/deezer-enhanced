@@ -1,15 +1,28 @@
 import DownloadButton from './Downloads/DownloadButton';
+import NotificationManager from './Downloads/NotificationManager';
+import { NotificationData } from './Downloads/notifications';
 import BackButton from './History/BackButton';
 import ForwardButton from './History/ForwardButton';
 import SettingsButton from './Settings/SettingsButton';
 
-function Navigation(): React.JSX.Element {
+type NavigationProps = {
+  notificationsQueue: NotificationData[];
+};
+
+function Navigation({
+  notificationsQueue,
+}: NavigationProps): React.JSX.Element {
   return (
     <nav className="navbar justify-between min-h-12">
       <div>
-        <BackButton />
+        <BackButton
+          onClick={() => {
+            window.renderer.historyAPI.goBack();
+          }}
+        />
         <ForwardButton />
       </div>
+      <NotificationManager notificationsQueue={notificationsQueue} />
       <div className="flex-row gap-4">
         <DownloadButton />
         <SettingsButton />

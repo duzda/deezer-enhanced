@@ -7,7 +7,6 @@ import {
   SETTINGS_RESET,
   SETTINGS_SET_PROPERTY,
   SETTINGS_SHOW,
-  SETTINGS_SWITCH,
 } from '../common/channels/settings';
 import { DEFAULT_SETTINGS, Settings, Setters } from '../common/types/settings';
 import { connectDiscord, disconnectDiscord } from './discord';
@@ -72,14 +71,12 @@ const createSettingsHandles = (window: BrowserWindow, view: BrowserView) => {
     currentSettings = DEFAULT_SETTINGS;
   });
 
-  ipcMain.on(SETTINGS_SWITCH, () => {
-    if (window.getBrowserView() === null) {
-      window.addBrowserView(view);
-      window.webContents.send(SETTINGS_HIDE);
-    } else {
-      window.removeBrowserView(view);
-      window.webContents.send(SETTINGS_SHOW);
-    }
+  ipcMain.on(SETTINGS_SHOW, () => {
+    window.removeBrowserView(view);
+  });
+
+  ipcMain.on(SETTINGS_HIDE, () => {
+    window.addBrowserView(view);
   });
 };
 

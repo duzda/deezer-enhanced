@@ -1,15 +1,30 @@
-import { Route, Routes, useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
+import { Route, Routes } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import SettingsPage from './pages/SettingsPage';
 import Navigation from './components/Navigation';
 import { currentSettingsAtom } from './states/atoms';
+import LogPage from './pages/LogPage';
+import LogNavigation from './components/LogNavigation';
+import { NotificationData } from './components/Downloads/notifications';
 
 import './index.css';
 
 function App(): React.JSX.Element {
-  const navigate = useNavigate();
   const setCurrentSettings = useSetRecoilState(currentSettingsAtom);
+  const [notificationsQueue] = useState<NotificationData[]>([]);
+
+  // This is a dirty hack, but we never want to register new callback more than once. We somehow need to
+  // update the array of notifications. React forces us to use setter function, which is bad, as it changes
+  // the pointer. We avoid this issue by flushing into a buffer array and poll from it later, this way we,
+  // never change the pointer, so no new callback ever gets registered.
+  useEffect(() => {
+    window.renderer.downloadsAPI.onDownloadFinished(
+      async (status, url, stdout, stderr) => {
+        notificationsQueue.push({ status, url, stdout, stderr });
+      }
+    );
+  }, [notificationsQueue]);
 
   useEffect(() => {
     document.addEventListener('keydown', (event) => {
@@ -25,16 +40,6 @@ function App(): React.JSX.Element {
   }, []);
 
   useEffect(() => {
-    window.renderer.settingsAPI.onShowSettings(() => {
-      navigate('/settings');
-    });
-
-    window.renderer.settingsAPI.onHideSettings(() => {
-      navigate('/');
-    });
-  }, [navigate]);
-
-  useEffect(() => {
     const updateSettings = async () => {
       setCurrentSettings(await window.renderer.settingsAPI.getSettings());
     };
@@ -44,10 +49,21 @@ function App(): React.JSX.Element {
 
   return (
     <div>
-      <Navigation />
+      <Routes>
+        <Route
+          index
+          element={<Navigation notificationsQueue={notificationsQueue} />}
+        />
+        <Route
+          path="settings"
+          element={<Navigation notificationsQueue={notificationsQueue} />}
+        />
+        <Route path="log" element={<LogNavigation />} />
+      </Routes>
       <Routes>
         <Route index element={null} />
         <Route path="settings" element={<SettingsPage />} />
+        <Route path="log" element={<LogPage />} />
       </Routes>
     </div>
   );

@@ -1,29 +1,55 @@
-import { exec } from 'child_process';
-import { BrowserView, app, ipcMain } from 'electron';
-import path from 'path';
-import { DOWNLOADS_DOWNLOAD } from '../common/channels/downloads';
+import { promisify } from 'util';
+import { ExecException, exec as execProcess } from 'child_process';
+import { BrowserView, BrowserWindow, ipcMain } from 'electron';
+import { ExecStatus, warningMessages } from '../common/types/deemix';
+import {
+  DOWNLOADS_DOWNLOAD,
+  DOWNLOADS_FINISHED,
+} from '../common/channels/downloads';
 
-const DEEMIX_ARL_FILE = path.join(app.getPath('appData'), 'deemix', '.arl');
-const DEEMIX_CONFIG_FILE = path.join(
-  app.getPath('appData'),
-  'deemix',
-  'config.json'
-);
+const exec = promisify(execProcess);
 
-const download = (url: string) => {
-  console.log(`DOWNLOADING ${url}`);
-  const downloadScript = exec(`deemix ${url}`);
+const containsWarning = (stdout: string) =>
+  stdout
+    .split('\n')
+    .some((l) => warningMessages.some((error) => l.endsWith(error)));
 
-  // downloadScript.on('close').
-  // downloadScript.stdout?.on('')
+const download = async (url: string, window: BrowserWindow) => {
+  try {
+    const { stdout, stderr } = await exec(`deemix ${url}`);
+    let execStatus: ExecStatus = 'Success';
+    if (containsWarning(stdout)) {
+      execStatus = 'Warning';
+    }
+
+    window.webContents.send(
+      DOWNLOADS_FINISHED,
+      execStatus,
+      url,
+      stdout,
+      stderr
+    );
+  } catch (e) {
+    const execException = e as ExecException;
+    window.webContents.send(
+      DOWNLOADS_FINISHED,
+      'Error',
+      url,
+      execException.stdout !== undefined ? execException.stdout : '',
+      execException.stderr !== undefined ? execException.stderr : ''
+    );
+  }
 };
 
-const createDownloadHandles = (view: BrowserView) => {
+const createDownloadHandles = (window: BrowserWindow, view: BrowserView) => {
   ipcMain.on(DOWNLOADS_DOWNLOAD, () => {
-    download(view.webContents.getURL());
+    download(view.webContents.getURL(), window);
   });
 };
 
-export const initializeDownloads = (view: BrowserView) => {
-  createDownloadHandles(view);
+export const initializeDownloads = (
+  window: BrowserWindow,
+  view: BrowserView
+) => {
+  createDownloadHandles(window, view);
 };

@@ -27,6 +27,24 @@ if (!gotTheLock) {
   const createWindow = () => {
     session.defaultSession.setUserAgent(USER_AGENT);
 
+    session.defaultSession.webRequest.onHeadersReceived((details, callback) => {
+      // To allow communication with the API we need to fill Access-Control-Allow-Origin, this is probably safe as CSP will block the rest?
+      if (
+        details.responseHeaders === undefined ||
+        (details.responseHeaders['Access-Control-Allow-Origin'] === undefined &&
+          details.responseHeaders['access-control-allow-origin'] === undefined)
+      ) {
+        callback({
+          responseHeaders: {
+            ...details.responseHeaders,
+            'Access-Control-Allow-Origin': ['*'],
+          },
+        });
+      } else {
+        callback(details);
+      }
+    });
+
     contextMenu(contextMenuPreset);
 
     const mainWindow = new BrowserWindow({
@@ -64,7 +82,7 @@ if (!gotTheLock) {
     loadBounds(mainWindow);
     initializeSettings(mainWindow, view);
     initializePlayer(view);
-    initializeDownloads(view);
+    initializeDownloads(mainWindow, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
 

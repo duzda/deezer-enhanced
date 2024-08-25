@@ -1,7 +1,16 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useRecoilState } from 'recoil';
+import { useNavigate } from 'react-router-dom';
+import { viewExpandedAtom } from '../../states/atoms';
 
 function SettingsButton(): React.JSX.Element {
-  const [svgClass, setSvgClass] = useState('fill-primary');
+  const navigate = useNavigate();
+  const [svgClass, setSvgClass] = useState('fill-secondary');
+  const [viewExpanded, setViewExpanded] = useRecoilState(viewExpandedAtom);
+
+  useEffect(() => {
+    setSvgClass(viewExpanded ? 'fill-secondary' : 'fill-primary');
+  }, [viewExpanded]);
 
   return (
     <button
@@ -9,10 +18,15 @@ function SettingsButton(): React.JSX.Element {
       aria-label="Settings"
       className="btn btn-sm btn-ghost btn-circle"
       onClick={() => {
-        window.renderer.settingsAPI.switchSettings();
-        setSvgClass(
-          svgClass === 'fill-primary' ? 'fill-secondary' : 'fill-primary'
-        );
+        if (viewExpanded) {
+          window.renderer.settingsAPI.hideSettings();
+          navigate('/');
+        } else {
+          window.renderer.settingsAPI.showSettings();
+          navigate('/settings');
+        }
+
+        setViewExpanded(!viewExpanded);
       }}
     >
       {/* ICON CREDITS: https://icons8.com/icon/90568/support */}

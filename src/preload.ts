@@ -6,12 +6,15 @@ import {
   SETTINGS_RESET,
   SETTINGS_SET_PROPERTY,
   SETTINGS_SHOW,
-  SETTINGS_SWITCH,
 } from './common/channels/settings';
 import { Settings } from './common/types/settings';
-import { DOWNLOADS_DOWNLOAD } from './common/channels/downloads';
+import {
+  DOWNLOADS_DOWNLOAD,
+  DOWNLOADS_FINISHED,
+} from './common/channels/downloads';
 import { KEYBOARD_SEND_KEYPRESS } from './common/channels/keyboard';
 import { SerializedKeyboardEvent } from './common/types/serializedKeyboardEvent';
+import { ExecStatus } from './common/types/deemix';
 
 export const historyAPI = {
   goForward: () => ipcRenderer.send(HISTORY_GO_FORWARD),
@@ -20,6 +23,20 @@ export const historyAPI = {
 
 export const downloadsAPI = {
   download: () => ipcRenderer.send(DOWNLOADS_DOWNLOAD),
+  onDownloadFinished: (
+    callback: (
+      status: ExecStatus,
+      url: string,
+      stdout: string,
+      stderr: string
+    ) => void
+  ) => {
+    ipcRenderer.on(
+      DOWNLOADS_FINISHED,
+      (_, status: ExecStatus, url: string, stdout: string, stderr: string) =>
+        callback(status, url, stdout, stderr)
+    );
+  },
 };
 
 export const settingsAPI = {
@@ -27,11 +44,8 @@ export const settingsAPI = {
   setSettingProperty: (key: string, value: unknown) =>
     ipcRenderer.send(SETTINGS_SET_PROPERTY, key, value),
   resetSettings: () => ipcRenderer.send(SETTINGS_RESET),
-  switchSettings: () => ipcRenderer.send(SETTINGS_SWITCH),
-  onShowSettings: (callback: () => void) =>
-    ipcRenderer.on(SETTINGS_SHOW, () => callback()),
-  onHideSettings: (callback: () => void) =>
-    ipcRenderer.on(SETTINGS_HIDE, () => callback()),
+  showSettings: () => ipcRenderer.send(SETTINGS_SHOW),
+  hideSettings: () => ipcRenderer.send(SETTINGS_HIDE),
 };
 
 export const keyboardAPI = {
