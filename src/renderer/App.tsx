@@ -37,6 +37,10 @@ function App(): React.JSX.Element {
         metaKey: event.metaKey,
       });
     });
+
+    window.renderer.notificationsAPI.onNotificationCreate(
+      (title, body, icon) => new Notification(title, { body, icon })
+    );
   }, []);
 
   useEffect(() => {

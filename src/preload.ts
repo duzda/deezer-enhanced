@@ -15,6 +15,7 @@ import {
 import { KEYBOARD_SEND_KEYPRESS } from './common/channels/keyboard';
 import { SerializedKeyboardEvent } from './common/types/serializedKeyboardEvent';
 import { ExecStatus } from './common/types/deemix';
+import { NOTIFICATIONS_CREATE } from './common/channels/notifications';
 
 export const historyAPI = {
   goForward: () => ipcRenderer.send(HISTORY_GO_FORWARD),
@@ -53,9 +54,22 @@ export const keyboardAPI = {
     ipcRenderer.send(KEYBOARD_SEND_KEYPRESS, event),
 };
 
+export const notificationsAPI = {
+  onNotificationCreate: (
+    callback: (title: string, body: string, icon: string) => void
+  ) => {
+    ipcRenderer.on(
+      NOTIFICATIONS_CREATE,
+      (_, title: string, body: string, icon: string) =>
+        callback(title, body, icon)
+    );
+  },
+};
+
 contextBridge.exposeInMainWorld('renderer', {
   historyAPI,
   downloadsAPI,
   settingsAPI,
   keyboardAPI,
+  notificationsAPI,
 });

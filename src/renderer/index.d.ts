@@ -1,4 +1,10 @@
-import { downloadsAPI, historyAPI, keyboardAPI, settingsAPI } from '../preload';
+import {
+  downloadsAPI,
+  historyAPI,
+  keyboardAPI,
+  notificationsAPI,
+  settingsAPI,
+} from '../preload';
 
 declare global {
   interface Window {
@@ -7,6 +13,7 @@ declare global {
       downloadsAPI: typeof downloadsAPI;
       settingsAPI: typeof settingsAPI;
       keyboardAPI: typeof keyboardAPI;
+      notificationsAPI: typeof notificationsAPI;
     };
   }
 }

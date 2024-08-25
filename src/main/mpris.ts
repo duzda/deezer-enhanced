@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import Player from 'mpris-service';
 import { Episode, Song } from 'src/common/types/deezer';
-import { BrowserView, ipcMain, Notification } from 'electron';
+import { BrowserView, BrowserWindow, ipcMain } from 'electron';
 import {
   MPRIS_NEXT_SONG,
   MPRIS_PAUSE,
@@ -28,6 +28,7 @@ import {
 } from './utils/urls';
 import { isDiscordEnabled, setDiscordActivity } from './discord';
 import { getSettings } from './settings';
+import { NOTIFICATIONS_CREATE } from '../common/channels/notifications';
 
 let songId = '';
 
@@ -107,7 +108,7 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
   };
 };
 
-const createMprisListeners = (player: Player) => {
+const createMprisListeners = (player: Player, window: BrowserWindow) => {
   ipcMain.on(MPRIS_READ_SONG, (_, data) => {
     if (!data) return;
     if (data.SNG_ID) {
@@ -128,14 +129,15 @@ const createMprisListeners = (player: Player) => {
       }
 
       if (getSettings().enableNotifications && songData.SNG_ID !== songId) {
-        new Notification({
-          title: songData.SNG_TITLE,
-          body: songData.ART_NAME,
-          icon:
-            DEEZER_SONG_ART_URL +
+        window.webContents.send(
+          NOTIFICATIONS_CREATE,
+          songData.SNG_TITLE,
+          songData.ART_NAME,
+          DEEZER_SONG_ART_URL +
             songData.ALB_PICTURE +
-            DEEZER_NOTIFICATION_RESOLUTION,
-        }).show();
+            DEEZER_NOTIFICATION_RESOLUTION
+        );
+
         songId = songData.SNG_ID;
       }
     } else if (data.EPISODE_ID) {
@@ -159,14 +161,15 @@ const createMprisListeners = (player: Player) => {
         getSettings().enableNotifications &&
         episodeData.EPISODE_ID !== songId
       ) {
-        new Notification({
-          title: episodeData.EPISODE_TITLE,
-          body: episodeData.SHOW_NAME,
-          icon:
-            DEEZER_SONG_ART_URL +
+        window.webContents.send(
+          NOTIFICATIONS_CREATE,
+          episodeData.EPISODE_TITLE,
+          episodeData.SHOW_NAME,
+          DEEZER_SONG_ART_URL +
             episodeData.SHOW_ART_MD5 +
-            DEEZER_NOTIFICATION_RESOLUTION,
-        }).show();
+            DEEZER_NOTIFICATION_RESOLUTION
+        );
+
         songId = episodeData.EPISODE_ID;
       }
     }
@@ -191,7 +194,7 @@ const createMprisListeners = (player: Player) => {
   });
 };
 
-export const initializePlayer = (view: BrowserView) => {
+export const initializePlayer = (window: BrowserWindow, view: BrowserView) => {
   const player = new Player({
     name: 'Deezer',
     identity: 'Deezer media player',
@@ -213,6 +216,6 @@ export const initializePlayer = (view: BrowserView) => {
     return player.playbackStatus === Player.PLAYBACK_STATUS_PLAYING;
   };
 
-  createMprisListeners(player);
+  createMprisListeners(player, window);
   createMprisHandles(player, view);
 };
