@@ -165,7 +165,7 @@ const createMprisListeners = (player: Player, window: BrowserWindow) => {
           NOTIFICATIONS_CREATE,
           episodeData.EPISODE_TITLE,
           episodeData.SHOW_NAME,
-          DEEZER_SONG_ART_URL +
+          DEEZER_EPISODE_ART_URL +
             episodeData.SHOW_ART_MD5 +
             DEEZER_NOTIFICATION_RESOLUTION
         );
