@@ -1,4 +1,4 @@
-import { BrowserView, BrowserWindow, app, ipcMain } from 'electron';
+import { BaseWindow, WebContentsView, app, ipcMain } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -50,7 +50,7 @@ const saveToFile = async (file: string) => {
   );
 };
 
-const createSettingsHandles = (window: BrowserWindow, view: BrowserView) => {
+const createSettingsHandles = (window: BaseWindow, view: WebContentsView) => {
   ipcMain.handle(SETTINGS_GET, () => {
     return currentSettings;
   });
@@ -72,17 +72,17 @@ const createSettingsHandles = (window: BrowserWindow, view: BrowserView) => {
   });
 
   ipcMain.on(SETTINGS_SHOW, () => {
-    window.removeBrowserView(view);
+    window.contentView.removeChildView(view);
   });
 
   ipcMain.on(SETTINGS_HIDE, () => {
-    window.addBrowserView(view);
+    window.contentView.addChildView(view);
   });
 };
 
 export const initializeSettings = async (
-  window: BrowserWindow,
-  view: BrowserView
+  window: BaseWindow,
+  view: WebContentsView
 ) => {
   OnSet = {
     enableTray: (enabled) => {

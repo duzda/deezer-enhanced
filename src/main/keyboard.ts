@@ -1,4 +1,4 @@
-import { BrowserView, ipcMain } from 'electron';
+import { WebContentsView, ipcMain } from 'electron';
 import { SerializedKeyboardEvent } from 'src/common/types/serializedKeyboardEvent';
 import { KEYBOARD_SEND_KEYPRESS } from '../common/channels/keyboard';
 
@@ -21,7 +21,7 @@ type KeyModifiers = (
   | 'numLock'
 )[];
 
-export const createKeyboardHandles = (view: BrowserView) => {
+export const createKeyboardHandles = (view: WebContentsView) => {
   ipcMain.on(
     KEYBOARD_SEND_KEYPRESS,
     async (_, event: SerializedKeyboardEvent) => {

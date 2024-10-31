@@ -1,4 +1,4 @@
-import { BrowserWindow, app, screen } from 'electron';
+import { BaseWindow, app, screen } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import { env } from 'process';
@@ -19,7 +19,7 @@ const loadFromFile = async (file: string) => {
   }
 };
 
-export const loadBounds = async (window: BrowserWindow) => {
+export const loadBounds = async (window: BaseWindow) => {
   let bounds = await loadFromFile(BOUNDS_FILE);
 
   if (isSteamDeck()) {
@@ -41,7 +41,7 @@ export const loadBounds = async (window: BrowserWindow) => {
   window.show();
 };
 
-export const saveBounds = (window: BrowserWindow) => {
+export const saveBounds = (window: BaseWindow) => {
   const newBounds: Bounds = {
     bounds: window.getBounds(),
     maximized: window.isMaximized(),

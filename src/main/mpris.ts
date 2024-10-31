@@ -1,7 +1,7 @@
 /* eslint-disable no-param-reassign */
 import Player from 'mpris-service';
 import { Episode, Song } from 'src/common/types/deezer';
-import { BrowserView, BrowserWindow, ipcMain } from 'electron';
+import { ipcMain, WebContentsView } from 'electron';
 import {
   MPRIS_NEXT_SONG,
   MPRIS_PAUSE,
@@ -37,7 +37,7 @@ let songOffset = 0;
 
 const status = ['None', 'Playlist', 'Track'];
 
-const createMprisHandles = (player: Player, view: BrowserView) => {
+const createMprisHandles = (player: Player, view: WebContentsView) => {
   player.on('quit', () => {
     process.exit();
   });
@@ -108,7 +108,7 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
   };
 };
 
-const createMprisListeners = (player: Player, window: BrowserWindow) => {
+const createMprisListeners = (player: Player, view: WebContentsView) => {
   ipcMain.on(MPRIS_READ_SONG, (_, data) => {
     if (!data) return;
     if (data.SNG_ID) {
@@ -129,7 +129,7 @@ const createMprisListeners = (player: Player, window: BrowserWindow) => {
       }
 
       if (getSettings().enableNotifications && songData.SNG_ID !== songId) {
-        window.webContents.send(
+        view.webContents.send(
           NOTIFICATIONS_CREATE,
           songData.SNG_TITLE,
           songData.ART_NAME,
@@ -161,7 +161,7 @@ const createMprisListeners = (player: Player, window: BrowserWindow) => {
         getSettings().enableNotifications &&
         episodeData.EPISODE_ID !== songId
       ) {
-        window.webContents.send(
+        view.webContents.send(
           NOTIFICATIONS_CREATE,
           episodeData.EPISODE_TITLE,
           episodeData.SHOW_NAME,
@@ -194,7 +194,7 @@ const createMprisListeners = (player: Player, window: BrowserWindow) => {
   });
 };
 
-export const initializePlayer = (window: BrowserWindow, view: BrowserView) => {
+export const initializePlayer = (view: WebContentsView) => {
   const player = new Player({
     name: 'Deezer',
     identity: 'Deezer media player',
@@ -216,6 +216,6 @@ export const initializePlayer = (window: BrowserWindow, view: BrowserView) => {
     return player.playbackStatus === Player.PLAYBACK_STATUS_PLAYING;
   };
 
-  createMprisListeners(player, window);
+  createMprisListeners(player, view);
   createMprisHandles(player, view);
 };

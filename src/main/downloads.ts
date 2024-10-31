@@ -1,6 +1,6 @@
 import { promisify } from 'util';
 import { ExecException, exec as execProcess } from 'child_process';
-import { BrowserView, BrowserWindow, ipcMain } from 'electron';
+import { ipcMain, WebContentsView } from 'electron';
 import { ExecStatus, warningMessages } from '../common/types/deemix';
 import {
   DOWNLOADS_DOWNLOAD,
@@ -14,7 +14,7 @@ const containsWarning = (stdout: string) =>
     .split('\n')
     .some((l) => warningMessages.some((error) => l.endsWith(error)));
 
-const download = async (url: string, window: BrowserWindow) => {
+const download = async (url: string, view: WebContentsView) => {
   try {
     const { stdout, stderr } = await exec(`deemix ${url}`);
     let execStatus: ExecStatus = 'Success';
@@ -22,16 +22,10 @@ const download = async (url: string, window: BrowserWindow) => {
       execStatus = 'Warning';
     }
 
-    window.webContents.send(
-      DOWNLOADS_FINISHED,
-      execStatus,
-      url,
-      stdout,
-      stderr
-    );
+    view.webContents.send(DOWNLOADS_FINISHED, execStatus, url, stdout, stderr);
   } catch (e) {
     const execException = e as ExecException;
-    window.webContents.send(
+    view.webContents.send(
       DOWNLOADS_FINISHED,
       'Error',
       url,
@@ -41,15 +35,12 @@ const download = async (url: string, window: BrowserWindow) => {
   }
 };
 
-const createDownloadHandles = (window: BrowserWindow, view: BrowserView) => {
+const createDownloadHandles = (view: WebContentsView) => {
   ipcMain.on(DOWNLOADS_DOWNLOAD, () => {
-    download(view.webContents.getURL(), window);
+    download(view.webContents.getURL(), view);
   });
 };
 
-export const initializeDownloads = (
-  window: BrowserWindow,
-  view: BrowserView
-) => {
-  createDownloadHandles(window, view);
+export const initializeDownloads = (view: WebContentsView) => {
+  createDownloadHandles(view);
 };

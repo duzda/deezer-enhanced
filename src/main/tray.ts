@@ -1,4 +1,4 @@
-import { BrowserView, BrowserWindow, Menu, Tray, app } from 'electron';
+import { BaseWindow, Menu, Tray, WebContentsView, app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import {
@@ -31,7 +31,7 @@ export const destroyTray = () => {
   }
 };
 
-export const initializeTray = (window: BrowserWindow, view: BrowserView) => {
+export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
   fs.access(USER_TRAY_ICON, (err) => {
     const trayIcon = err ? DEFAULT_TRAY_ICON : USER_TRAY_ICON;
     tray = new Tray(trayIcon);
