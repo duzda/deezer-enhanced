@@ -19,7 +19,12 @@ export const connectDiscord = async () => {
     transport: 'ipc',
   });
 
-  await client.login({ clientId: CLIENT_ID });
+  try {
+    await client.login({ clientId: CLIENT_ID });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.warn('Discord is not running, unable to connect.');
+  }
 };
 
 export const disconnectDiscord = async () => {
@@ -41,14 +46,19 @@ export const setDiscordActivity = async (
   }
 
   if (typeof client !== 'undefined') {
-    await client.setActivity({
-      details: title,
-      state: artist,
-      startTimestamp: isPlaying ? Date.now() - position : undefined,
-      largeImageKey: coverImage,
-      largeImageText: album,
-      smallImageKey: isPlaying ? PLAY_ICON : PAUSE_ICON,
-      smallImageText: isPlaying ? PLAYING_STRING : PAUSED_STRING,
-    });
+    try {
+      await client.setActivity({
+        details: title,
+        state: artist,
+        startTimestamp: isPlaying ? Date.now() - position : undefined,
+        largeImageKey: coverImage,
+        largeImageText: album,
+        smallImageKey: isPlaying ? PLAY_ICON : PAUSE_ICON,
+        smallImageText: isPlaying ? PLAYING_STRING : PAUSED_STRING,
+      });
+    } catch {
+      // eslint-disable-next-line no-console
+      console.warn('Discord is not running, unable to change activity.');
+    }
   }
 };
