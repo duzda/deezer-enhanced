@@ -47,6 +47,32 @@ if (!gotTheLock) {
       }
     });
 
+    const hostWhitelist = [
+      'deezer.com',
+      'dzcdn.net',
+      'edgecastcdn.net',
+
+      // for login recaptcha
+      'google.com',
+      'gstatic.com',
+    ];
+
+    session.defaultSession.webRequest.onBeforeRequest(
+      { urls: ['*://*/*'] },
+      (details, callback) => {
+        const url = new URL(details.url);
+
+        for (let i = 0; i < hostWhitelist.length; i += 1) {
+          const w = hostWhitelist[i];
+          if (url.hostname === w || url.hostname.endsWith(`.${w}`)) {
+            callback({ cancel: false });
+            return;
+          }
+        }
+        callback({ cancel: true });
+      }
+    );
+
     const mainWindow = new BaseWindow({
       width: 800,
       height: 600,

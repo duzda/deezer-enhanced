@@ -14,6 +14,7 @@ An unofficial application for Deezer with enhanced features.
 - Discord Rich Presence
 - Support for Steamdeck
 - Automatic dark mode switching
+- Adblocking
 
 # Where to get the app
 
