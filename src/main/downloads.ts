@@ -14,7 +14,7 @@ const containsWarning = (stdout: string) =>
     .split('\n')
     .some((l) => warningMessages.some((error) => l.endsWith(error)));
 
-const download = async (url: string, view: WebContentsView) => {
+const download = async (url: string, mainView: WebContentsView) => {
   try {
     const { stdout, stderr } = await exec(`deemix ${url}`);
     let execStatus: ExecStatus = 'Success';
@@ -22,10 +22,16 @@ const download = async (url: string, view: WebContentsView) => {
       execStatus = 'Warning';
     }
 
-    view.webContents.send(DOWNLOADS_FINISHED, execStatus, url, stdout, stderr);
+    mainView.webContents.send(
+      DOWNLOADS_FINISHED,
+      execStatus,
+      url,
+      stdout,
+      stderr
+    );
   } catch (e) {
     const execException = e as ExecException;
-    view.webContents.send(
+    mainView.webContents.send(
       DOWNLOADS_FINISHED,
       'Error',
       url,
@@ -35,12 +41,18 @@ const download = async (url: string, view: WebContentsView) => {
   }
 };
 
-const createDownloadHandles = (view: WebContentsView) => {
+const createDownloadHandles = (
+  mainView: WebContentsView,
+  view: WebContentsView
+) => {
   ipcMain.on(DOWNLOADS_DOWNLOAD, () => {
-    download(view.webContents.getURL(), view);
+    download(view.webContents.getURL(), mainView);
   });
 };
 
-export const initializeDownloads = (view: WebContentsView) => {
-  createDownloadHandles(view);
+export const initializeDownloads = (
+  mainView: WebContentsView,
+  view: WebContentsView
+) => {
+  createDownloadHandles(mainView, view);
 };

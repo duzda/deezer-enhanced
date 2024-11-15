@@ -137,7 +137,7 @@ if (!gotTheLock) {
     loadBounds(mainWindow);
     initializeSettings(mainWindow, view);
     initializePlayer(view);
-    initializeDownloads(view);
+    initializeDownloads(mainView, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
 
