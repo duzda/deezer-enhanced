@@ -21,6 +21,33 @@ const USER_AGENT =
 
 const gotTheLock = app.requestSingleInstanceLock();
 
+const hostWhitelist = [
+  'deezer.com',
+  'dzcdn.net',
+  'edgecastcdn.net',
+
+  // Login recaptcha
+  'google.com',
+  'gstatic.com',
+
+  // Social logins
+  'appleid.cdn-apple.com',
+  'connect.facebook.net',
+  'appleid.apple.com',
+
+  // Social pages
+  'apple.com',
+  'facebook.com',
+  'accounts.youtube.com',
+
+  // Socials content
+  'static.xx.fbcdn.net',
+  'lh3.googleusercontent.com',
+  'is1-ssl.mzstatic.com',
+
+  'localhost',
+];
+
 if (!gotTheLock) {
   app.quit();
 } else {
@@ -47,24 +74,14 @@ if (!gotTheLock) {
       }
     });
 
-    const hostWhitelist = [
-      'deezer.com',
-      'dzcdn.net',
-      'edgecastcdn.net',
-
-      // for login recaptcha
-      'google.com',
-      'gstatic.com',
-    ];
-
     session.defaultSession.webRequest.onBeforeRequest(
       { urls: ['*://*/*'] },
       (details, callback) => {
         const url = new URL(details.url);
 
         for (let i = 0; i < hostWhitelist.length; i += 1) {
-          const w = hostWhitelist[i];
-          if (url.hostname === w || url.hostname.endsWith(`.${w}`)) {
+          const host = hostWhitelist[i];
+          if (url.hostname === host || url.hostname.endsWith(`.${host}`)) {
             callback({ cancel: false });
             return;
           }
