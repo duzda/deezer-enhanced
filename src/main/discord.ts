@@ -29,7 +29,12 @@ export const connectDiscord = async () => {
 
 export const disconnectDiscord = async () => {
   if (typeof client !== 'undefined') {
-    await client.destroy();
+    try {
+      await client.destroy();
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.warn('Discord is already disconnected.');
+    }
   }
 };
 
