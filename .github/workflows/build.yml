@@ -30,6 +30,9 @@ jobs:
         env: 
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Repack pacman
+        run: bash pacman-repack.sh ${{ steps.package-version.outputs.current-version }}
+
       - name: Create draft release
         id: create_release
         uses: softprops/action-gh-release@v1
