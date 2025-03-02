@@ -15,6 +15,11 @@ import { initializePlayer } from './main/mpris';
 import { createKeyboardHandles } from './main/keyboard';
 import { DEEZER_URL } from './main/utils/urls';
 import { generateMenu } from './main/menu';
+import {
+  DEFAULT_HEIGHT,
+  DEFAULT_WIDTH,
+  NAVBAR_HEIGHT,
+} from './main/utils/size';
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
@@ -91,8 +96,8 @@ if (!gotTheLock) {
     );
 
     const mainWindow = new BaseWindow({
-      width: 800,
-      height: 600,
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT,
       autoHideMenuBar: true,
       show: false,
       icon: path.join(
@@ -116,7 +121,12 @@ if (!gotTheLock) {
       );
     }
 
-    mainView.setBounds({ x: 0, y: 0, width: 800, height: 600 });
+    mainView.setBounds({
+      x: 0,
+      y: 0,
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT,
+    });
 
     mainView.webContents.on('context-menu', (_, properties) => {
       generateMenu(mainView, properties).popup({
@@ -131,7 +141,12 @@ if (!gotTheLock) {
       },
     });
 
-    view.setBounds({ x: 0, y: 48, width: 800, height: 552 });
+    view.setBounds({
+      x: 0,
+      y: NAVBAR_HEIGHT,
+      width: DEFAULT_WIDTH,
+      height: DEFAULT_HEIGHT - NAVBAR_HEIGHT,
+    });
     view.webContents.loadURL(DEEZER_URL);
 
     loadBounds(mainWindow);
@@ -168,9 +183,9 @@ if (!gotTheLock) {
       });
       view.setBounds({
         x: 0,
-        y: 48,
+        y: NAVBAR_HEIGHT,
         width: mainWindow.getBounds().width,
-        height: mainWindow.getBounds().height - 48,
+        height: mainWindow.getBounds().height - NAVBAR_HEIGHT,
       });
     });
 
