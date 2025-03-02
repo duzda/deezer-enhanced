@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-import Player from 'mpris-service';
+import Player from '@jellybrick/mpris-service';
 import { Episode, Song } from 'src/common/types/deezer';
 import { ipcMain, WebContentsView } from 'electron';
 import {
@@ -195,7 +195,7 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
 };
 
 export const initializePlayer = (view: WebContentsView) => {
-  const player = new Player({
+  const player: Player = new Player({
     name: 'Deezer',
     identity: 'Deezer media player',
     supportedUriSchemes: [],

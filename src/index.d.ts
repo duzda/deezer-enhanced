@@ -1,6 +1,6 @@
 /* eslint-disable max-classes-per-file */
 
-declare module 'mpris-service';
+declare module '@jellybrick/mpris-service';
 // source: https://github.com/topsuperdev/hifi_tidal
 
 declare class InitOptions {
