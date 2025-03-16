@@ -84,13 +84,18 @@ if (!gotTheLock) {
       (details, callback) => {
         const url = new URL(details.url);
 
-        for (let i = 0; i < hostWhitelist.length; i += 1) {
-          const host = hostWhitelist[i];
-          if (url.hostname === host || url.hostname.endsWith(`.${host}`)) {
-            callback({ cancel: false });
-            return;
-          }
+        if (
+          // Allow braze sync to avoid offline message
+          (url.hostname.endsWith('braze.com') &&
+            url.pathname.endsWith('/sync')) ||
+          hostWhitelist.some(
+            (host) => url.hostname === host || url.hostname.endsWith(host)
+          )
+        ) {
+          callback({ cancel: false });
+          return;
         }
+
         callback({ cancel: true });
       }
     );
