@@ -31,6 +31,9 @@ const hostWhitelist = [
   'dzcdn.net',
   'edgecastcdn.net',
 
+  // Think of how to intercept communication in a nice way
+  'braze.com',
+
   // Login recaptcha
   'google.com',
   'gstatic.com',
@@ -84,14 +87,7 @@ if (!gotTheLock) {
       (details, callback) => {
         const url = new URL(details.url);
 
-        if (
-          // Allow braze sync to avoid offline message
-          (url.hostname.endsWith('braze.com') &&
-            url.pathname.endsWith('/sync')) ||
-          hostWhitelist.some(
-            (host) => url.hostname === host || url.hostname.endsWith(host)
-          )
-        ) {
+        if (hostWhitelist.some((host) => url.hostname.endsWith(host))) {
           callback({ cancel: false });
           return;
         }
