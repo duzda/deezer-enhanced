@@ -1,4 +1,4 @@
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import {
   DEFAULT_SETTINGS,
   SettingsProperties,
@@ -11,12 +11,11 @@ const setValue = (key: SettingsProperties, value: unknown) =>
   window.renderer.settingsAPI.setSettingProperty(key, value);
 
 function SettingsForm(): React.JSX.Element {
-  const [currentSettings, setCurrentSettings] =
-    useRecoilState(currentSettingsAtom);
+  const [currentSettings, setCurrentSettings] = useAtom(currentSettingsAtom);
 
   return (
     <div className="flex flex-row">
-      <div className="min-w-96 w-4/5 mx-auto my-8 flex flex-col gap-4 bg-base-200 p-8 rounded-md border-2 border-neutral">
+      <div className="min-w-96 w-4/5 mx-auto my-8 flex flex-col gap-8 bg-base-200 p-8 rounded-md border-2 border-neutral">
         <Switch
           id="enable-tray"
           state={currentSettings.enableTray}
@@ -82,7 +81,7 @@ function SettingsForm(): React.JSX.Element {
         />
         <button
           type="button"
-          className="font-bold text-primary"
+          className="cursor-pointer font-bold text-primary"
           onClick={() => {
             setCurrentSettings({ ...DEFAULT_SETTINGS });
             window.renderer.settingsAPI.resetSettings();

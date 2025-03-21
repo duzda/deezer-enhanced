@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import { viewExpandedAtom } from '../../states/atoms';
 
 function SettingsButton(): React.JSX.Element {
   const navigate = useNavigate();
   const [svgClass, setSvgClass] = useState('fill-secondary');
-  const [viewExpanded, setViewExpanded] = useRecoilState(viewExpandedAtom);
+  const [viewExpanded, setViewExpanded] = useAtom(viewExpandedAtom);
 
   useEffect(() => {
     setSvgClass(viewExpanded ? 'fill-secondary' : 'fill-primary');

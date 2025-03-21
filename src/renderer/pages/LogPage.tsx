@@ -1,4 +1,4 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { ExecStatus } from 'src/common/types/deemix';
 import LogDisplay from '../components/LogDisplay';
 import { currentLogAtom } from '../states/atoms';
@@ -35,7 +35,7 @@ const getContents = (
 };
 
 function LogPage(): React.JSX.Element {
-  const currentLog = useRecoilValue(currentLogAtom);
+  const currentLog = useAtomValue(currentLogAtom);
 
   return (
     <div className="mx-8">

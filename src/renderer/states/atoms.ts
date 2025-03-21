@@ -1,31 +1,19 @@
-import { atom } from 'recoil';
+import { atom } from 'jotai';
 import { DEFAULT_SETTINGS, Settings } from '../../common/types/settings';
 import {
   DownloadNotificationDisplayData,
   DownloadObject,
 } from '../components/Downloads/notifications';
 
-export const currentSettingsAtom = atom<Settings>({
-  key: 'settings',
-  default: DEFAULT_SETTINGS,
-});
+export const currentSettingsAtom = atom<Settings>(DEFAULT_SETTINGS);
 
 export const currentLogAtom = atom<DownloadNotificationDisplayData>({
-  key: 'log',
-  default: {
-    status: 'Success',
-    display: '',
-    stdout: '',
-    stderr: '',
-  },
+  status: 'Success',
+  display: '',
+  stdout: '',
+  stderr: '',
 });
 
-export const currentNotificationsAtom = atom<DownloadObject[]>({
-  key: 'notifications',
-  default: [],
-});
+export const currentNotificationsAtom = atom<DownloadObject[]>([]);
 
-export const viewExpandedAtom = atom<boolean>({
-  key: 'view-expanded',
-  default: false,
-});
+export const viewExpandedAtom = atom<boolean>(false);

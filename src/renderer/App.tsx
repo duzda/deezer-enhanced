@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useSetAtom } from 'jotai';
 import SettingsPage from './pages/SettingsPage';
 import Navigation from './components/Navigation';
 import { currentSettingsAtom } from './states/atoms';
@@ -11,7 +11,7 @@ import { NotificationData } from './components/Downloads/notifications';
 import './index.css';
 
 function App(): React.JSX.Element {
-  const setCurrentSettings = useSetRecoilState(currentSettingsAtom);
+  const setCurrentSettings = useSetAtom(currentSettingsAtom);
   const [notificationsQueue] = useState<NotificationData[]>([]);
 
   // This is a dirty hack, but we never want to register new callback more than once. We somehow need to

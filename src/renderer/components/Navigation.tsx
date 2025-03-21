@@ -23,7 +23,7 @@ function Navigation({
         <ForwardButton />
       </div>
       <NotificationManager notificationsQueue={notificationsQueue} />
-      <div className="flex-row gap-4">
+      <div className="flex flex-row gap-4">
         <DownloadButton />
         <SettingsButton />
       </div>

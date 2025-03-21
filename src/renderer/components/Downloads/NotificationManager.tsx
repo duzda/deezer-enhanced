@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useRecoilState } from 'recoil';
+import { useAtom } from 'jotai';
 import { DownloadNotification } from './DownloadNotification';
 import { fetchDisplayName, getContentType } from './deezer';
 import { DownloadObject, NotificationData } from './notifications';
@@ -54,7 +54,7 @@ type NotificationManagerProps = {
 function NotificationManager({
   notificationsQueue,
 }: NotificationManagerProps): React.JSX.Element {
-  const [notifications, setNotifications] = useRecoilState<DownloadObject[]>(
+  const [notifications, setNotifications] = useAtom<DownloadObject[]>(
     currentNotificationsAtom
   );
 

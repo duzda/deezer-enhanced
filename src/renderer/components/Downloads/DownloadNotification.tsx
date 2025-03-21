@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useAtom, useSetAtom } from 'jotai';
 import { useNavigate } from 'react-router-dom';
 import { currentLogAtom, viewExpandedAtom } from '../../states/atoms';
 import { ExecStatus } from '../../../common/types/deemix';
@@ -76,8 +76,8 @@ export function DownloadNotification({
   onClick,
 }: DownloadNotificationProps): React.JSX.Element {
   const navigate = useNavigate();
-  const setCurrentLog = useSetRecoilState(currentLogAtom);
-  const [viewExpanded, setViewExpanded] = useRecoilState(viewExpandedAtom);
+  const setCurrentLog = useSetAtom(currentLogAtom);
+  const [viewExpanded, setViewExpanded] = useAtom(viewExpandedAtom);
 
   const onLog = useCallback(() => {
     setCurrentLog({

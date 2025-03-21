@@ -7,9 +7,12 @@ type SwitchProps = {
 
 function Switch({ id, text, state, onChange }: SwitchProps): React.JSX.Element {
   return (
-    <div className="form-control">
-      <label htmlFor={id} className="label cursor-pointer">
-        <span className="label-text">{text}</span>
+    <div>
+      <label
+        htmlFor={id}
+        className="cursor-pointer flex flex-row justify-between "
+      >
+        <span className="label">{text}</span>
         <input
           id={id}
           type="checkbox"

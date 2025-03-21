@@ -1,8 +1,8 @@
-import { useRecoilValue } from 'recoil';
+import { useAtomValue } from 'jotai';
 import { currentSettingsAtom } from '../../states/atoms';
 
 function DownloadButton(): React.JSX.Element | null {
-  const currentSettings = useRecoilValue(currentSettingsAtom);
+  const currentSettings = useAtomValue(currentSettingsAtom);
 
   if (!currentSettings.deemixIntegration) return null;
 
