@@ -12,19 +12,22 @@ import './index.css';
 
 function App(): React.JSX.Element {
   const setCurrentSettings = useSetAtom(currentSettingsAtom);
-  const [notificationsQueue] = useState<NotificationData[]>([]);
 
-  // This is a dirty hack, but we never want to register new callback more than once. We somehow need to
-  // update the array of notifications. React forces us to use setter function, which is bad, as it changes
-  // the pointer. We avoid this issue by flushing into a buffer array and poll from it later, this way we,
-  // never change the pointer, so no new callback ever gets registered.
+  const [notificationsQueue, setNotificationsQueue] = useState<
+    NotificationData[]
+  >([]);
+
   useEffect(() => {
     window.renderer.downloadsAPI.onDownloadFinished(
       async (status, url, stdout, stderr) => {
-        notificationsQueue.push({ status, url, stdout, stderr });
+        setNotificationsQueue([
+          ...notificationsQueue,
+          { status, url, stdout, stderr },
+        ]);
       }
     );
-  }, [notificationsQueue]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setNotificationsQueue]);
 
   useEffect(() => {
     document.addEventListener('keydown', (event) => {

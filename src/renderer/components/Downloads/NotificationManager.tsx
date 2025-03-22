@@ -1,11 +1,9 @@
 import { useEffect } from 'react';
 import { useAtom } from 'jotai';
+import { currentNotificationsAtom } from '../../states/atoms';
 import { DownloadNotification } from './DownloadNotification';
 import { fetchDisplayName, getContentType } from './deezer';
 import { DownloadObject, NotificationData } from './notifications';
-import { currentNotificationsAtom } from '../../states/atoms';
-
-const POLLING_TIME = 5_000;
 
 const transformNotification = async ({
   status,
@@ -59,20 +57,13 @@ function NotificationManager({
   );
 
   useEffect(() => {
-    const timer = setInterval(async () => {
-      if (notificationsQueue.length === 0) return;
-      const len = notificationsQueue.length;
-      setNotifications([
-        ...notifications,
-        ...(await Promise.all(notificationsQueue.map(transformNotification))),
-      ]);
-      // We can't straight up set the length to 0, due to possibly adding
-      // a new element while we're waiting for the promise to resolve
-      notificationsQueue.splice(0, len);
-    }, POLLING_TIME);
-    return () => clearInterval(timer);
-    // notificationsQueue actually gets ignored, as we never change the pointer
-  }, [notifications, notificationsQueue, setNotifications]);
+    Promise.all(notificationsQueue.map(transformNotification)).then((n) =>
+      setNotifications([...notifications, ...n])
+    );
+    // eslint-disable-next-line no-param-reassign
+    notificationsQueue.length = 0;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [notificationsQueue]);
 
   return (
     <div className="fixed top-2 left-1/2 -translate-x-1/2 flex flex-row">
