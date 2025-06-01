@@ -91,5 +91,5 @@ typings/
 # Electron-Forge
 out/
 
-#nix build result
-./result
+# nix build result
+result
