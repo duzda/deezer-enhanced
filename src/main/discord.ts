@@ -55,7 +55,8 @@ export const setDiscordActivity = async (
       await client.setActivity({
         details: title,
         state: artist,
-        startTimestamp: isPlaying ? Date.now() - position : undefined,
+        startTimestamp: Date.now() - position,
+        endTimestamp: isPlaying ? undefined : Date.now(),
         largeImageKey: coverImage,
         largeImageText: album,
         smallImageKey: isPlaying ? PLAY_ICON : PAUSE_ICON,
