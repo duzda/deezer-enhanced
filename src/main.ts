@@ -31,9 +31,6 @@ const hostWhitelist = [
   'dzcdn.net',
   'edgecastcdn.net',
 
-  // Think of how to intercept communication in a nice way
-  'braze.com',
-
   // Login recaptcha
   'google.com',
   'gstatic.com',

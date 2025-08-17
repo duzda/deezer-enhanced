@@ -1,5 +1,6 @@
 import { initializeChromecast } from './injections/chromecast';
 import { initializeMpris } from './injections/mpris';
+import { initializeOfflineBanner } from './injections/offlinebanner';
 import { initializeThemeSwitcher } from './injections/themeswitcher';
 import { initializeVolumePower } from './injections/volume';
 import { initializeVolumeScroll } from './injections/volumeScroll';
@@ -8,6 +9,7 @@ import { ViewWindow } from './types';
 
 const onStartup = () => {
   setTimeout(() => {
+    initializeOfflineBanner();
     initializeMpris();
     initializeVolumePower();
     initializeVolumeScroll();
