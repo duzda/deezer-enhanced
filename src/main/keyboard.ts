@@ -12,13 +12,13 @@ type KeyModifiers = (
   | 'meta'
   | 'command'
   | 'cmd'
-  | 'isKeypad'
-  | 'isAutoRepeat'
-  | 'leftButtonDown'
-  | 'middleButtonDown'
-  | 'rightButtonDown'
-  | 'capsLock'
-  | 'numLock'
+  | 'iskeypad'
+  | 'isautorepeat'
+  | 'leftbuttondown'
+  | 'middlebuttondown'
+  | 'rightbuttondown'
+  | 'capslock'
+  | 'numlock'
 )[];
 
 export const createKeyboardHandles = (view: WebContentsView) => {
