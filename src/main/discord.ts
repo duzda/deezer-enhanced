@@ -1,14 +1,6 @@
-import { Client } from 'discord-rpc';
+import { ActivityType, Client } from 'discord-rpc';
 
 const CLIENT_ID = '1029062131326386256';
-
-const PLAY_ICON =
-  'https://raw.githubusercontent.com/duzda/deezer-enhanced/master/other/discord/playIcon.png';
-const PAUSE_ICON =
-  'https://raw.githubusercontent.com/duzda/deezer-enhanced/master/other/discord/pauseIcon.png';
-
-const PLAYING_STRING = 'Playing';
-const PAUSED_STRING = 'Paused';
 
 let client: Client | undefined;
 
@@ -44,7 +36,8 @@ export const setDiscordActivity = async (
   album: string,
   coverImage: string,
   isPlaying: boolean,
-  position: number
+  position: number,
+  duration: number
 ) => {
   if (typeof client === 'undefined') {
     await connectDiscord();
@@ -52,19 +45,24 @@ export const setDiscordActivity = async (
 
   if (typeof client !== 'undefined') {
     try {
-      await client.setActivity({
-        details: title,
-        state: artist,
-        startTimestamp: Date.now() - position,
-        endTimestamp: isPlaying ? undefined : Date.now(),
-        largeImageKey: coverImage,
-        largeImageText: album,
-        smallImageKey: isPlaying ? PLAY_ICON : PAUSE_ICON,
-        smallImageText: isPlaying ? PLAYING_STRING : PAUSED_STRING,
-      });
-    } catch {
+      if (isPlaying) {
+        await client.setActivity({
+          details: title,
+          state: artist,
+          startTimestamp: Date.now() - position,
+          endTimestamp: Date.now() + duration - position,
+          largeImageKey: coverImage,
+          largeImageText: album,
+          activityType: ActivityType.Listening,
+        });
+      } else {
+        await client.clearActivity();
+      }
+    } catch (e) {
       // eslint-disable-next-line no-console
       console.warn('Discord is not running, unable to change activity.');
+      // eslint-disable-next-line no-console
+      console.warn(e);
     }
   }
 };

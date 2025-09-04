@@ -124,7 +124,8 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
           songData.ALB_TITLE,
           DEEZER_SONG_ART_URL + songData.ALB_PICTURE + DEEZER_ART_RESOLUTION,
           player.isPlaying(),
-          player.getPosition() / 1_000
+          player.getPosition() / 1_000,
+          Number(songData.DURATION) * 1_000
         );
       }
 
@@ -153,7 +154,8 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
             episodeData.SHOW_ART_MD5 +
             DEEZER_ART_RESOLUTION,
           player.isPlaying(),
-          player.getPosition() / 1_000
+          player.getPosition() / 1_000,
+          Number(episodeData.DURATION) * 1_000
         );
       }
 
