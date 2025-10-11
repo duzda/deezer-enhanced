@@ -8,13 +8,13 @@
     default: true;
 
     --color-base-100: rgb(253, 252, 254);
-    --color-base-200': rgb(245, 242, 248);
+    --color-base-200: rgb(245, 242, 248);
     --color-primary: rgb(15, 13, 19);
     --color-secondary: rgb(162, 56, 255);
     --color-neutral: rgb(225, 221, 228);
 
     --text-fontFamily: Inter, Arial, sanf-serif;
-    --text-primary-content': rgb(253, 252, 254);
+    --text-primary-content: rgb(253, 252, 254);
 }
 
 @plugin "daisyui/theme" {
