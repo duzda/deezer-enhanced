@@ -56,7 +56,7 @@
     "vite": "^6.2.2"
   },
   "dependencies": {
-    "@jellybrick/mpris-service": "^2.1.5",
+    "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service",
     "discord-rpc": "git+https://github.com/duzda/RPC",
     "electron-squirrel-startup": "^1.0.1",
     "jotai": "^2.13.1",
