@@ -66,19 +66,19 @@ const config: ForgeConfig = {
         {
           // `entry` is just an alias for `build.lib.entry` in the corresponding file of `config`.
           entry: 'src/main.ts',
-          config: 'vite.main.config.ts',
+          config: 'vite.config.ts',
         },
         {
           entry: 'src/preload.ts',
-          config: 'vite.preload.config.ts',
+          config: 'vite.config.ts',
         },
         {
           entry: 'src/preload_view.ts',
-          config: 'vite.preload.config.ts',
+          config: 'vite.config.ts',
         },
         {
           entry: 'src/view.ts',
-          config: 'vite.view.config.ts'
+          config: 'vite.config.ts',
         }
       ],
       renderer: [
