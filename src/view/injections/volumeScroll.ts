@@ -1,12 +1,11 @@
 import { ViewWindow } from '../types';
+import { callWithRetries } from './poller';
 
 const SELECTOR = '[aria-label="volume button"]';
 
 export const initializeVolumeScroll = () => {
-  const element = document.querySelector(SELECTOR);
-  const viewWindow: ViewWindow = window as ViewWindow;
-
-  if (element) {
+  callWithRetries(SELECTOR, (element) => {
+    const viewWindow: ViewWindow = window as ViewWindow;
     (element as HTMLElement).addEventListener('wheel', (e) => {
       viewWindow.dzPlayer.control.setVolume(
         Math.min(
@@ -19,5 +18,5 @@ export const initializeVolumeScroll = () => {
       );
       e.preventDefault();
     });
-  }
+  });
 };
