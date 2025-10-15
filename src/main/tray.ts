@@ -11,7 +11,7 @@ import {
   TRAY_FAVORITE,
   TRAY_MUTE,
 } from '../common/channels/tray';
-import { saveBounds } from './bounds';
+import { saveBounds } from './bounds/save';
 
 const USER_TRAY_ICON = path.join(app.getPath('userData'), 'assets', 'icon.png');
 const DEFAULT_TRAY_ICON = path.join(

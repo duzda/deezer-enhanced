@@ -35,6 +35,15 @@ function SettingsForm(): React.JSX.Element {
           }}
         />
         <Switch
+          id="start-in-tray"
+          state={currentSettings.startInTray}
+          text="Start in tray"
+          onChange={(newValue) => {
+            setValue('startInTray', newValue);
+            setCurrentSettings({ ...currentSettings, startInTray: newValue });
+          }}
+        />
+        <Switch
           id="enable-notifications"
           state={currentSettings.enableNotifications}
           text="Enable notifications on song change"

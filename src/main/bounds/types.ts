@@ -1,4 +1,8 @@
+import path from 'path';
+import { app } from 'electron';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from '../utils/size';
+
+export const BOUNDS_FILE = path.join(app.getPath('userData'), 'bounds.json');
 
 export type Bounds = {
   bounds: Partial<Electron.Rectangle>;

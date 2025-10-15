@@ -1,5 +1,5 @@
 import { BaseWindow, WebContentsView, app, ipcMain } from 'electron';
-import fs from 'fs';
+import fs from 'fs/promises';
 import path from 'path';
 import {
   SETTINGS_GET,
@@ -19,35 +19,34 @@ let OnSet: Setters;
 let currentSettings: Settings = DEFAULT_SETTINGS;
 
 const loadFromFile = async (file: string) => {
-  await fs.readFile(file, { encoding: 'utf-8' }, (err, data) => {
-    if (!err) {
-      currentSettings = JSON.parse(data);
+  try {
+    const data = await fs.readFile(file, { encoding: 'utf-8' });
 
-      Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
-        if (currentSettings[key as keyof Settings] === undefined) {
-          currentSettings[key as keyof Settings] = value as never;
-        }
-      });
+    currentSettings = JSON.parse(data);
 
-      OnSet.enableTray(currentSettings.enableTray);
-      OnSet.closeToTray(currentSettings.closeToTray);
-      OnSet.enableNotifications(currentSettings.enableNotifications);
-      OnSet.deemixIntegration(currentSettings.deemixIntegration);
-      OnSet.volumePower(currentSettings.volumePower);
-      OnSet.discordRPC(currentSettings.discordRPC);
-    }
-  });
+    Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
+      if (currentSettings[key as keyof Settings] === undefined) {
+        currentSettings[key as keyof Settings] = value as never;
+      }
+    });
+
+    OnSet.enableTray(currentSettings.enableTray);
+    OnSet.closeToTray(currentSettings.closeToTray);
+    OnSet.startInTray(currentSettings.startInTray);
+    OnSet.enableNotifications(currentSettings.enableNotifications);
+    OnSet.deemixIntegration(currentSettings.deemixIntegration);
+    OnSet.volumePower(currentSettings.volumePower);
+    OnSet.discordRPC(currentSettings.discordRPC);
+  } catch {
+    // eslint-disable-next-line no-console
+    console.warn(`Error trying to read settings from file: ${file}`);
+  }
 };
 
 const saveToFile = async (file: string) => {
-  fs.writeFile(
-    file,
-    JSON.stringify(currentSettings, null, 4),
-    {
-      encoding: 'utf-8',
-    },
-    () => {}
-  );
+  await fs.writeFile(file, JSON.stringify(currentSettings, null, 4), {
+    encoding: 'utf-8',
+  });
 };
 
 const createSettingsHandles = (window: BaseWindow, view: WebContentsView) => {
@@ -93,6 +92,7 @@ export const initializeSettings = async (
       }
     },
     closeToTray: () => {},
+    startInTray: () => {},
     enableNotifications: () => {},
     deemixIntegration: () => {},
     volumePower: () => {},

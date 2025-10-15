@@ -9,7 +9,8 @@ import path from 'path';
 import fs from 'fs';
 import { createHistoryHandles } from './main/history';
 import { getSettings, initializeSettings } from './main/settings';
-import { loadBounds, saveBounds } from './main/bounds';
+import { loadBounds } from './main/bounds/load';
+import { saveBounds } from './main/bounds/save';
 import { initializeDownloads } from './main/downloads';
 import { initializePlayer } from './main/mpris';
 import { createKeyboardHandles } from './main/keyboard';
@@ -147,8 +148,7 @@ if (!gotTheLock) {
     });
     view.webContents.loadURL(DEEZER_URL);
 
-    loadBounds(mainWindow);
-    initializeSettings(mainWindow, view);
+    initializeSettings(mainWindow, view).then(() => loadBounds(mainWindow));
     initializePlayer(view);
     initializeDownloads(mainView, view);
     createHistoryHandles(view);

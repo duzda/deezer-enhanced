@@ -1,10 +1,8 @@
-import { BaseWindow, app, screen } from 'electron';
+import { BaseWindow, screen } from 'electron';
 import fs from 'fs';
-import path from 'path';
 import { env } from 'process';
-import { Bounds, DEFAULT_BOUNDS, STEAMDECK_DEFAULT_BOUNDS } from './types';
-
-const BOUNDS_FILE = path.join(app.getPath('userData'), 'bounds.json');
+import { BOUNDS_FILE, DEFAULT_BOUNDS, STEAMDECK_DEFAULT_BOUNDS } from './types';
+import { getSettings } from '../settings';
 
 const isSteamDeck = () => {
   return env.XDG_CURRENT_DESKTOP === 'gamescope';
@@ -38,16 +36,6 @@ export const loadBounds = async (window: BaseWindow) => {
     window.maximize();
   }
 
+  if (getSettings().enableTray && getSettings().startInTray) return;
   window.show();
-};
-
-export const saveBounds = (window: BaseWindow) => {
-  const newBounds: Bounds = {
-    bounds: window.getBounds(),
-    maximized: window.isMaximized(),
-  };
-
-  fs.writeFileSync(BOUNDS_FILE, JSON.stringify(newBounds, null, 4), {
-    encoding: 'utf-8',
-  });
 };

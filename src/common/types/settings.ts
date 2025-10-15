@@ -1,6 +1,7 @@
 export interface Settings {
   enableTray: boolean;
   closeToTray: boolean;
+  startInTray: boolean;
   enableNotifications: boolean;
   deemixIntegration: boolean;
   volumePower: number;
@@ -10,6 +11,7 @@ export interface Settings {
 export const DEFAULT_SETTINGS: Settings = {
   enableTray: false,
   closeToTray: false,
+  startInTray: false,
   enableNotifications: false,
   deemixIntegration: false,
   volumePower: 4,
@@ -19,6 +21,7 @@ export const DEFAULT_SETTINGS: Settings = {
 export type SettingsProperties =
   | 'enableTray'
   | 'closeToTray'
+  | 'startInTray'
   | 'enableNotifications'
   | 'deemixIntegration'
   | 'volumePower'
@@ -29,6 +32,7 @@ type Setter<T> = (newValue: T) => void | undefined;
 export type Setters = {
   enableTray: Setter<boolean>;
   closeToTray: Setter<boolean>;
+  startInTray: Setter<boolean>;
   enableNotifications: Setter<boolean>;
   deemixIntegration: Setter<boolean>;
   volumePower: Setter<number>;
