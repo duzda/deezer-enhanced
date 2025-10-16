@@ -1,6 +1,6 @@
 import React, { useCallback } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import { currentLogAtom, viewExpandedAtom } from '../../states/atoms';
 import { ExecStatus } from '../../../common/types/deemix';
 import { DownloadType } from './deezer';

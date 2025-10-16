@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import SettingsPage from './pages/SettingsPage';
