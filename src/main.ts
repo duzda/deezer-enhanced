@@ -140,6 +140,10 @@ if (!gotTheLock) {
       },
     });
 
+    view.webContents.setWindowOpenHandler(() => {
+      return { action: 'deny' };
+    });
+
     view.setBounds({
       x: 0,
       y: NAVBAR_HEIGHT,
