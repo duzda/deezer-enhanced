@@ -27,6 +27,8 @@ const USER_AGENT =
 
 const gotTheLock = app.requestSingleInstanceLock();
 
+let mainWindow: BaseWindow | null = null;
+
 const hostWhitelist = [
   'deezer.com',
   'dzcdn.net',
@@ -94,7 +96,7 @@ if (!gotTheLock) {
       }
     );
 
-    const mainWindow = new BaseWindow({
+    mainWindow = new BaseWindow({
       width: DEFAULT_WIDTH,
       height: DEFAULT_HEIGHT,
       autoHideMenuBar: true,
@@ -206,15 +208,16 @@ if (!gotTheLock) {
   app.on('ready', createWindow);
 
   app.on('second-instance', () => {
-    if (BrowserWindow.getAllWindows().length > 0) {
-      const window = BrowserWindow.getAllWindows()[0];
-      if (window.isMinimized() || !window.isVisible()) {
-        window.show();
-        return;
-      }
-
-      window.focus();
+    if (!mainWindow) {
+      return;
     }
+
+    if (mainWindow.isMinimized() || !mainWindow.isVisible()) {
+      mainWindow.show();
+      return;
+    }
+
+    mainWindow.focus();
   });
 
   app.on('browser-window-created', (_, window) => {
