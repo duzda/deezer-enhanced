@@ -1,10 +1,4 @@
-import {
-  app,
-  BaseWindow,
-  BrowserWindow,
-  session,
-  WebContentsView,
-} from 'electron';
+import { app, BaseWindow, session, WebContentsView } from 'electron';
 import path from 'path';
 import fs from 'fs';
 import { createHistoryHandles } from './main/history';
@@ -206,8 +200,8 @@ if (!gotTheLock) {
   app.on('ready', createWindow);
 
   app.on('second-instance', () => {
-    if (BrowserWindow.getAllWindows().length > 0) {
-      const window = BrowserWindow.getAllWindows()[0];
+    if (BaseWindow.getAllWindows().length > 0) {
+      const window = BaseWindow.getAllWindows()[0];
       if (window.isMinimized() || !window.isVisible()) {
         window.show();
         return;
