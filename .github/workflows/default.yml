@@ -1,9 +1,9 @@
 name: default
 
 on:
+  pull_request:
   push:
-    branches:
-    - "*"
+    branches: [master]
 
 jobs:
   build:
@@ -16,7 +16,7 @@ jobs:
         uses: actions/setup-node@v3
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
       - name: Lint
         run: npm run lint

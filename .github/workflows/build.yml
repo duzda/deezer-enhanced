@@ -23,7 +23,7 @@ jobs:
         uses: martinbeentjes/npm-get-version-action@main
 
       - name: Install dependencies
-        run: npm i
+        run: npm ci
 
       - name: Build dist
         run: npm run make
