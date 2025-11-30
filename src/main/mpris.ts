@@ -22,9 +22,9 @@ import {
 } from '../common/channels/mpris';
 import {
   DEEZER_ART_RESOLUTION,
-  DEEZER_EPISODE_ART_URL,
+  DEEZER_EPISODE_ART_URL, DEEZER_EPISODE_URL,
   DEEZER_NOTIFICATION_RESOLUTION,
-  DEEZER_SONG_ART_URL,
+  DEEZER_SONG_ART_URL, DEEZER_TRACK_URL, DEEZER_URL,
 } from './utils/urls';
 import { isDiscordEnabled, setDiscordActivity } from './discord';
 import { getSettings } from './settings';
@@ -125,7 +125,8 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
           DEEZER_SONG_ART_URL + songData.ALB_PICTURE + DEEZER_ART_RESOLUTION,
           player.isPlaying(),
           player.getPosition() / 1_000,
-          Number(songData.DURATION) * 1_000
+          Number(songData.DURATION) * 1_000,
+          DEEZER_TRACK_URL + songData.SNG_ID
         );
       }
 
@@ -155,7 +156,8 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
             DEEZER_ART_RESOLUTION,
           player.isPlaying(),
           player.getPosition() / 1_000,
-          Number(episodeData.DURATION) * 1_000
+          Number(episodeData.DURATION) * 1_000,
+          DEEZER_EPISODE_URL + episodeData.EPISODE_ID
         );
       }
 

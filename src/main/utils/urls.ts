@@ -1,4 +1,6 @@
 export const DEEZER_URL = 'https://www.deezer.com';
+export const DEEZER_TRACK_URL = 'https://www.deezer.com/track/';
+export const DEEZER_EPISODE_URL = 'https://www.deezer.com/episode/';
 export const DEEZER_SONG_ART_URL =
   'https://e-cdns-images.dzcdn.net/images/cover/';
 export const DEEZER_EPISODE_ART_URL =

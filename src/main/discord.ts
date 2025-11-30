@@ -37,7 +37,8 @@ export const setDiscordActivity = async (
   coverImage: string,
   isPlaying: boolean,
   position: number,
-  duration: number
+  duration: number,
+  deezerUrl: string
 ) => {
   if (typeof client === 'undefined') {
     await connectDiscord();
@@ -53,6 +54,12 @@ export const setDiscordActivity = async (
           endTimestamp: Date.now() + duration - position,
           largeImageKey: coverImage,
           largeImageText: album,
+          buttons: [
+            {
+              label: 'Listen on Deezer',
+              url: deezerUrl,
+            },
+          ],
           activityType: ActivityType.Listening,
         });
       } else {
