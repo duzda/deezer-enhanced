@@ -22,9 +22,11 @@ import {
 } from '../common/channels/mpris';
 import {
   DEEZER_ART_RESOLUTION,
-  DEEZER_EPISODE_ART_URL, DEEZER_EPISODE_URL,
+  DEEZER_EPISODE_ART_URL,
+  DEEZER_EPISODE_URL,
   DEEZER_NOTIFICATION_RESOLUTION,
-  DEEZER_SONG_ART_URL, DEEZER_TRACK_URL, DEEZER_URL,
+  DEEZER_SONG_ART_URL,
+  DEEZER_TRACK_URL,
 } from './utils/urls';
 import { isDiscordEnabled, setDiscordActivity } from './discord';
 import { getSettings } from './settings';
