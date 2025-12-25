@@ -21,31 +21,11 @@ const USER_AGENT =
 
 const gotTheLock = app.requestSingleInstanceLock();
 
-const hostWhitelist = [
-  'deezer.com',
-  'dzcdn.net',
-  'edgecastcdn.net',
-
-  // Login recaptcha
-  'google.com',
-  'gstatic.com',
-
-  // Social logins
-  'appleid.cdn-apple.com',
-  'connect.facebook.net',
-  'appleid.apple.com',
-
-  // Social pages
-  'apple.com',
-  'facebook.com',
-  'accounts.youtube.com',
-
-  // Socials content
-  'static.xx.fbcdn.net',
-  'lh3.googleusercontent.com',
-  'is1-ssl.mzstatic.com',
-
-  'localhost',
+const HOST_BLACKLIST: ReadonlyArray<string> = [
+  'googletagmanager.com',
+  'segment.com',
+  'sentry.io',
+  'survicate.com',
 ];
 
 if (!gotTheLock) {
@@ -79,12 +59,12 @@ if (!gotTheLock) {
       (details, callback) => {
         const url = new URL(details.url);
 
-        if (hostWhitelist.some((host) => url.hostname.endsWith(host))) {
-          callback({ cancel: false });
+        if (HOST_BLACKLIST.some((host) => url.hostname.endsWith(host))) {
+          callback({ cancel: true });
           return;
         }
 
-        callback({ cancel: true });
+        callback({ cancel: false });
       }
     );
 
