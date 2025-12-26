@@ -1,4 +1,3 @@
-import { initializeChromecast } from './injections/chromecast';
 import { initializeMpris } from './injections/mpris';
 import { initializeOfflineBanner } from './injections/offlinebanner';
 import { initializeThemeSwitcher } from './injections/themeswitcher';
@@ -13,7 +12,6 @@ const onStartup = () => {
     initializeMpris();
     initializeVolumePower();
     initializeVolumeScroll();
-    initializeChromecast();
     initializeThemeSwitcher();
     initializeSettings();
   }, 200);
