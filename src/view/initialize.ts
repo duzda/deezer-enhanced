@@ -1,8 +1,8 @@
 import { initializeMpris } from './injections/mpris';
-import { initializeOfflineBanner } from './injections/offlinebanner';
-import { initializeThemeSwitcher } from './injections/themeswitcher';
+import { initializeOfflineBanner } from './injections/offline_banner';
+import { initializeThemeSwitcher } from './injections/theme_switcher';
 import { initializeVolumePower } from './injections/volume';
-import { initializeVolumeScroll } from './injections/volumeScroll';
+import { initializeVolumeScroll } from './injections/volume_scroll';
 import { initializeSettings } from './settings';
 import { ViewWindow } from './types';
 
