@@ -103,7 +103,7 @@ export function DownloadNotification({
     viewExpanded,
   ]);
 
-  const className = ALERT_CLASSNAME_MAP.get(status);
+  const className = ALERT_CLASSNAME_MAP.get(status)!;
   const statusString = STATUS_STRING_MAP.get(status);
   if (type === null) {
     return generateAlert(
