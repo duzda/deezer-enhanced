@@ -1,6 +1,6 @@
 export type ExecStatus = 'Success' | 'Warning' | 'Error';
 
-export const warningMessages = [
+export const WARNING_MESSAGES: ReadonlyArray<string> = [
   'Track not available on Deezer!',
   'Track not yet encoded!',
   'Track not yet encoded and no alternative found!',

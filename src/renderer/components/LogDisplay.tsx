@@ -1,4 +1,4 @@
-import { warningMessages } from '../../common/types/deemix';
+import { WARNING_MESSAGES } from '../../common/types/deemix';
 
 type LogDisplayProps = {
   code: string;
@@ -6,7 +6,7 @@ type LogDisplayProps = {
 
 const getLineColor = (line: string): string => {
   if (line.startsWith('[')) {
-    if (warningMessages.some((m) => line.endsWith(m))) {
+    if (WARNING_MESSAGES.some((m) => line.endsWith(m))) {
       return 'text-warning';
     }
 

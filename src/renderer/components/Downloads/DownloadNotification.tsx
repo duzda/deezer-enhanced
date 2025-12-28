@@ -11,7 +11,7 @@ type DownloadNotificationProps = {
   onClick: () => void;
 } & DownloadNotificationData;
 
-const downloadTypeMap = new Map<DownloadType, string>([
+const DOWNLOAD_TYPE_MAP: ReadonlyMap<DownloadType, string> = new Map([
   ['track', 'Track'],
   ['album', 'Album'],
   ['playlist', 'Playlist'],
@@ -20,13 +20,13 @@ const downloadTypeMap = new Map<DownloadType, string>([
   ['artist_top', "Artist's top songs"],
 ]);
 
-const alertClassNameMap = new Map<ExecStatus, string>([
+const ALERT_CLASSNAME_MAP: ReadonlyMap<ExecStatus, string> = new Map([
   ['Success', 'alert alert-success'],
   ['Warning', 'alert alert-warning'],
   ['Error', 'alert alert-error'],
 ]);
 
-const statusStringMap = new Map<ExecStatus, string>([
+const STATUS_STRING_MAP: ReadonlyMap<ExecStatus, string> = new Map([
   ['Success', 'has been downloaded.'],
   ['Warning', "couldn't be fully downloaded, view log for more."],
   ['Error', 'crashed during downloading, view log for more.'],
@@ -92,9 +92,9 @@ export function DownloadNotification({
       setViewExpanded(true);
       window.renderer.settingsAPI.showSettings();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     display,
+    navigate,
     setCurrentLog,
     setViewExpanded,
     status,
@@ -103,9 +103,8 @@ export function DownloadNotification({
     viewExpanded,
   ]);
 
-  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-  const className = alertClassNameMap.get(status)!;
-  const statusString = statusStringMap.get(status);
+  const className = ALERT_CLASSNAME_MAP.get(status);
+  const statusString = STATUS_STRING_MAP.get(status);
   if (type === null) {
     return generateAlert(
       `${display} ${statusString}`,
@@ -116,7 +115,7 @@ export function DownloadNotification({
     );
   }
 
-  const typeString = downloadTypeMap.get(type);
+  const typeString = DOWNLOAD_TYPE_MAP.get(type);
   return generateAlert(
     `${typeString} ${display} ${statusString}`,
     status,

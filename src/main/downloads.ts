@@ -1,7 +1,7 @@
 import { promisify } from 'util';
 import { ExecException, exec as execProcess } from 'child_process';
 import { ipcMain, WebContentsView } from 'electron';
-import { ExecStatus, warningMessages } from '../common/types/deemix';
+import { ExecStatus, WARNING_MESSAGES } from '../common/types/deemix';
 import {
   DOWNLOADS_DOWNLOAD,
   DOWNLOADS_FINISHED,
@@ -12,7 +12,7 @@ const exec = promisify(execProcess);
 const containsWarning = (stdout: string) =>
   stdout
     .split('\n')
-    .some((l) => warningMessages.some((error) => l.endsWith(error)));
+    .some((l) => WARNING_MESSAGES.some((error) => l.endsWith(error)));
 
 const download = async (url: string, mainView: WebContentsView) => {
   try {
