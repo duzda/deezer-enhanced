@@ -4,6 +4,7 @@ import {
   keyboardAPI,
   notificationsAPI,
   settingsAPI,
+  themesAPI,
 } from '../preload';
 
 declare global {
@@ -14,6 +15,7 @@ declare global {
       settingsAPI: typeof settingsAPI;
       keyboardAPI: typeof keyboardAPI;
       notificationsAPI: typeof notificationsAPI;
+      themesAPI: typeof themesAPI;
     };
   }
 }

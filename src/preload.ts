@@ -16,6 +16,7 @@ import { KEYBOARD_SEND_KEYPRESS } from './common/channels/keyboard';
 import { SerializedKeyboardEvent } from './common/types/serializedKeyboardEvent';
 import { ExecStatus } from './common/types/deemix';
 import { NOTIFICATIONS_CREATE } from './common/channels/notifications';
+import { THEMES_SET_ACCENT, THEMES_SET_THEME } from './common/channels/themes';
 
 export const historyAPI = {
   goForward: () => ipcRenderer.send(HISTORY_GO_FORWARD),
@@ -66,10 +67,20 @@ export const notificationsAPI = {
   },
 };
 
+export const themesAPI = {
+  onThemeChange: (callback: (theme: string) => void) => {
+    ipcRenderer.on(THEMES_SET_THEME, (_, theme) => callback(theme));
+  },
+  onAccentChange: (callback: (accent: string) => void) => {
+    ipcRenderer.on(THEMES_SET_ACCENT, (_, accent) => callback(accent));
+  },
+};
+
 contextBridge.exposeInMainWorld('renderer', {
   historyAPI,
   downloadsAPI,
   settingsAPI,
   keyboardAPI,
   notificationsAPI,
+  themesAPI,
 });

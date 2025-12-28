@@ -35,7 +35,7 @@
     "@types/react-dom": "^19.1.7",
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
-    "daisyui": "^5.0.50",
+    "daisyui": "^5.5.14",
     "electron": "^37.3.0",
     "electron-forge-maker-appimage": "git+https://github.com/duzda/electron-forge-maker-appimage",
     "electron-forge-maker-pacman": "git+https://github.com/duzda/electron-forge-maker-pacman",

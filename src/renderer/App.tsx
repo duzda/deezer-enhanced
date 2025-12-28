@@ -10,6 +10,19 @@ import { NotificationData } from './components/Downloads/notifications';
 
 import './index.css';
 
+const getTheme = () => {
+  const theme = localStorage.getItem('theme');
+  if (theme !== null) {
+    return theme;
+  }
+
+  return window.matchMedia('(prefers-color-scheme: dark)').matches
+    ? 'dark'
+    : 'light';
+};
+
+const getAccent = () => localStorage.getItem('accent') || 'purple';
+
 function App(): React.JSX.Element {
   const setCurrentSettings = useSetAtom(currentSettingsAtom);
 
@@ -43,6 +56,27 @@ function App(): React.JSX.Element {
 
     window.renderer.notificationsAPI.onNotificationCreate(
       (title, body, icon) => new Notification(title, { body, icon })
+    );
+
+    window.renderer.themesAPI.onThemeChange((theme) => {
+      document.documentElement.setAttribute(
+        'data-theme',
+        `${theme}-${getAccent()}`
+      );
+      localStorage.setItem('theme', theme);
+    });
+
+    window.renderer.themesAPI.onAccentChange((accent) => {
+      document.documentElement.setAttribute(
+        'data-theme',
+        `${getTheme()}-${accent}`
+      );
+      localStorage.setItem('accent', accent);
+    });
+
+    document.documentElement.setAttribute(
+      'data-theme',
+      `${getTheme()}-${getAccent()}`
     );
   }, []);
 

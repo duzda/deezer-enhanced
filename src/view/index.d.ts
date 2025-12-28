@@ -1,4 +1,4 @@
-import { trayAPI, mprisAPI, settingsAPI } from '../preload_view';
+import { trayAPI, mprisAPI, settingsAPI, themesAPI } from '../preload_view';
 
 declare global {
   interface Window {
@@ -6,6 +6,7 @@ declare global {
       settingsAPI: typeof settingsAPI;
       mprisAPI: typeof mprisAPI;
       trayAPI: typeof trayAPI;
+      themesAPI: typeof themesAPI;
     };
   }
 }

@@ -28,6 +28,7 @@ import {
   TRAY_ADD_VOLUME,
   TRAY_FAVORITE,
 } from './common/channels/tray';
+import { THEMES_SET_ACCENT, THEMES_SET_THEME } from './common/channels/themes';
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),
@@ -95,8 +96,14 @@ export const trayAPI = {
   },
 };
 
+export const themesAPI = {
+  setTheme: (theme: string) => ipcRenderer.send(THEMES_SET_THEME, theme),
+  setAccent: (accent: string) => ipcRenderer.send(THEMES_SET_ACCENT, accent),
+};
+
 contextBridge.exposeInMainWorld('view', {
   settingsAPI,
   mprisAPI,
   trayAPI,
+  themesAPI,
 });

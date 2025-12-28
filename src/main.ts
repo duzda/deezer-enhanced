@@ -7,6 +7,7 @@ import { loadBounds } from './main/bounds/load';
 import { saveBounds } from './main/bounds/save';
 import { initializeDownloads } from './main/downloads';
 import { initializePlayer } from './main/mpris';
+import { initializeThemeSwitcher } from './main/theme_switcher';
 import { createKeyboardHandles } from './main/keyboard';
 import { DEEZER_URL } from './main/utils/urls';
 import { generateMenu } from './main/menu';
@@ -129,6 +130,7 @@ if (!gotTheLock) {
     initializeSettings(mainWindow, view).then(() => loadBounds(mainWindow));
     initializePlayer(view);
     initializeDownloads(mainView, view);
+    initializeThemeSwitcher(mainView);
     createHistoryHandles(view);
     createKeyboardHandles(view);
 
