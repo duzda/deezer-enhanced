@@ -14,13 +14,22 @@ const containsWarning = (stdout: string) =>
     .split('\n')
     .some((l) => WARNING_MESSAGES.some((error) => l.endsWith(error)));
 
+const getExecStatus = (stdout: string, stderr: string): ExecStatus => {
+  if (stderr.length !== 0) {
+    return 'Error';
+  }
+
+  if (containsWarning(stdout)) {
+    return 'Warning';
+  }
+
+  return 'Success';
+};
+
 const download = async (url: string, mainView: WebContentsView) => {
   try {
     const { stdout, stderr } = await exec(`deemix ${url}`);
-    let execStatus: ExecStatus = 'Success';
-    if (containsWarning(stdout)) {
-      execStatus = 'Warning';
-    }
+    const execStatus = getExecStatus(stdout, stderr);
 
     mainView.webContents.send(
       DOWNLOADS_FINISHED,
