@@ -81,6 +81,8 @@ if (!gotTheLock) {
       ),
     });
 
+    mainWindow.removeMenu();
+
     const mainView = new WebContentsView({
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
