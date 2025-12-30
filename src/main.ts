@@ -32,7 +32,8 @@ const HOST_BLACKLIST: ReadonlyArray<string> = [
 if (!gotTheLock) {
   app.quit();
 } else {
-  app.commandLine.appendSwitch('disable-features', 'MediaSessionService');
+  // AudioServiceOutOfProcess is a workaround for github.com/electron/electron/issues/27581 and can be removed once upstream merges a fix
+  app.commandLine.appendSwitch('disable-features', 'AudioServiceOutOfProcess,MediaSessionService');
 
   const createWindow = () => {
     session.defaultSession.setUserAgent(USER_AGENT);
