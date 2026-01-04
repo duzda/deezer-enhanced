@@ -30,9 +30,6 @@ A: The downloads will probably never work the same way as on Windows, to downloa
 Q: Can I play offline files?  
 A: No and it's not currently in a plan, use a different music player.  
 
-Q: Chromecast support?  
-A: As of right now, no, see [issue 33](https://github.com/duzda/deezer-enhanced/issues/33)
-
 Q: I don't like the tray icon  
 A: Tray icon is changeable system-wide via `/opt/deezer-enhanced/resources/assets/icon.png` or locally via `~/.config/deezer-enhanced/assets/icon.png`
 
