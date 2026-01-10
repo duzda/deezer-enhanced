@@ -10,18 +10,21 @@ import { NotificationData } from './components/Downloads/notifications';
 
 import './index.css';
 
-const getTheme = () => {
-  const theme = localStorage.getItem('theme');
-  if (theme !== null) {
-    return theme;
-  }
+const getStylesElement = () =>
+  document.getElementById('inject-styles')! as HTMLStyleElement;
 
-  return window.matchMedia('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-};
-
-const getAccent = () => localStorage.getItem('accent') || 'purple';
+const getStyles = () =>
+  localStorage.getItem('style') ||
+  `
+    :root {
+      --background-primary: rgb(0, 0, 0);
+      --background-secondary: rgb(20, 18, 22);
+      --text-primary: rgb(255, 255, 255);
+      --text-intermediate: rgb(255, 255, 255);
+      --tempo-colors-background-accent-primary-default: rgb(187, 115, 255);
+      --divider-secondary: rgb(56, 55, 59);
+    }
+  `;
 
 function App(): React.JSX.Element {
   const setCurrentSettings = useSetAtom(currentSettingsAtom);
@@ -58,26 +61,13 @@ function App(): React.JSX.Element {
       (title, body, icon) => new Notification(title, { body, icon })
     );
 
-    window.renderer.themesAPI.onThemeChange((theme) => {
-      document.documentElement.setAttribute(
-        'data-theme',
-        `${theme}-${getAccent()}`
-      );
-      localStorage.setItem('theme', theme);
+    window.renderer.themesAPI.onStyleChange((style) => {
+      getStylesElement().innerHTML = style;
+      localStorage.setItem('style', style);
     });
 
-    window.renderer.themesAPI.onAccentChange((accent) => {
-      document.documentElement.setAttribute(
-        'data-theme',
-        `${getTheme()}-${accent}`
-      );
-      localStorage.setItem('accent', accent);
-    });
-
-    document.documentElement.setAttribute(
-      'data-theme',
-      `${getTheme()}-${getAccent()}`
-    );
+    getStylesElement().innerHTML = getStyles();
+    document.documentElement.setAttribute('data-theme', `custom`);
   }, []);
 
   useEffect(() => {
