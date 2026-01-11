@@ -136,7 +136,7 @@ if (!gotTheLock) {
     initializeSettings(mainWindow, view).then(() => loadBounds(mainWindow));
     initializePlayer(view);
     initializeDownloads(mainView, view);
-    initializeThemeSwitcher(mainView);
+    initializeThemeSwitcher(mainView, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
 

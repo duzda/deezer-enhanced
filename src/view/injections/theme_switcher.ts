@@ -10,6 +10,12 @@ const DARK_ONLY_ACCENTS: ReadonlyArray<string> = [
   'emeraldEmber',
 ];
 
+const createStylesElement = () => {
+  const element = document.createElement('style');
+  element.id = 'inject-styles';
+  document.head.appendChild(element);
+};
+
 const buildCss = () => {
   const root = window.getComputedStyle(document.documentElement);
   return `
@@ -54,4 +60,14 @@ export const initializeThemeSwitcher = () => {
     // eslint-disable-next-line prefer-rest-params
     originalLocalStorageSetItem.apply(localStorage, arguments);
   };
+
+  createStylesElement();
+  window.view.themesAPI.onInjectCss((styles) => {
+    const stylesElement = document.getElementById(
+      'inject-styles'
+    ) as HTMLStyleElement;
+    stylesElement.innerHTML = styles;
+  });
+
+  window.view.themesAPI.initializeCustomCss();
 };

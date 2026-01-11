@@ -30,6 +30,9 @@ A: The downloads will probably never work the same way as on Windows, to downloa
 Q: Can I play offline files?  
 A: No and it's not currently in a plan, use a different music player.  
 
+Q: How do I apply my own theme?
+A: Please see [THEMING.md](THEMING.md)
+
 Q: I don't like the tray icon  
 A: Tray icon is changeable system-wide via `/opt/deezer-enhanced/resources/assets/icon.png` or locally via `~/.config/deezer-enhanced/assets/icon.png`
 

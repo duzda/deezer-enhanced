@@ -28,7 +28,11 @@ import {
   TRAY_ADD_VOLUME,
   TRAY_FAVORITE,
 } from './common/channels/tray';
-import { THEMES_SET_STYLE } from './common/channels/themes';
+import {
+  THEMES_INITIALIZE_CUSTOM_STYLE,
+  THEMES_INJECT_CUSTOM_STYLE,
+  THEMES_SET_STYLE,
+} from './common/channels/themes';
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),
@@ -98,6 +102,10 @@ export const trayAPI = {
 
 export const themesAPI = {
   setStyle: (styles: string) => ipcRenderer.send(THEMES_SET_STYLE, styles),
+  onInjectCss: (callback: (styles: string) => void) => {
+    ipcRenderer.on(THEMES_INJECT_CUSTOM_STYLE, (_, styles) => callback(styles));
+  },
+  initializeCustomCss: () => ipcRenderer.send(THEMES_INITIALIZE_CUSTOM_STYLE),
 };
 
 contextBridge.exposeInMainWorld('view', {

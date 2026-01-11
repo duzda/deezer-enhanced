@@ -10,8 +10,8 @@
 
     --color-base-100: var(--background-primary); /* background */
     --color-base-200: var(--background-secondary); /* modal background */
-    --color-base-content: var(--text-primary); /* content color */
-    --color-primary: var(--text-intermediate); /* content color */
+    --color-base-content: var(--text-primary); /* content color active */
+    --color-primary: var(--text-intermediate); /* content color inactive */
     --color-secondary: var(--tempo-colors-background-accent-primary-default); /* accent */
     --color-neutral: var(--divider-secondary); /* borders */
 }
