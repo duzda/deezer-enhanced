@@ -51,9 +51,7 @@ export const initializeThemeSwitcher = () => {
   const originalLocalStorageSetItem = localStorage.setItem;
   // eslint-disable-next-line func-names
   localStorage.setItem = function (key) {
-    if (key === ACCENT_KEY) {
-      window.view.themesAPI.setStyle(buildCss());
-    } else if (key === THEME_KEY) {
+    if (key === ACCENT_KEY || key === THEME_KEY) {
       window.view.themesAPI.setStyle(buildCss());
     }
 
