@@ -46,7 +46,7 @@ function App(): React.JSX.Element {
   }, [setNotificationsQueue]);
 
   useEffect(() => {
-    document.addEventListener('keydown', (event) => {
+    const handleKeydown = (event: KeyboardEvent) => {
       event.preventDefault();
       window.renderer.keyboardAPI.sendKeypress({
         key: event.key,
@@ -55,7 +55,9 @@ function App(): React.JSX.Element {
         shiftKey: event.shiftKey,
         metaKey: event.metaKey,
       });
-    });
+    };
+
+    document.addEventListener('keydown', handleKeydown);
 
     window.renderer.notificationsAPI.onNotificationCreate(
       (title, body, icon) => new Notification(title, { body, icon })
@@ -68,6 +70,10 @@ function App(): React.JSX.Element {
 
     getStylesElement().innerHTML = getStyles();
     document.documentElement.setAttribute('data-theme', `custom`);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
   }, []);
 
   useEffect(() => {
