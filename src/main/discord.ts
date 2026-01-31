@@ -1,4 +1,4 @@
-import { ActivityType, Client } from 'discord-rpc';
+import { ActivityType, Client, StatusDisplayType } from 'discord-rpc';
 
 const CLIENT_ID = '1029062131326386256';
 
@@ -61,6 +61,7 @@ export const setDiscordActivity = async (
             },
           ],
           activityType: ActivityType.Listening,
+          statusDisplayType: StatusDisplayType.State,
         });
       } else {
         await client.clearActivity();
