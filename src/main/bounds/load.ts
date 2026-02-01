@@ -1,14 +1,19 @@
 import { BaseWindow, screen } from 'electron';
 import fs from 'fs';
 import { env } from 'process';
-import { BOUNDS_FILE, DEFAULT_BOUNDS, STEAMDECK_DEFAULT_BOUNDS } from './types';
+import {
+  Bounds,
+  BOUNDS_FILE,
+  DEFAULT_BOUNDS,
+  STEAMDECK_DEFAULT_BOUNDS,
+} from './types';
 import { getSettings } from '../settings';
 
 const isSteamDeck = () => {
   return env.XDG_CURRENT_DESKTOP === 'gamescope';
 };
 
-const loadFromFile = async (file: string) => {
+const loadFromFile = async (file: string): Promise<Bounds> => {
   try {
     const data = fs.readFileSync(file, { encoding: 'utf-8' });
     return JSON.parse(data);
