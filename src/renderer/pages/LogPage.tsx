@@ -4,9 +4,16 @@ import LogDisplay from '../components/LogDisplay';
 import { currentLogAtom } from '../states/atoms';
 
 const getStatusColor = (status: ExecStatus): string => {
-  if (status === 'Error') return 'text-error';
-  if (status === 'Warning') return 'text-warning';
-  return 'text-success';
+  switch (status) {
+    case 'Error':
+      return 'text-error';
+    case 'Warning':
+      return 'text-warning';
+    case 'Success':
+      return 'text-success';
+    default:
+      throw Error(`Unexpected exec status ${status satisfies never}.`);
+  }
 };
 
 const getContents = (

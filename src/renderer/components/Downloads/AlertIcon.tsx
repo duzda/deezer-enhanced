@@ -38,7 +38,7 @@ function AlertIcon({ status }: AlertIconProps): React.JSX.Element {
           />
         </svg>
       );
-    default:
+    case 'Error':
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -54,6 +54,8 @@ function AlertIcon({ status }: AlertIconProps): React.JSX.Element {
           />
         </svg>
       );
+    default:
+      throw Error(`Unexpected status ${status satisfies never}`);
   }
 }
 

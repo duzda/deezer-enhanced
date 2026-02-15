@@ -82,8 +82,12 @@ const getApiUrl = (type: DownloadType, contentId: string): string => {
       return `https://api.deezer.com/album/${contentId}`;
     case 'playlist':
       return `https://api.deezer.com/playlist/${contentId}`;
-    default:
+    case 'artist':
+    case 'artist_discography':
+    case 'artist_top':
       return `https://api.deezer.com/artist/${contentId}`;
+    default:
+      throw Error(`Unexpected download type ${type satisfies never}.`);
   }
 };
 
@@ -117,6 +121,14 @@ export const fetchDisplayName = async (
     return playlist.title;
   }
 
-  const artist = await fetchContent<ArtistApi>(type, contentId);
-  return artist.name;
+  if (
+    type === 'artist' ||
+    type === 'artist_discography' ||
+    type === 'artist_top'
+  ) {
+    const artist = await fetchContent<ArtistApi>(type, contentId);
+    return artist.name;
+  }
+
+  throw Error(`Unexpected download type ${type satisfies never}.`);
 };
