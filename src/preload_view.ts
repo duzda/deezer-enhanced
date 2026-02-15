@@ -23,6 +23,7 @@ import {
   SETTINGS_SET_PROPERTY,
 } from './common/channels/settings';
 import { Settings } from './common/types/settings';
+import { ZoomType } from './common/types/zoom';
 import {
   TRAY_MUTE,
   TRAY_ADD_VOLUME,
@@ -33,6 +34,7 @@ import {
   THEMES_INJECT_CUSTOM_STYLE,
   THEMES_SET_STYLE,
 } from './common/channels/themes';
+import { ZOOM_SET } from './common/channels/zoom';
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),
@@ -108,9 +110,14 @@ export const themesAPI = {
   initializeCustomCss: () => ipcRenderer.send(THEMES_INITIALIZE_CUSTOM_STYLE),
 };
 
+export const zoomAPI = {
+  zoom: (zoomType: ZoomType) => ipcRenderer.send(ZOOM_SET, zoomType),
+};
+
 contextBridge.exposeInMainWorld('view', {
   settingsAPI,
   mprisAPI,
   trayAPI,
   themesAPI,
+  zoomAPI,
 });

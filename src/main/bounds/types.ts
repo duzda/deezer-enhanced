@@ -7,6 +7,7 @@ export const BOUNDS_FILE = path.join(app.getPath('userData'), 'bounds.json');
 export type Bounds = {
   bounds: Partial<Electron.Rectangle>;
   maximized: boolean;
+  zoom: number;
 };
 
 export const DEFAULT_BOUNDS: Bounds = {
@@ -15,6 +16,7 @@ export const DEFAULT_BOUNDS: Bounds = {
     height: DEFAULT_HEIGHT,
   },
   maximized: false,
+  zoom: 1.0,
 };
 
 export const STEAMDECK_DEFAULT_BOUNDS: Bounds = {
@@ -25,4 +27,5 @@ export const STEAMDECK_DEFAULT_BOUNDS: Bounds = {
     height: DEFAULT_HEIGHT,
   },
   maximized: true,
+  zoom: 1.0,
 };

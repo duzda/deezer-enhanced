@@ -11,11 +11,8 @@ import { initializeThemeSwitcher } from './main/theme_switcher';
 import { createKeyboardHandles } from './main/keyboard';
 import { DEEZER_URL } from './main/utils/urls';
 import { generateMenu } from './main/menu';
-import {
-  DEFAULT_HEIGHT,
-  DEFAULT_WIDTH,
-  NAVBAR_HEIGHT,
-} from './main/utils/size';
+import { initializeZoom, onDimensionsChange } from './main/zoom';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './main/utils/size';
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
@@ -108,13 +105,6 @@ if (!gotTheLock) {
       height: DEFAULT_HEIGHT,
     });
 
-    mainView.webContents.on('context-menu', (_, properties) => {
-      generateMenu(mainView, properties).popup({
-        x: properties.x,
-        y: properties.y,
-      });
-    });
-
     const view = new WebContentsView({
       webPreferences: {
         preload: path.join(__dirname, 'preload_view.js'),
@@ -125,24 +115,28 @@ if (!gotTheLock) {
       return { action: 'deny' };
     });
 
-    view.setBounds({
-      x: 0,
-      y: NAVBAR_HEIGHT,
-      width: DEFAULT_WIDTH,
-      height: DEFAULT_HEIGHT - NAVBAR_HEIGHT,
-    });
     view.webContents.loadURL(DEEZER_URL);
 
-    initializeSettings(mainWindow, view).then(() => loadBounds(mainWindow));
+    initializeSettings(mainWindow, view).then(() =>
+      loadBounds(mainWindow, mainView, view)
+    );
     initializePlayer(view);
     initializeDownloads(mainView, view);
     initializeThemeSwitcher(mainView, view);
+    initializeZoom(mainWindow, mainView, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
 
+    mainView.webContents.on('context-menu', (_, properties) => {
+      generateMenu(mainWindow, mainView, mainView, view, properties).popup({
+        x: properties.x,
+        y: properties.y,
+      });
+    });
+
     view.webContents.on('did-finish-load', () => {
       view.webContents.on('context-menu', (_, properties) => {
-        generateMenu(view, properties).popup({
+        generateMenu(mainWindow, view, mainView, view, properties).popup({
           x: properties.x,
           y: properties.y,
         });
@@ -158,20 +152,9 @@ if (!gotTheLock) {
     mainWindow.contentView.addChildView(mainView);
     mainWindow.contentView.addChildView(view);
 
-    mainWindow.on('resize', () => {
-      mainView.setBounds({
-        x: 0,
-        y: 0,
-        width: mainWindow.getBounds().width,
-        height: mainWindow.getBounds().height,
-      });
-      view.setBounds({
-        x: 0,
-        y: NAVBAR_HEIGHT,
-        width: mainWindow.getBounds().width,
-        height: mainWindow.getBounds().height - NAVBAR_HEIGHT,
-      });
-    });
+    mainWindow.on('resize', () =>
+      onDimensionsChange(mainWindow, mainView, view)
+    );
 
     mainWindow.on('close', (e) => {
       if (getSettings().closeToTray && getSettings().enableTray) {
@@ -180,7 +163,7 @@ if (!gotTheLock) {
         return false;
       }
 
-      saveBounds(mainWindow);
+      saveBounds(mainWindow, view);
       return true;
     });
   };

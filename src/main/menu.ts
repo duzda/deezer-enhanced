@@ -1,6 +1,10 @@
-import { Menu, WebContentsView } from 'electron';
+import { BaseWindow, Menu, WebContentsView } from 'electron';
+import { handleZoom } from './zoom';
 
 export const generateMenu = (
+  mainWindow: BaseWindow,
+  currentView: WebContentsView,
+  mainView: WebContentsView,
   view: WebContentsView,
   properties: Electron.ContextMenuParams
 ) =>
@@ -9,11 +13,18 @@ export const generateMenu = (
       id: 'Inspect Element',
       label: '&Inspect Element',
       click() {
-        view.webContents.inspectElement(properties.x, properties.y);
+        currentView.webContents.inspectElement(properties.x, properties.y);
 
-        if (view.webContents.isDevToolsOpened()) {
-          view.webContents.devToolsWebContents?.focus();
+        if (currentView.webContents.isDevToolsOpened()) {
+          currentView.webContents.devToolsWebContents?.focus();
         }
+      },
+    },
+    {
+      id: 'Reset Zoom',
+      label: '&Reset Zoom',
+      click() {
+        handleZoom(mainWindow, mainView, view, 'zoom-reset');
       },
     },
   ]);

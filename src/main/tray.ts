@@ -99,7 +99,7 @@ export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
         label: 'Quit',
         enabled: true,
         click: () => {
-          saveBounds(window);
+          saveBounds(window, view);
           process.exit();
         },
       },

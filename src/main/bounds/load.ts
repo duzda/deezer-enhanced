@@ -1,4 +1,4 @@
-import { BaseWindow, screen } from 'electron';
+import { BaseWindow, screen, WebContentsView } from 'electron';
 import fs from 'fs';
 import { env } from 'process';
 import {
@@ -8,6 +8,8 @@ import {
   STEAMDECK_DEFAULT_BOUNDS,
 } from './types';
 import { getSettings } from '../settings';
+import { DEFAULT_HEIGHT, DEFAULT_WIDTH, NAVBAR_HEIGHT } from '../utils/size';
+import { setZoomFactor } from '../zoom';
 
 const isSteamDeck = () => {
   return env.XDG_CURRENT_DESKTOP === 'gamescope';
@@ -22,7 +24,11 @@ const loadFromFile = async (file: string): Promise<Bounds> => {
   }
 };
 
-export const loadBounds = async (window: BaseWindow) => {
+export const loadBounds = async (
+  window: BaseWindow,
+  mainView: WebContentsView,
+  view: WebContentsView
+) => {
   let bounds = await loadFromFile(BOUNDS_FILE);
 
   if (isSteamDeck()) {
@@ -40,6 +46,19 @@ export const loadBounds = async (window: BaseWindow) => {
   if (bounds.maximized) {
     window.maximize();
   }
+
+  view.setBounds({
+    x: 0,
+    y: NAVBAR_HEIGHT * bounds.zoom,
+    width: bounds.bounds.width ?? DEFAULT_WIDTH,
+    height:
+      (bounds.bounds.height ?? DEFAULT_HEIGHT) - NAVBAR_HEIGHT * bounds.zoom,
+  });
+
+  mainView.webContents.once('did-navigate', () =>
+    setZoomFactor(mainView, bounds.zoom)
+  );
+  view.webContents.once('did-navigate', () => setZoomFactor(view, bounds.zoom));
 
   if (getSettings().enableTray && getSettings().startInTray) return;
   window.show();
