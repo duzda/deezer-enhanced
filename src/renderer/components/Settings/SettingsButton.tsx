@@ -15,7 +15,7 @@ function SettingsButton(): React.JSX.Element {
       onClick={() => {
         if (viewExpanded) {
           window.renderer.settingsAPI.hideSettings();
-          navigate('/');
+          navigate('/idle');
         } else {
           window.renderer.settingsAPI.showSettings();
           navigate('/settings');

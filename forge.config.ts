@@ -25,6 +25,7 @@ const config: ForgeConfig = {
         productName: "Deezer Enhanced",
         icon: "./build/icon.png",
         categories: ["Audio"],
+        mimeType: ['x-scheme-handler/deezer']
       },
     }), 
     new MakerPacman({}),
@@ -48,6 +49,7 @@ const config: ForgeConfig = {
         productName: "Deezer Enhanced",
         icon: "./build/icon.png",
         categories: ["Audio"],
+        mimeType: ['x-scheme-handler/deezer']
       },
     }), 
     new MakerRpm({
@@ -55,6 +57,7 @@ const config: ForgeConfig = {
         productName: "Deezer Enhanced",
         icon: "./build/icon.png",
         categories: ["Audio"],
+        mimeType: ['x-scheme-handler/deezer']
       },
     }),
   ],

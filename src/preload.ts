@@ -17,6 +17,14 @@ import { SerializedKeyboardEvent } from './common/types/serializedKeyboardEvent'
 import { ExecStatus } from './common/types/deemix';
 import { NOTIFICATIONS_CREATE } from './common/channels/notifications';
 import { THEMES_SET_STYLE } from './common/channels/themes';
+import {
+  LOGIN_IS_LOGGED_IN,
+  LOGIN_SET_LOGIN_COOKIE,
+  LOGIN_ON_LOGOUT,
+  LOGIN_OPEN_PAGE,
+  LOGIN_ON_LOGIN,
+} from './common/channels/login';
+import { LoginType } from './common/types/login';
 
 export const historyAPI = {
   goForward: () => ipcRenderer.send(HISTORY_GO_FORWARD),
@@ -73,6 +81,24 @@ export const themesAPI = {
   },
 };
 
+export const loginAPI = {
+  isLoggedIn: (): Promise<boolean> => {
+    return ipcRenderer.invoke(LOGIN_IS_LOGGED_IN);
+  },
+  onLogin: (callback: () => void) => {
+    ipcRenderer.on(LOGIN_ON_LOGIN, () => callback());
+  },
+  onLogout: (callback: () => void) => {
+    ipcRenderer.on(LOGIN_ON_LOGOUT, () => callback());
+  },
+  openLogin: (loginType: LoginType) => {
+    ipcRenderer.send(LOGIN_OPEN_PAGE, loginType);
+  },
+  setArl: (arl: string) => {
+    ipcRenderer.send(LOGIN_SET_LOGIN_COOKIE, arl);
+  },
+};
+
 contextBridge.exposeInMainWorld('renderer', {
   historyAPI,
   downloadsAPI,
@@ -80,4 +106,5 @@ contextBridge.exposeInMainWorld('renderer', {
   keyboardAPI,
   notificationsAPI,
   themesAPI,
+  loginAPI,
 });

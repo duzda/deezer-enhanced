@@ -13,6 +13,14 @@ import { DEEZER_URL } from './main/utils/urls';
 import { generateMenu } from './main/menu';
 import { initializeZoom, onDimensionsChange } from './main/zoom';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './main/utils/size';
+import {
+  createLoginHandles,
+  handleLoginProtocol,
+  isLoggedIn,
+  isValidArlCookie,
+} from './main/login';
+import { LOGIN_ON_LOGIN, LOGIN_ON_LOGOUT } from './common/channels/login';
+import { DEEZER_LOGIN_PROTOCOL, DEEZER_LOGIN_URL } from './main/utils/login';
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
@@ -25,6 +33,16 @@ const HOST_BLACKLIST: ReadonlyArray<string> = [
   'sentry.io',
   'survicate.com',
 ];
+
+if (process.defaultApp) {
+  if (process.argv.length >= 2) {
+    app.setAsDefaultProtocolClient(DEEZER_LOGIN_PROTOCOL, process.execPath, [
+      path.resolve(process.argv[1]),
+    ]);
+  }
+} else {
+  app.setAsDefaultProtocolClient(DEEZER_LOGIN_PROTOCOL);
+}
 
 if (!gotTheLock) {
   app.quit();
@@ -115,8 +133,6 @@ if (!gotTheLock) {
       return { action: 'deny' };
     });
 
-    view.webContents.loadURL(DEEZER_URL);
-
     initializeSettings(mainWindow, view).then(() =>
       loadBounds(mainWindow, mainView, view)
     );
@@ -126,6 +142,7 @@ if (!gotTheLock) {
     initializeZoom(mainWindow, mainView, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
+    createLoginHandles(view);
 
     mainView.webContents.on('context-menu', (_, properties) => {
       generateMenu(mainWindow, mainView, mainView, view, properties).popup({
@@ -141,16 +158,38 @@ if (!gotTheLock) {
           y: properties.y,
         });
       });
+    });
 
+    view.webContents.on('did-finish-load', async () => {
       fs.readFile(path.join(__dirname, '../build/view.js'), (err, data) => {
         if (err === null) {
           view.webContents.executeJavaScript(data.toString());
         }
       });
+
+      if (await isLoggedIn(view)) {
+        mainView.webContents.send(LOGIN_ON_LOGIN);
+        mainWindow.contentView.addChildView(view);
+      } else {
+        mainWindow.contentView.removeChildView(view);
+        mainView.webContents.send(LOGIN_ON_LOGOUT);
+      }
     });
 
+    // We listen to cookie addition and filter for the addition of session specific
+    // cookie, so we can redirect, after redirect this is handled through did-finish-load
+    view.webContents.session.cookies.on(
+      'changed',
+      (event, cookie, cause, removed) => {
+        if (!isValidArlCookie(cookie)) return;
+
+        if (!removed) {
+          view.webContents.loadURL(DEEZER_LOGIN_URL);
+        }
+      }
+    );
+
     mainWindow.contentView.addChildView(mainView);
-    mainWindow.contentView.addChildView(view);
 
     mainWindow.on('resize', () =>
       onDimensionsChange(mainWindow, mainView, view)
@@ -166,6 +205,12 @@ if (!gotTheLock) {
       saveBounds(mainWindow, view);
       return true;
     });
+
+    app.on('second-instance', (event, argv) => {
+      handleLoginProtocol(view, argv);
+    });
+
+    view.webContents.loadURL(DEEZER_URL);
   };
 
   app.on('ready', createWindow);

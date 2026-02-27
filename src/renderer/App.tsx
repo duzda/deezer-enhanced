@@ -1,7 +1,8 @@
-import { Route, Routes } from 'react-router';
+import { Route, Routes, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import SettingsPage from './pages/SettingsPage';
+import LoginPage from './pages/LoginPage';
 import Navigation from './components/Navigation';
 import { currentSettingsAtom } from './states/atoms';
 import LogPage from './pages/LogPage';
@@ -28,6 +29,7 @@ const getStyles = () =>
 
 function App(): React.JSX.Element {
   const setCurrentSettings = useSetAtom(currentSettingsAtom);
+  const navigate = useNavigate();
 
   const [notificationsQueue, setNotificationsQueue] = useState<
     NotificationData[]
@@ -71,10 +73,18 @@ function App(): React.JSX.Element {
     getStylesElement().innerHTML = getStyles();
     document.documentElement.setAttribute('data-theme', `custom`);
 
+    window.renderer.loginAPI.onLogout(() => {
+      navigate('/login');
+    });
+
+    window.renderer.loginAPI.onLogin(() => {
+      navigate('/idle');
+    });
+
     return () => {
       document.removeEventListener('keydown', handleKeydown);
     };
-  }, []);
+  }, [navigate]);
 
   useEffect(() => {
     const updateSettings = async () => {
@@ -87,8 +97,10 @@ function App(): React.JSX.Element {
   return (
     <div>
       <Routes>
+        <Route index element={null} />
+        <Route path="login" element={null} />
         <Route
-          index
+          path="idle"
           element={<Navigation notificationsQueue={notificationsQueue} />}
         />
         <Route
@@ -99,6 +111,8 @@ function App(): React.JSX.Element {
       </Routes>
       <Routes>
         <Route index element={null} />
+        <Route path="login" element={<LoginPage />} />
+        <Route path="idle" element={null} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="log" element={<LogPage />} />
       </Routes>
