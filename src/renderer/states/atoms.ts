@@ -17,3 +17,5 @@ export const currentLogAtom = atom<DownloadNotificationDisplayData>({
 export const currentNotificationsAtom = atom<DownloadObject[]>([]);
 
 export const viewExpandedAtom = atom<boolean>(false);
+
+export const cookiesExistAtom = atom<boolean>(false);

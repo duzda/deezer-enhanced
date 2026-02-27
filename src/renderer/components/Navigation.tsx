@@ -4,6 +4,7 @@ import { NotificationData } from './Downloads/notifications';
 import BackButton from './History/BackButton';
 import ForwardButton from './History/ForwardButton';
 import SettingsButton from './Settings/SettingsButton';
+import CookieButton from './Cookies/CookieButton';
 
 type NavigationProps = {
   notificationsQueue: NotificationData[];
@@ -24,6 +25,7 @@ function Navigation({
       </div>
       <NotificationManager notificationsQueue={notificationsQueue} />
       <div className="flex flex-row gap-4">
+        <CookieButton />
         <DownloadButton />
         <SettingsButton />
       </div>
