@@ -57,6 +57,7 @@
   },
   "dependencies": {
     "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service",
+    "@steipete/sweet-cookie": "^0.1.0",
     "discord-rpc": "git+https://github.com/duzda/RPC",
     "electron-squirrel-startup": "^1.0.1",
     "jotai": "^2.13.1",
