@@ -3,7 +3,6 @@ import { getCookies } from '@steipete/sweet-cookie';
 import {
   COOKIES_GET_ARL_STATUS,
   COOKIES_GET_FROM_BROWSER,
-  COOKIES_REMOVE_ARL,
   COOKIES_SET_ARL,
 } from '../common/channels/cookies';
 import { DEEZER_URL } from './utils/urls';
@@ -17,10 +16,6 @@ const createCookiesHandle = () => {
     });
 
     return cookies.length > 0;
-  });
-
-  ipcMain.handle(COOKIES_REMOVE_ARL, () => {
-    session.defaultSession.cookies.remove(DEEZER_URL, ARL_COOKIE_NAME);
   });
 
   ipcMain.on(COOKIES_SET_ARL, (_, arl: string) => {
