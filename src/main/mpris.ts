@@ -95,6 +95,7 @@ const updateMetadataSong = (player: Player, data: Song) => {
       data.ARTISTS !== undefined
         ? data.ARTISTS.map((artist) => artist.ART_NAME)
         : [data.ART_NAME],
+    'xesam:url': DEEZER_TRACK_URL + data.SNG_ID,
   };
 };
 
@@ -107,6 +108,7 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
     'xesam:title': data.EPISODE_TITLE,
     'xesam:album': data.SHOW_NAME,
     'xesam:artist': [data.SHOW_NAME],
+    'xesam:url': DEEZER_EPISODE_URL + data.EPISODE_ID,
   };
 };
 
