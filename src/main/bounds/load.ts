@@ -8,7 +8,7 @@ import {
   STEAMDECK_DEFAULT_BOUNDS,
 } from './types';
 import { getSettings } from '../settings';
-import { DEFAULT_HEIGHT, DEFAULT_WIDTH, NAVBAR_HEIGHT } from '../utils/size';
+import { NAVBAR_HEIGHT } from '../utils/size';
 import { setZoomFactor } from '../zoom';
 
 const isSteamDeck = () => {
@@ -47,18 +47,21 @@ export const loadBounds = async (
     window.maximize();
   }
 
+  const width = bounds.bounds.width ?? DEFAULT_BOUNDS.bounds.height;
+  const height = bounds.bounds.height ?? DEFAULT_BOUNDS.bounds.width;
+  const zoom = bounds.zoom ?? DEFAULT_BOUNDS.zoom;
+
   view.setBounds({
     x: 0,
-    y: NAVBAR_HEIGHT * bounds.zoom,
-    width: bounds.bounds.width ?? DEFAULT_WIDTH,
-    height:
-      (bounds.bounds.height ?? DEFAULT_HEIGHT) - NAVBAR_HEIGHT * bounds.zoom,
+    y: NAVBAR_HEIGHT * zoom,
+    width,
+    height: height - NAVBAR_HEIGHT * zoom,
   });
 
   mainView.webContents.once('did-navigate', () =>
-    setZoomFactor(mainView, bounds.zoom)
+    setZoomFactor(mainView, zoom)
   );
-  view.webContents.once('did-navigate', () => setZoomFactor(view, bounds.zoom));
+  view.webContents.once('did-navigate', () => setZoomFactor(view, zoom));
 
   if (getSettings().enableTray && getSettings().startInTray) return;
   window.show();

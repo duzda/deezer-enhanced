@@ -10,16 +10,16 @@ export type Bounds = {
   zoom: number;
 };
 
-export const DEFAULT_BOUNDS: Bounds = {
+export const DEFAULT_BOUNDS = {
   bounds: {
     width: DEFAULT_WIDTH,
     height: DEFAULT_HEIGHT,
   },
   maximized: false,
   zoom: 1.0,
-};
+} satisfies Bounds;
 
-export const STEAMDECK_DEFAULT_BOUNDS: Bounds = {
+export const STEAMDECK_DEFAULT_BOUNDS = {
   bounds: {
     x: 0,
     y: 0,
@@ -28,4 +28,4 @@ export const STEAMDECK_DEFAULT_BOUNDS: Bounds = {
   },
   maximized: true,
   zoom: 1.0,
-};
+} satisfies Bounds;
