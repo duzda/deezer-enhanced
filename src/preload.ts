@@ -18,10 +18,10 @@ import { ExecStatus } from './common/types/deemix';
 import { NOTIFICATIONS_CREATE } from './common/channels/notifications';
 import { THEMES_SET_STYLE } from './common/channels/themes';
 import {
-  COOKIES_GET_ARL_STATUS,
-  COOKIES_GET_FROM_BROWSER,
-  COOKIES_SET_ARL,
-} from './common/channels/cookies';
+  LOGIN_IS_LOGGED_IN,
+  LOGIN_EXTRACT_LOGIN_COOKIE_FROM_BROWSER,
+  LOGIN_SET_LOGIN_COOKIE,
+} from './common/channels/login';
 
 export const historyAPI = {
   goForward: () => ipcRenderer.send(HISTORY_GO_FORWARD),
@@ -78,15 +78,18 @@ export const themesAPI = {
   },
 };
 
-export const cookieAPI = {
-  getCookieStatus: (): Promise<boolean> => {
-    return ipcRenderer.invoke(COOKIES_GET_ARL_STATUS);
+export const loginAPI = {
+  getLoginStatus: (): Promise<boolean> => {
+    return ipcRenderer.invoke(LOGIN_IS_LOGGED_IN);
   },
-  setArl: (arl: string) => {
-    ipcRenderer.send(COOKIES_SET_ARL, arl);
+  setLoginCookie: (arl: string) => {
+    ipcRenderer.send(LOGIN_SET_LOGIN_COOKIE, arl);
   },
-  getCookieFromBrowser: (browserId: string): Promise<string> => {
-    return ipcRenderer.invoke(COOKIES_GET_FROM_BROWSER, browserId);
+  tryExtractLoginCookieFromBrowser: (browserId: string): Promise<string> => {
+    return ipcRenderer.invoke(
+      LOGIN_EXTRACT_LOGIN_COOKIE_FROM_BROWSER,
+      browserId
+    );
   },
 };
 
@@ -97,5 +100,5 @@ contextBridge.exposeInMainWorld('renderer', {
   keyboardAPI,
   notificationsAPI,
   themesAPI,
-  cookieAPI,
+  loginAPI,
 });

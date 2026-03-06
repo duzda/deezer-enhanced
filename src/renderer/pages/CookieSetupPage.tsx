@@ -1,50 +1,26 @@
-import { useAtom } from 'jotai';
-import React, { useEffect, useRef } from 'react';
-import { cookiesExistAtom } from '../states/atoms';
-import { browsers } from '../../main/utils/cookies';
+import React, { useEffect, useState } from 'react';
+import { SUPPORTED_BROWSERS } from '../../main/utils/login';
 
 function CookieSetupPage(): React.JSX.Element {
-  const [cookiesExist, setCookiesExist] = useAtom(cookiesExistAtom);
+  const [cookiesExist, setCookiesExist] = useState(false);
+  const [extractionError, setExtractionError] = useState('');
 
   useEffect(() => {
     const findCookies = async () => {
-      setCookiesExist(await window.renderer.cookieAPI.getCookieStatus());
+      setCookiesExist(await window.renderer.loginAPI.getLoginStatus());
     };
 
     // noinspection JSIgnoredPromiseFromCall
     findCookies();
   }, [setCookiesExist]);
 
-  const cookieInputRef = useRef<HTMLInputElement>(null);
-  const browserListSelectionRef = useRef<HTMLSelectElement>(null);
-  const extractionStatusSpanRef = useRef<HTMLSpanElement>(null);
-
-  const getArlFromBrowser = (browserId: string) => {
-    window.renderer.cookieAPI
-      .getCookieFromBrowser(browserId)
-      .then((arl: string) => {
-        // @ts-expect-error can't be null.
-        const span: HTMLSpanElement = extractionStatusSpanRef.current;
-        if (arl.startsWith('Error:')) {
-          span.className = span.className.replace(
-            'text-neutral-600',
-            'text-error'
-          );
-          span.textContent = `${arl}`;
-          return;
-        }
-
-        window.renderer.cookieAPI.setArl(arl);
-        setCookiesExist(true);
-      });
-  };
   return (
     <main>
       <div className="flex flex-row">
         <div className="min-w-96 w-4/5 mx-auto my-8 flex flex-col gap-8 bg-base-200 p-8 rounded-md border-2 border-neutral">
           <p>
-            Deezer utilizes complicated cryptographical checks during login,
-            which won&#39;t work in Electron application and even some browsers.
+            Deezer utilizes complicated cryptographic checks during login, which
+            won&#39;t work in Electron application and even some browsers.
           </p>
           <p>This application provides two ways for you to log in:</p>
           <ol>
@@ -67,72 +43,80 @@ function CookieSetupPage(): React.JSX.Element {
               <span className="text-error">not available</span>
             )}
           </p>
-          {cookiesExist ? (
-            /* TODO: possibly there button to remove the arl cookie. */
-            <div />
-          ) : (
+          {/* the forms */}
+          {!cookiesExist && (
             <>
-              <div className="flex flex-row items-center">
-                <input
-                  type="text"
-                  ref={cookieInputRef}
-                  placeholder="Enter the ARL cookie"
-                  className="bg-base-100/40 border-2 border-neutral rounded-md w-1/3 p-2 outline-none"
-                />
-                <button
-                  type="button"
-                  className="rounded-md p-2 ml-3 cursor-pointer w-40 font-bold text-primary"
-                  style={{ background: '#a13bff' }}
-                  onClick={() => {
-                    // @ts-expect-error cookieInputRef is always true, as it is assigned to the input above.
-                    const arl: string = cookieInputRef.current.value;
+              <form
+                action={(form) => {
+                  const arl: string = form.get('cookie')!.toString();
 
-                    if (arl.length === 0) {
-                      return;
-                    }
+                  // TODO: verification logic
+                  if (arl.length === 0) {
+                    return;
+                  }
 
-                    window.renderer.cookieAPI.setArl(arl);
-                    setCookiesExist(true);
-                  }}
-                >
-                  <span className="text-primary">Add cookie</span>
-                </button>
-                <span className="text-neutral-600 ml-3">
-                  Note that the cookie is not checked to be correct.
-                </span>
-              </div>
-              <div className="flex flex-row items-center">
-                <select
-                  className={`${cookiesExist ? 'bg-base-100/20' : 'bg-base-100/40'} border-2 border-neutral rounded-md w-1/3 p-2 outline-none`}
-                  ref={browserListSelectionRef}
-                >
-                  {browsers.entries().map(([id, displayName]) => {
-                    return (
-                      <option value={id} key={id} className="bg-base-100">
-                        {displayName}
-                      </option>
+                  window.renderer.loginAPI.setLoginCookie(arl);
+                  setCookiesExist(true);
+                }}
+              >
+                <div className="flex flex-row items-center">
+                  <input
+                    type="text"
+                    name="cookie"
+                    placeholder="Enter the ARL cookie"
+                    className="input w-1/3"
+                  />
+                  <button
+                    type="submit"
+                    className="btn btn-secondary p-2 ml-3 w-40"
+                  >
+                    <span>Add cookie</span>
+                  </button>
+                  <span className="text-neutral-600 ml-3">
+                    Note that the cookie is not checked to be correct.
+                  </span>
+                </div>
+              </form>
+              <form
+                action={async (form) => {
+                  const browserId = form.get('selectedBrowser')!.toString();
+
+                  const arl =
+                    await window.renderer.loginAPI.tryExtractLoginCookieFromBrowser(
+                      browserId
                     );
-                  })}
-                </select>
 
-                <button
-                  type="button"
-                  className="rounded-md p-2 ml-3 cursor-pointer w-40 font-bold text-primary"
-                  style={{ background: cookiesExist ? '#b769ff' : '#a13bff' }}
-                  disabled={cookiesExist}
-                  onClick={() => {
-                    // @ts-expect-error we don't need to await this method, as it can't be done on the client.
-                    getArlFromBrowser(browserListSelectionRef.current.value);
-                  }}
-                >
-                  <span>Extract</span>
-                </button>
+                  if (arl.startsWith('Error:')) {
+                    setExtractionError(arl);
+                    return;
+                  }
 
-                <span
-                  className="ml-3 text-neutral-600"
-                  ref={extractionStatusSpanRef}
-                />
-              </div>
+                  window.renderer.loginAPI.setLoginCookie(arl);
+                  setCookiesExist(true);
+                }}
+              >
+                <div className="flex flex-row items-center">
+                  <select className="select w-1/3" name="selectedBrowser">
+                    {Object.entries(SUPPORTED_BROWSERS).map(
+                      ([id, displayName]) => {
+                        return (
+                          <option value={id} key={id}>
+                            {displayName}
+                          </option>
+                        );
+                      }
+                    )}
+                  </select>
+
+                  <button
+                    type="submit"
+                    className="btn btn-secondary p-2 ml-3 w-40"
+                  >
+                    <span>Extract</span>
+                  </button>
+                  <span className="ml-3 text-error">{extractionError}</span>
+                </div>
+              </form>
             </>
           )}
         </div>
