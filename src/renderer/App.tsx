@@ -2,6 +2,7 @@ import { Route, Routes } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai';
 import SettingsPage from './pages/SettingsPage';
+import CookieSetupPage from './pages/CookieSetupPage';
 import Navigation from './components/Navigation';
 import { currentSettingsAtom } from './states/atoms';
 import LogPage from './pages/LogPage';
@@ -95,10 +96,15 @@ function App(): React.JSX.Element {
           path="settings"
           element={<Navigation notificationsQueue={notificationsQueue} />}
         />
+        <Route
+          path="cookies_setup"
+          element={<Navigation notificationsQueue={notificationsQueue} />}
+        />
         <Route path="log" element={<LogNavigation />} />
       </Routes>
       <Routes>
         <Route index element={null} />
+        <Route path="cookies_setup" element={<CookieSetupPage />} />
         <Route path="settings" element={<SettingsPage />} />
         <Route path="log" element={<LogPage />} />
       </Routes>

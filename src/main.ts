@@ -13,6 +13,7 @@ import { DEEZER_URL } from './main/utils/urls';
 import { generateMenu } from './main/menu';
 import { initializeZoom, onDimensionsChange } from './main/zoom';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './main/utils/size';
+import { createLoginHandles } from './main/login';
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
@@ -126,6 +127,7 @@ if (!gotTheLock) {
     initializeZoom(mainWindow, mainView, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
+    createLoginHandles(view);
 
     mainView.webContents.on('context-menu', (_, properties) => {
       generateMenu(mainWindow, mainView, mainView, view, properties).popup({

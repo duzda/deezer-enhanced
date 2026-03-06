@@ -17,6 +17,11 @@ import { SerializedKeyboardEvent } from './common/types/serializedKeyboardEvent'
 import { ExecStatus } from './common/types/deemix';
 import { NOTIFICATIONS_CREATE } from './common/channels/notifications';
 import { THEMES_SET_STYLE } from './common/channels/themes';
+import {
+  LOGIN_IS_LOGGED_IN,
+  LOGIN_EXTRACT_LOGIN_COOKIE_FROM_BROWSER,
+  LOGIN_SET_LOGIN_COOKIE,
+} from './common/channels/login';
 
 export const historyAPI = {
   goForward: () => ipcRenderer.send(HISTORY_GO_FORWARD),
@@ -73,6 +78,21 @@ export const themesAPI = {
   },
 };
 
+export const loginAPI = {
+  getLoginStatus: (): Promise<boolean> => {
+    return ipcRenderer.invoke(LOGIN_IS_LOGGED_IN);
+  },
+  setLoginCookie: (arl: string) => {
+    ipcRenderer.send(LOGIN_SET_LOGIN_COOKIE, arl);
+  },
+  tryExtractLoginCookieFromBrowser: (browserId: string): Promise<string> => {
+    return ipcRenderer.invoke(
+      LOGIN_EXTRACT_LOGIN_COOKIE_FROM_BROWSER,
+      browserId
+    );
+  },
+};
+
 contextBridge.exposeInMainWorld('renderer', {
   historyAPI,
   downloadsAPI,
@@ -80,4 +100,5 @@ contextBridge.exposeInMainWorld('renderer', {
   keyboardAPI,
   notificationsAPI,
   themesAPI,
+  loginAPI,
 });
