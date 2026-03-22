@@ -49,7 +49,6 @@ function App(): React.JSX.Element {
 
   useEffect(() => {
     const handleKeydown = (event: KeyboardEvent) => {
-      event.preventDefault();
       window.renderer.keyboardAPI.sendKeypress({
         key: event.key,
         altKey: event.altKey,
