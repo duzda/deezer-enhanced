@@ -151,7 +151,7 @@ if (!gotTheLock) {
       });
     });
 
-    view.webContents.on('did-finish-load', () => {
+    view.webContents.once('did-finish-load', () => {
       view.webContents.on('context-menu', (_, properties) => {
         generateMenu(mainWindow, view, mainView, view, properties).popup({
           x: properties.x,
