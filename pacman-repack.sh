@@ -27,6 +27,12 @@ VERSION=$1
     # Apply fix
     chmod 755 "deezer-enhanced-${VERSION}/opt/deezer-enhanced"
 
+    # Fix .desktop file
+    sed -i '2s/.*/Name=Deezer Enhanced/' "deezer-enhanced-${VERSION}/usr/share/applications/deezer-enhanced.desktop"
+    sed -i '7s/.*/StartupWMClass=Deezer Enhanced/' "deezer-enhanced-${VERSION}/usr/share/applications/deezer-enhanced.desktop"
+    sed -i '9s/.*/Categories=Audio;AudioVideo;/' "deezer-enhanced-${VERSION}/usr/share/applications/deezer-enhanced.desktop"
+    echo "MimeType=x-scheme-handler/deezer" >> "deezer-enhanced-${VERSION}/usr/share/applications/deezer-enhanced.desktop" 
+
     # Package as a new package
     (
         cd "deezer-enhanced-${VERSION}" || exit 1
