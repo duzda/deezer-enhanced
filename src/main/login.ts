@@ -1,4 +1,4 @@
-import { Cookie, ipcMain, shell, WebContentsView } from 'electron';
+import { Cookie, ipcMain, shell, WebContentsView, dialog } from 'electron';
 import {
   LOGIN_IS_LOGGED_IN,
   LOGIN_SET_LOGIN_COOKIE,
@@ -37,6 +37,17 @@ export const handleLoginProtocol = async (
 ) => {
   const arg = argv.find((value) => value.startsWith(DEEZER_LOGIN_PROTOCOL));
   if (!arg) return;
+
+  // in future, if any request for some another protocol to be handled would appear,
+  // it would be better to bring it protocol handling in some other place,
+  // as this functions specifically named to handle login
+  if (!arg.startsWith(DEEZER_PROTOCOL_URI_LOGIN)) {
+    dialog.showErrorBox(
+      'Unexpected URI',
+      `Deezer Enhanced has handled the Deezer protocol, but the URI is not supported.\n\nProtocol: ${arg}\n\nOpen a GitHub issue to request support for it: https://github.com/duzda/deezer-enhanced/issues`
+    );
+    return;
+  }
 
   const arl = arg.replace(DEEZER_PROTOCOL_URI_LOGIN, '');
   setArl(view, arl);
