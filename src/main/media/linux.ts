@@ -1,4 +1,5 @@
 /* eslint-disable no-param-reassign */
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Player from '@jellybrick/mpris-service';
 import { ipcMain, WebContentsView } from 'electron';
 import {

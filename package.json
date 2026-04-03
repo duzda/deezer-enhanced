@@ -57,12 +57,14 @@
     "vite": "^6.2.2"
   },
   "dependencies": {
-    "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service",
     "discord-rpc": "git+https://github.com/duzda/RPC",
     "jotai": "^2.13.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-router": "^7.9.4"
+  },
+  "optionalDependencies": {
+    "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service"
   },
   "private": "true"
 }
