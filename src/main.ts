@@ -6,7 +6,7 @@ import { getSettings, initializeSettings } from './main/settings';
 import { loadBounds } from './main/bounds/load';
 import { saveBounds } from './main/bounds/save';
 import { initializeDownloads } from './main/downloads';
-import { initializePlayer } from './main/mpris';
+import { initializeMedia } from './main/media';
 import { initializeThemeSwitcher } from './main/theme_switcher';
 import { createKeyboardHandles } from './main/keyboard';
 import { DEEZER_URL } from './main/utils/urls';
@@ -21,6 +21,13 @@ import {
 } from './main/login';
 import { LOGIN_ON_LOGIN, LOGIN_ON_LOGOUT } from './common/channels/login';
 import { DEEZER_LOGIN_PROTOCOL, DEEZER_LOGIN_URL } from './main/utils/login';
+import { checkSquirrel } from './main/utils/squirrel';
+
+if (checkSquirrel()) app.quit();
+
+if (process.platform === 'win32') {
+  app.setAppUserModelId('com.duzda.DeezerEnhanced.DeezerEnhanced');
+}
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
@@ -136,7 +143,7 @@ if (!gotTheLock) {
     initializeSettings(mainWindow, view).then(() =>
       loadBounds(mainWindow, mainView, view)
     );
-    initializePlayer(view);
+    initializeMedia(view);
     initializeDownloads(mainView, view);
     initializeThemeSwitcher(mainView, view);
     initializeZoom(mainWindow, mainView, view);

@@ -1,6 +1,6 @@
 import {
   trayAPI,
-  mprisAPI,
+  mediaAPI,
   settingsAPI,
   themesAPI,
   zoomAPI,
@@ -10,7 +10,7 @@ declare global {
   interface Window {
     view: {
       settingsAPI: typeof settingsAPI;
-      mprisAPI: typeof mprisAPI;
+      mediaAPI: typeof mediaAPI;
       trayAPI: typeof trayAPI;
       themesAPI: typeof themesAPI;
       zoomAPI: typeof zoomAPI;

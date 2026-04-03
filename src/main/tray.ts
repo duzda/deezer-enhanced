@@ -2,10 +2,10 @@ import { BaseWindow, Menu, Tray, WebContentsView, app } from 'electron';
 import fs from 'fs';
 import path from 'path';
 import {
-  MPRIS_NEXT_SONG,
-  MPRIS_PREV_SONG,
-  MPRIS_TOGGLE_STATUS,
-} from '../common/channels/mpris';
+  MEDIA_NEXT_SONG,
+  MEDIA_PREV_SONG,
+  MEDIA_TOGGLE_STATUS,
+} from '../common/channels/media';
 import {
   TRAY_ADD_VOLUME,
   TRAY_FAVORITE,
@@ -54,17 +54,17 @@ export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
       {
         label: 'Play/Pause',
         enabled: true,
-        click: () => view.webContents.send(MPRIS_TOGGLE_STATUS),
+        click: () => view.webContents.send(MEDIA_TOGGLE_STATUS),
       },
       {
         label: 'Next',
         enabled: true,
-        click: () => view.webContents.send(MPRIS_NEXT_SONG),
+        click: () => view.webContents.send(MEDIA_NEXT_SONG),
       },
       {
         label: 'Previous',
         enabled: true,
-        click: () => view.webContents.send(MPRIS_PREV_SONG),
+        click: () => view.webContents.send(MEDIA_PREV_SONG),
       },
       {
         type: 'separator',
