@@ -1,4 +1,4 @@
-import { initializeMpris } from './injections/mpris';
+import { initializeMedia } from './injections/media';
 import { initializeOfflineBanner } from './injections/offline_banner';
 import { initializeThemeSwitcher } from './injections/theme_switcher';
 import { initializeVolumePower } from './injections/volume';
@@ -10,7 +10,7 @@ import { ViewWindow } from './types';
 const onStartup = () => {
   setTimeout(() => {
     initializeOfflineBanner();
-    initializeMpris();
+    initializeMedia();
     initializeVolumePower();
     initializeVolumeScroll();
     initializeThemeSwitcher();

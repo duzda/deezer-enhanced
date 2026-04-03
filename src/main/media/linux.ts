@@ -2,23 +2,23 @@
 import Player from '@jellybrick/mpris-service';
 import { ipcMain, WebContentsView } from 'electron';
 import {
-  MPRIS_NEXT_SONG,
-  MPRIS_PAUSE,
-  MPRIS_PLAY,
-  MPRIS_PREV_SONG,
-  MPRIS_READ_POSITION,
-  MPRIS_READ_REPEAT,
-  MPRIS_READ_SHUFFLE,
-  MPRIS_READ_SONG,
-  MPRIS_READ_STATUS,
-  MPRIS_READ_VOLUME,
-  MPRIS_SET_REPEAT,
-  MPRIS_SET_SEEK,
-  MPRIS_SET_SHUFFLE,
-  MPRIS_SET_VOLUME,
-  MPRIS_STOP,
-  MPRIS_TOGGLE_STATUS,
-} from '../common/channels/mpris';
+  MEDIA_NEXT_SONG,
+  MEDIA_PAUSE,
+  MEDIA_PLAY,
+  MEDIA_PREV_SONG,
+  MEDIA_READ_POSITION,
+  MEDIA_READ_REPEAT,
+  MEDIA_READ_SHUFFLE,
+  MEDIA_READ_SONG,
+  MEDIA_READ_STATUS,
+  MEDIA_READ_VOLUME,
+  MEDIA_SET_REPEAT,
+  MEDIA_SET_SEEK,
+  MEDIA_SET_SHUFFLE,
+  MEDIA_SET_VOLUME,
+  MEDIA_STOP,
+  MEDIA_TOGGLE_STATUS,
+} from '../../common/channels/media';
 import {
   DEEZER_ART_RESOLUTION,
   DEEZER_EPISODE_ART_URL,
@@ -26,11 +26,11 @@ import {
   DEEZER_NOTIFICATION_RESOLUTION,
   DEEZER_SONG_ART_URL,
   DEEZER_TRACK_URL,
-} from './utils/urls';
-import { isDiscordEnabled, setDiscordActivity } from './discord';
-import { getSettings } from './settings';
-import { Episode, Song } from '../common/types/deezer';
-import { NOTIFICATIONS_CREATE } from '../common/channels/notifications';
+} from '../utils/urls';
+import { isDiscordEnabled, setDiscordActivity } from '../discord';
+import { getSettings } from '../settings';
+import { Episode, Song } from '../../common/types/deezer';
+import { NOTIFICATIONS_CREATE } from '../../common/channels/notifications';
 
 let songId = '';
 
@@ -43,36 +43,36 @@ const createMprisHandles = (player: Player, deezerView: WebContentsView) => {
   player.on('quit', () => {
     process.exit();
   });
-  player.on('pause', () => deezerView.webContents.send(MPRIS_PAUSE));
-  player.on('play', () => deezerView.webContents.send(MPRIS_PLAY));
+  player.on('pause', () => deezerView.webContents.send(MEDIA_PAUSE));
+  player.on('play', () => deezerView.webContents.send(MEDIA_PLAY));
   player.on('playpause', () =>
-    deezerView.webContents.send(MPRIS_TOGGLE_STATUS)
+    deezerView.webContents.send(MEDIA_TOGGLE_STATUS)
   );
-  player.on('stop', () => deezerView.webContents.send(MPRIS_STOP));
+  player.on('stop', () => deezerView.webContents.send(MEDIA_STOP));
   player.on('loopStatus', (loopStatus) => {
     if (typeof loopStatus === 'string') {
       const index = status.indexOf(loopStatus);
       player.loopStatus = status[index];
-      deezerView.webContents.send(MPRIS_SET_REPEAT, index);
+      deezerView.webContents.send(MEDIA_SET_REPEAT, index);
     }
   });
   player.on('shuffle', (shuffleStatus) => {
     if (typeof shuffleStatus === 'boolean') {
       player.shuffle = shuffleStatus;
-      deezerView.webContents.send(MPRIS_SET_SHUFFLE, shuffleStatus);
+      deezerView.webContents.send(MEDIA_SET_SHUFFLE, shuffleStatus);
     }
   });
-  player.on('next', () => deezerView.webContents.send(MPRIS_NEXT_SONG));
-  player.on('previous', () => deezerView.webContents.send(MPRIS_PREV_SONG));
+  player.on('next', () => deezerView.webContents.send(MEDIA_NEXT_SONG));
+  player.on('previous', () => deezerView.webContents.send(MEDIA_PREV_SONG));
   player.on('volume', (volume) =>
-    deezerView.webContents.send(MPRIS_SET_VOLUME, volume)
+    deezerView.webContents.send(MEDIA_SET_VOLUME, volume)
   );
   // For setting the exact position (for example): playerctl position 10
   player.on('position', (event) => {
     if ('position' in event && typeof event.position === 'number') {
       const dzPosition = event.position / 1_000_000;
       const dzLength = player.metadata['mpris:length'] / 1_000_000;
-      deezerView.webContents.send(MPRIS_SET_SEEK, dzPosition / dzLength, false);
+      deezerView.webContents.send(MEDIA_SET_SEEK, dzPosition / dzLength, false);
     }
   });
   // For setting the position (for example): playerctl position 10+
@@ -80,7 +80,7 @@ const createMprisHandles = (player: Player, deezerView: WebContentsView) => {
     if (typeof offset === 'number') {
       const dzOffset = offset / 1_000_000;
       const dzLength = player.metadata['mpris:length'] / 1_000_000;
-      deezerView.webContents.send(MPRIS_SET_SEEK, dzOffset / dzLength, true);
+      deezerView.webContents.send(MEDIA_SET_SEEK, dzOffset / dzLength, true);
     }
   });
 };
@@ -115,7 +115,7 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
 };
 
 const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
-  ipcMain.on(MPRIS_READ_SONG, (_, data) => {
+  ipcMain.on(MEDIA_READ_SONG, (_, data) => {
     if (!data) return;
     if (data.SNG_ID) {
       const songData = data as Song;
@@ -184,22 +184,22 @@ const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
       }
     }
   });
-  ipcMain.on(MPRIS_READ_POSITION, (_, position) => {
+  ipcMain.on(MEDIA_READ_POSITION, (_, position) => {
     songStart = new Date().getTime();
     songOffset = position * 1_000_000;
   });
-  ipcMain.on(MPRIS_READ_STATUS, (_, playing) => {
+  ipcMain.on(MEDIA_READ_STATUS, (_, playing) => {
     player.playbackStatus = playing
       ? Player.PLAYBACK_STATUS_PLAYING
       : Player.PLAYBACK_STATUS_PAUSED;
   });
-  ipcMain.on(MPRIS_READ_VOLUME, (_, volume) => {
+  ipcMain.on(MEDIA_READ_VOLUME, (_, volume) => {
     player.volume = volume;
   });
-  ipcMain.on(MPRIS_READ_SHUFFLE, (_, shuffleStatus) => {
+  ipcMain.on(MEDIA_READ_SHUFFLE, (_, shuffleStatus) => {
     player.shuffle = shuffleStatus;
   });
-  ipcMain.on(MPRIS_READ_REPEAT, (_, loopStatus) => {
+  ipcMain.on(MEDIA_READ_REPEAT, (_, loopStatus) => {
     player.loopStatus = status[loopStatus];
   });
 };

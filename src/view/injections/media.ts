@@ -1,67 +1,67 @@
 import { ViewWindow } from '../types';
 import { favorite } from './favorite';
 
-export const initializeMpris = () => {
+export const initializeMedia = () => {
   const viewWindow: ViewWindow = window as ViewWindow;
   if (typeof viewWindow.Events !== 'undefined') {
     viewWindow.Events.subscribe(viewWindow.Events.player.playerReady, () => {
-      viewWindow.view.mprisAPI.sendPosition(viewWindow.dzPlayer.getPosition());
-      viewWindow.view.mprisAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
+      viewWindow.view.mediaAPI.sendPosition(viewWindow.dzPlayer.getPosition());
+      viewWindow.view.mediaAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
     });
     viewWindow.Events.subscribe(
       viewWindow.Events.player.updateCurrentTrack,
       () => {
-        viewWindow.view.mprisAPI.sendPosition(
+        viewWindow.view.mediaAPI.sendPosition(
           viewWindow.dzPlayer.getPosition()
         );
-        viewWindow.view.mprisAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
+        viewWindow.view.mediaAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
       }
     );
     viewWindow.Events.subscribe(viewWindow.Events.player.trackChange, () => {
-      viewWindow.view.mprisAPI.sendPosition(viewWindow.dzPlayer.getPosition());
-      viewWindow.view.mprisAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
+      viewWindow.view.mediaAPI.sendPosition(viewWindow.dzPlayer.getPosition());
+      viewWindow.view.mediaAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
     });
     viewWindow.Events.subscribe(viewWindow.Events.player.playing, () => {
-      viewWindow.view.mprisAPI.sendStatus(viewWindow.dzPlayer.isPlaying());
-      viewWindow.view.mprisAPI.sendPosition(viewWindow.dzPlayer.getPosition());
-      viewWindow.view.mprisAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
+      viewWindow.view.mediaAPI.sendStatus(viewWindow.dzPlayer.isPlaying());
+      viewWindow.view.mediaAPI.sendPosition(viewWindow.dzPlayer.getPosition());
+      viewWindow.view.mediaAPI.sendSong(viewWindow.dzPlayer.getCurrentSong());
     });
     viewWindow.Events.subscribe(viewWindow.Events.player.volume_changed, () => {
-      viewWindow.view.mprisAPI.sendVolume(viewWindow.dzPlayer.getVolume());
+      viewWindow.view.mediaAPI.sendVolume(viewWindow.dzPlayer.getVolume());
     });
     viewWindow.Events.subscribe(
       viewWindow.Events.player.shuffle_changed,
       () => {
-        viewWindow.view.mprisAPI.sendShuffle(viewWindow.dzPlayer.isShuffle());
+        viewWindow.view.mediaAPI.sendShuffle(viewWindow.dzPlayer.isShuffle());
       }
     );
     viewWindow.Events.subscribe(viewWindow.Events.player.repeat_changed, () => {
-      viewWindow.view.mprisAPI.sendRepeat(viewWindow.dzPlayer.getRepeat());
+      viewWindow.view.mediaAPI.sendRepeat(viewWindow.dzPlayer.getRepeat());
     });
   }
 
-  viewWindow.view.mprisAPI.onPlay(() => viewWindow.dzPlayer.control.play());
-  viewWindow.view.mprisAPI.onPause(() => viewWindow.dzPlayer.control.pause());
-  viewWindow.view.mprisAPI.onStop(() => viewWindow.dzPlayer.control.pause());
-  viewWindow.view.mprisAPI.onToggleStatus(() =>
+  viewWindow.view.mediaAPI.onPlay(() => viewWindow.dzPlayer.control.play());
+  viewWindow.view.mediaAPI.onPause(() => viewWindow.dzPlayer.control.pause());
+  viewWindow.view.mediaAPI.onStop(() => viewWindow.dzPlayer.control.pause());
+  viewWindow.view.mediaAPI.onToggleStatus(() =>
     viewWindow.dzPlayer.control.togglePause()
   );
-  viewWindow.view.mprisAPI.onNextSong(() =>
+  viewWindow.view.mediaAPI.onNextSong(() =>
     viewWindow.dzPlayer.control.nextSong()
   );
-  viewWindow.view.mprisAPI.onPrevSong(() =>
+  viewWindow.view.mediaAPI.onPrevSong(() =>
     viewWindow.dzPlayer.control.prevSong()
   );
-  viewWindow.view.mprisAPI.onSetVolume((volume) =>
+  viewWindow.view.mediaAPI.onSetVolume((volume) =>
     viewWindow.dzPlayer.control.setVolume(volume)
   );
-  viewWindow.view.mprisAPI.onSetRepeat((repeat) =>
+  viewWindow.view.mediaAPI.onSetRepeat((repeat) =>
     viewWindow.dzPlayer.control.setRepeat(repeat)
   );
-  viewWindow.view.mprisAPI.onSetShuffle((shuffle) => {
+  viewWindow.view.mediaAPI.onSetShuffle((shuffle) => {
     viewWindow.dzPlayer.control.setShuffle(shuffle);
   });
-  viewWindow.view.mprisAPI.onSetSeek((position, move) => {
+  viewWindow.view.mediaAPI.onSetSeek((position, move) => {
     const currentSong = viewWindow.dzPlayer.getCurrentSong();
     if (currentSong) {
       if (move) {

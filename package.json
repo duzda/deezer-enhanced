@@ -25,6 +25,7 @@
     "@electron-forge/maker-flatpak": "7.8.3",
     "@electron-forge/maker-rpm": "7.8.3",
     "@electron-forge/maker-snap": "7.8.3",
+    "@electron-forge/maker-squirrel": "^7.11.1",
     "@electron-forge/plugin-auto-unpack-natives": "7.8.3",
     "@electron-forge/plugin-fuses": "7.8.3",
     "@electron-forge/plugin-vite": "7.8.3",
@@ -58,7 +59,6 @@
   "dependencies": {
     "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service",
     "discord-rpc": "git+https://github.com/duzda/RPC",
-    "electron-squirrel-startup": "^1.0.1",
     "jotai": "^2.13.1",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
