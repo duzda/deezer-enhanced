@@ -40,6 +40,7 @@
     "electron": "^40.4.1",
     "electron-forge-maker-appimage": "git+https://github.com/duzda/electron-forge-maker-appimage",
     "electron-forge-maker-pacman": "git+https://github.com/duzda/electron-forge-maker-pacman",
+    "electron-winstaller": "^5.4.0",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
     "eslint-config-airbnb-typescript": "^18.0.0",
