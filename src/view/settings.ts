@@ -7,7 +7,7 @@ const OnSet: Setters = {
   startInTray: () => {},
   enableNotifications: () => {},
   deemixIntegration: () => {},
-  volumePower: (newValue: number) => setVolumePower(newValue),
+  volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
 };
 
@@ -22,9 +22,7 @@ export const initializeSettings = async () => {
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);
 
-  window.view.settingsAPI.onSetProperty((key: string, value: unknown) => {
-    if (key in OnSet) {
-      OnSet[key as keyof Setters](value as never);
-    }
+  window.view.settingsAPI.onSetProperty((key, value) => {
+    OnSet[key](value);
   });
 };

@@ -1,13 +1,10 @@
 import { useAtom } from 'jotai';
-import {
-  DEFAULT_SETTINGS,
-  SettingsProperties,
-} from '../../../common/types/settings';
+import { DEFAULT_SETTINGS, Settings } from '../../../common/types/settings';
 import { currentSettingsAtom } from '../../states/atoms';
 import Switch from './Switch';
 import NumberInput from './NumberInput';
 
-const setValue = (key: SettingsProperties, value: unknown) =>
+const setValue = <K extends keyof Settings>(key: K, value: Settings[K]) =>
   window.renderer.settingsAPI.setSettingProperty(key, value);
 
 function SettingsForm(): React.JSX.Element {
