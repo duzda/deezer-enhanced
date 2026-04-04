@@ -106,6 +106,7 @@ export const initializeSettings = async (
         disconnectDiscord();
       }
     },
+    adblock: () => {},
   };
 
   await loadFromFile(SETTINGS_FILE);

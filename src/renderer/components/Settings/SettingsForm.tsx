@@ -84,6 +84,15 @@ function SettingsForm(): React.JSX.Element {
           setCurrentSettings({ ...currentSettings, discordRPC: newValue });
         }}
       />
+      <Switch
+        id="adblock"
+        state={currentSettings.adblock}
+        text="Adblock (disables podcasts)"
+        onChange={(newValue) => {
+          setValue('adblock', newValue);
+          setCurrentSettings({ ...currentSettings, adblock: newValue });
+        }}
+      />
       <button
         type="button"
         className="cursor-pointer font-bold text-primary"
