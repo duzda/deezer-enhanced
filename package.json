@@ -36,7 +36,7 @@
     "@typescript-eslint/eslint-plugin": "^7.18.0",
     "@typescript-eslint/parser": "^7.18.0",
     "daisyui": "^5.5.14",
-    "electron": "^41.1.1",
+    "electron": "^37.10.3",
     "electron-forge-maker-appimage": "git+https://github.com/duzda/electron-forge-maker-appimage",
     "electron-forge-maker-pacman": "git+https://github.com/duzda/electron-forge-maker-pacman",
     "eslint": "^8.57.1",
