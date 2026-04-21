@@ -93,6 +93,16 @@ function SettingsForm(): React.JSX.Element {
           setCurrentSettings({ ...currentSettings, adblock: newValue });
         }}
       />
+      <Switch
+        id="save-arl"
+        state={currentSettings.saveArl}
+        text="Save ARL cookie"
+        onChange={(newValue) => {
+          setValue('saveArl', newValue);
+          setCurrentSettings({ ...currentSettings, saveArl: newValue });
+          if (!newValue) localStorage.removeItem('arl');
+        }}
+      />
       <button
         type="button"
         className="cursor-pointer font-bold text-primary"

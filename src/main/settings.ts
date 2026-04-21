@@ -34,6 +34,7 @@ const loadFromFile = async (file: string) => {
     OnSet.deemixIntegration(currentSettings.deemixIntegration);
     OnSet.volumePower(currentSettings.volumePower);
     OnSet.discordRPC(currentSettings.discordRPC);
+    OnSet.saveArl(currentSettings.saveArl);
   } catch {
     // eslint-disable-next-line no-console
     console.warn(`Error trying to read settings from file: ${file}`);
@@ -107,6 +108,7 @@ export const initializeSettings = async (
       }
     },
     adblock: () => {},
+    saveArl: () => {},
   };
 
   await loadFromFile(SETTINGS_FILE);

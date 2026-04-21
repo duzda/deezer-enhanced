@@ -10,6 +10,7 @@ const OnSet: Setters = {
   volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
   adblock: () => {},
+  saveArl: () => {},
 };
 
 export const initializeSettings = async () => {
@@ -22,6 +23,7 @@ export const initializeSettings = async () => {
   OnSet.deemixIntegration(settings.deemixIntegration);
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);
+  OnSet.saveArl(settings.saveArl);
 
   window.view.settingsAPI.onSetProperty((key, value) => {
     OnSet[key](value);

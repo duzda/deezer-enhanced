@@ -1,7 +1,11 @@
+import { useAtomValue } from 'jotai';
 import FormLayout from '../components/FormLayout';
 import LoginButton from '../components/LoginButton';
+import { currentSettingsAtom } from '../states/atoms';
 
 function LoginPage(): React.JSX.Element {
+  const { saveArl } = useAtomValue(currentSettingsAtom);
+
   return (
     <main className="min-h-screen flex items-center justify-center">
       <FormLayout>
@@ -23,6 +27,9 @@ function LoginPage(): React.JSX.Element {
         <form
           action={(form) => {
             const cookie = form.get('cookie')!;
+            if (saveArl) {
+              localStorage.setItem('arl', cookie.toString());
+            }
             window.renderer.loginAPI.setArl(cookie.toString());
           }}
         >
@@ -33,6 +40,7 @@ function LoginPage(): React.JSX.Element {
                 name="cookie"
                 placeholder="Enter the ARL cookie"
                 className="input w-full join-item"
+                defaultValue={saveArl ? localStorage.getItem('arl') || '' : ''}
               />
               <button type="submit" className="btn btn-secondary join-item">
                 Add cookie

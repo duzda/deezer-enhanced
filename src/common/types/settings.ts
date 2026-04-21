@@ -7,6 +7,7 @@ export interface Settings {
   volumePower: number;
   discordRPC: boolean;
   adblock: boolean;
+  saveArl: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -18,6 +19,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volumePower: 4,
   discordRPC: false,
   adblock: false,
+  saveArl: false,
 };
 
 type Setter<T extends keyof Settings> = (newValue: Settings[T]) => void;
