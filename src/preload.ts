@@ -51,7 +51,7 @@ export const downloadsAPI = {
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),
-  setSettingProperty: (key: string, value: unknown) =>
+  setSettingProperty: <K extends keyof Settings>(key: K, value: Settings[K]) =>
     ipcRenderer.send(SETTINGS_SET_PROPERTY, key, value),
   resetSettings: () => ipcRenderer.send(SETTINGS_RESET),
   showSettings: () => ipcRenderer.send(SETTINGS_SHOW),

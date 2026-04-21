@@ -1,13 +1,10 @@
 import { useAtom } from 'jotai';
-import {
-  DEFAULT_SETTINGS,
-  SettingsProperties,
-} from '../../../common/types/settings';
+import { DEFAULT_SETTINGS, Settings } from '../../../common/types/settings';
 import { currentSettingsAtom } from '../../states/atoms';
 import Switch from './Switch';
 import NumberInput from './NumberInput';
 
-const setValue = (key: SettingsProperties, value: unknown) =>
+const setValue = <K extends keyof Settings>(key: K, value: Settings[K]) =>
   window.renderer.settingsAPI.setSettingProperty(key, value);
 
 function SettingsForm(): React.JSX.Element {
@@ -85,6 +82,25 @@ function SettingsForm(): React.JSX.Element {
         onChange={(newValue) => {
           setValue('discordRPC', newValue);
           setCurrentSettings({ ...currentSettings, discordRPC: newValue });
+        }}
+      />
+      <Switch
+        id="adblock"
+        state={currentSettings.adblock}
+        text="Adblock (disables podcasts)"
+        onChange={(newValue) => {
+          setValue('adblock', newValue);
+          setCurrentSettings({ ...currentSettings, adblock: newValue });
+        }}
+      />
+      <Switch
+        id="save-arl"
+        state={currentSettings.saveArl}
+        text="Save ARL cookie"
+        onChange={(newValue) => {
+          setValue('saveArl', newValue);
+          setCurrentSettings({ ...currentSettings, saveArl: newValue });
+          if (!newValue) localStorage.removeItem('arl');
         }}
       />
       <button

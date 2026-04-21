@@ -38,8 +38,10 @@ import { ZOOM_SET } from './common/channels/zoom';
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),
-  onSetProperty: (callback: (key: string, value: unknown) => void) => {
-    ipcRenderer.on(SETTINGS_SET_PROPERTY, (_, key: string, value: unknown) =>
+  onSetProperty: (
+    callback: <K extends keyof Settings>(key: K, value: Settings[K]) => void
+  ) => {
+    ipcRenderer.on(SETTINGS_SET_PROPERTY, (_, key, value) =>
       callback(key, value)
     );
   },

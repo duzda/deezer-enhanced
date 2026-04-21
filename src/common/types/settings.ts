@@ -6,6 +6,8 @@ export interface Settings {
   deemixIntegration: boolean;
   volumePower: number;
   discordRPC: boolean;
+  adblock: boolean;
+  saveArl: boolean;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -16,25 +18,12 @@ export const DEFAULT_SETTINGS: Settings = {
   deemixIntegration: false,
   volumePower: 4,
   discordRPC: false,
+  adblock: false,
+  saveArl: false,
 };
 
-export type SettingsProperties =
-  | 'enableTray'
-  | 'closeToTray'
-  | 'startInTray'
-  | 'enableNotifications'
-  | 'deemixIntegration'
-  | 'volumePower'
-  | 'discordRPC';
-
-type Setter<T> = (newValue: T) => void | undefined;
+type Setter<T extends keyof Settings> = (newValue: Settings[T]) => void;
 
 export type Setters = {
-  enableTray: Setter<boolean>;
-  closeToTray: Setter<boolean>;
-  startInTray: Setter<boolean>;
-  enableNotifications: Setter<boolean>;
-  deemixIntegration: Setter<boolean>;
-  volumePower: Setter<number>;
-  discordRPC: Setter<boolean>;
+  [K in keyof Settings]: Setter<K>;
 };

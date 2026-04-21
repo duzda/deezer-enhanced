@@ -22,13 +22,10 @@ const loadFromFile = async (file: string) => {
   try {
     const data = await fs.readFile(file, { encoding: 'utf-8' });
 
-    currentSettings = JSON.parse(data);
-
-    Object.entries(DEFAULT_SETTINGS).forEach(([key, value]) => {
-      if (currentSettings[key as keyof Settings] === undefined) {
-        currentSettings[key as keyof Settings] = value as never;
-      }
-    });
+    currentSettings = {
+      ...DEFAULT_SETTINGS,
+      ...JSON.parse(data),
+    };
 
     OnSet.enableTray(currentSettings.enableTray);
     OnSet.closeToTray(currentSettings.closeToTray);
@@ -37,6 +34,7 @@ const loadFromFile = async (file: string) => {
     OnSet.deemixIntegration(currentSettings.deemixIntegration);
     OnSet.volumePower(currentSettings.volumePower);
     OnSet.discordRPC(currentSettings.discordRPC);
+    OnSet.saveArl(currentSettings.saveArl);
   } catch {
     // eslint-disable-next-line no-console
     console.warn(`Error trying to read settings from file: ${file}`);
@@ -54,17 +52,23 @@ const createSettingsHandles = (window: BaseWindow, view: WebContentsView) => {
     return currentSettings;
   });
 
-  ipcMain.on(SETTINGS_SET_PROPERTY, (_, key: string, value) => {
-    if (key in currentSettings) {
-      currentSettings[key as keyof Settings] = value as never;
-      saveToFile(SETTINGS_FILE);
-    }
-    if (key in OnSet) {
-      OnSet[key as keyof Setters](value as never);
-    }
+  ipcMain.on(
+    SETTINGS_SET_PROPERTY,
+    <K extends keyof Settings>(
+      _: Electron.IpcMainEvent,
+      key: K,
+      value: Settings[K]
+    ) => {
+      if (key in currentSettings) {
+        currentSettings[key] = value;
+        saveToFile(SETTINGS_FILE);
+      }
 
-    view.webContents.send(SETTINGS_SET_PROPERTY, key, value);
-  });
+      OnSet[key](value);
+
+      view.webContents.send(SETTINGS_SET_PROPERTY, key, value);
+    }
+  );
 
   ipcMain.on(SETTINGS_RESET, () => {
     currentSettings = DEFAULT_SETTINGS;
@@ -103,6 +107,8 @@ export const initializeSettings = async (
         disconnectDiscord();
       }
     },
+    adblock: () => {},
+    saveArl: () => {},
   };
 
   await loadFromFile(SETTINGS_FILE);

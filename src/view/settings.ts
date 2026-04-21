@@ -7,8 +7,10 @@ const OnSet: Setters = {
   startInTray: () => {},
   enableNotifications: () => {},
   deemixIntegration: () => {},
-  volumePower: (newValue: number) => setVolumePower(newValue),
+  volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
+  adblock: () => {},
+  saveArl: () => {},
 };
 
 export const initializeSettings = async () => {
@@ -21,10 +23,9 @@ export const initializeSettings = async () => {
   OnSet.deemixIntegration(settings.deemixIntegration);
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);
+  OnSet.saveArl(settings.saveArl);
 
-  window.view.settingsAPI.onSetProperty((key: string, value: unknown) => {
-    if (key in OnSet) {
-      OnSet[key as keyof Setters](value as never);
-    }
+  window.view.settingsAPI.onSetProperty((key, value) => {
+    OnSet[key](value);
   });
 };
