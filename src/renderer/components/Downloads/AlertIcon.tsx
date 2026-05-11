@@ -1,4 +1,4 @@
-import { ExecStatus } from 'src/common/types/deemix';
+import { ExecStatus } from '../../../common/types/deemix';
 
 type AlertIconProps = {
   status: ExecStatus;

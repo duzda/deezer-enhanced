@@ -1,5 +1,5 @@
 import { WebContentsView, ipcMain } from 'electron';
-import { SerializedKeyboardEvent } from 'src/common/types/serializedKeyboardEvent';
+import { SerializedKeyboardEvent } from '../common/types/serializedKeyboardEvent';
 import { KEYBOARD_SEND_KEYPRESS } from '../common/channels/keyboard';
 
 type KeyModifiers = (

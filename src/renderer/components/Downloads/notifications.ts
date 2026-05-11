@@ -1,6 +1,6 @@
-import { ExecStatus } from 'src/common/types/deemix';
 import { UUID } from 'crypto';
 import { DownloadType } from './deezer';
+import { ExecStatus } from '../../../common/types/deemix';
 
 export type DownloadNotificationData = {
   status: ExecStatus;

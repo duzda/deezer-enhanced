@@ -20,4 +20,6 @@ declare global {
       loginAPI: typeof loginAPI;
     };
   }
+
+  declare module '*.css';
 }

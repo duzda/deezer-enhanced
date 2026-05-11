@@ -1,5 +1,5 @@
 import { useAtomValue } from 'jotai';
-import { ExecStatus } from 'src/common/types/deemix';
+import { ExecStatus } from '../../common/types/deemix';
 import LogDisplay from '../components/LogDisplay';
 import { currentLogAtom } from '../states/atoms';
 

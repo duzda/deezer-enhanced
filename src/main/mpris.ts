@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import Player from '@jellybrick/mpris-service';
-import { Episode, Song } from 'src/common/types/deezer';
 import { ipcMain, WebContentsView } from 'electron';
 import {
   MPRIS_NEXT_SONG,
@@ -30,6 +29,7 @@ import {
 } from './utils/urls';
 import { isDiscordEnabled, setDiscordActivity } from './discord';
 import { getSettings } from './settings';
+import { Episode, Song } from '../common/types/deezer';
 import { NOTIFICATIONS_CREATE } from '../common/channels/notifications';
 
 let songId = '';
