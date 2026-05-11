@@ -86,9 +86,11 @@ export const loginAPI = {
     return ipcRenderer.invoke(LOGIN_IS_LOGGED_IN);
   },
   onLogin: (callback: () => void) => {
+    ipcRenderer.removeAllListeners(LOGIN_ON_LOGIN);
     ipcRenderer.on(LOGIN_ON_LOGIN, () => callback());
   },
   onLogout: (callback: () => void) => {
+    ipcRenderer.removeAllListeners(LOGIN_ON_LOGOUT);
     ipcRenderer.on(LOGIN_ON_LOGOUT, () => callback());
   },
   openLogin: (loginType: LoginType) => {

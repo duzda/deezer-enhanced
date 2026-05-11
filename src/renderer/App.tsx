@@ -72,6 +72,12 @@ function App(): React.JSX.Element {
     getStylesElement().innerHTML = getStyles();
     document.documentElement.setAttribute('data-theme', `custom`);
 
+    return () => {
+      document.removeEventListener('keydown', handleKeydown);
+    };
+  }, []);
+
+  useEffect(() => {
     window.renderer.loginAPI.onLogout(() => {
       navigate('/login');
     });
@@ -79,10 +85,6 @@ function App(): React.JSX.Element {
     window.renderer.loginAPI.onLogin(() => {
       navigate('/idle');
     });
-
-    return () => {
-      document.removeEventListener('keydown', handleKeydown);
-    };
   }, [navigate]);
 
   useEffect(() => {
