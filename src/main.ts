@@ -161,7 +161,7 @@ if (!gotTheLock) {
     initializeSettings(mainWindow, view).then(() =>
       loadBounds(mainWindow, mainView, view)
     );
-    initializePlayer(view);
+    initializePlayer(mainView, view);
     initializeDownloads(mainView, view);
     initializeThemeSwitcher(mainView, view);
     initializeZoom(mainWindow, mainView, view);

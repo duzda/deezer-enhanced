@@ -202,7 +202,10 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
   });
 };
 
-export const initializePlayer = (view: WebContentsView) => {
+export const initializePlayer = (
+  mainView: WebContentsView,
+  view: WebContentsView
+) => {
   const player: Player = new Player({
     name: 'Deezer',
     identity: 'Deezer media player',
@@ -224,6 +227,6 @@ export const initializePlayer = (view: WebContentsView) => {
     return player.playbackStatus === Player.PLAYBACK_STATUS_PLAYING;
   };
 
-  createMprisListeners(player, view);
+  createMprisListeners(player, mainView);
   createMprisHandles(player, view);
 };
