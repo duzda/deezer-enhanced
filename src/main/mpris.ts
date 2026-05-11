@@ -85,7 +85,7 @@ const createMprisHandles = (player: Player, view: WebContentsView) => {
 
 const updateMetadataSong = (player: Player, data: Song) => {
   player.metadata = {
-    'mpris:trackid': player.objectPath('track/0'),
+    'mpris:trackid': player.objectPath(`Track/${data.SNG_ID}`),
     'mpris:length': parseFloat(data.DURATION) * 1_000_000,
     'mpris:artUrl':
       DEEZER_SONG_ART_URL + data.ALB_PICTURE + DEEZER_ART_RESOLUTION,
@@ -101,7 +101,7 @@ const updateMetadataSong = (player: Player, data: Song) => {
 
 const updateMetadataEpisode = (player: Player, data: Episode) => {
   player.metadata = {
-    'mpris:trackid': player.objectPath('track/0'),
+    'mpris:trackid': player.objectPath(`Track/${data.EPISODE_ID}`),
     'mpris:length': parseFloat(data.DURATION) * 1_000_000,
     'mpris:artUrl':
       DEEZER_EPISODE_ART_URL + data.SHOW_ART_MD5 + DEEZER_ART_RESOLUTION,
@@ -207,7 +207,7 @@ export const initializePlayer = (
   view: WebContentsView
 ) => {
   const player: Player = new Player({
-    name: 'Deezer',
+    name: 'DeezerEnhanced',
     identity: 'Deezer media player',
     supportedUriSchemes: [],
     supportedMimeTypes: [],

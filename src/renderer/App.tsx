@@ -8,6 +8,7 @@ import { currentSettingsAtom } from './states/atoms';
 import LogPage from './pages/LogPage';
 import LogNavigation from './components/LogNavigation';
 import { NotificationData } from './components/Downloads/notifications';
+import { NOTIFICATIONS_TAG } from '../common/channels/notifications';
 
 import './index.css';
 
@@ -61,7 +62,12 @@ function App(): React.JSX.Element {
     document.addEventListener('keydown', handleKeydown);
 
     window.renderer.notificationsAPI.onNotificationCreate(
-      (title, body, icon) => new Notification(title, { body, icon })
+      (title, body, icon) =>
+        new Notification(title, {
+          body,
+          icon,
+          tag: NOTIFICATIONS_TAG,
+        })
     );
 
     window.renderer.themesAPI.onStyleChange((style) => {
