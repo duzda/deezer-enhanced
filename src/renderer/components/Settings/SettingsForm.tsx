@@ -96,6 +96,18 @@ function SettingsForm(): React.JSX.Element {
           setCurrentSettings({ ...currentSettings, adblock: newValue });
         }}
       />
+      <Switch
+        id="lastfm=scrobling"
+        state={currentSettings.lastfmEnabled}
+        text="Last.FM Scrobbling"
+        onChange={(newValue) => {
+          setValue('lastfmEnabled', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            lastfmEnabled: newValue,
+          });
+        }}
+      />
       <StringInput
         id="lastfm-username"
         value={currentSettings.lastfmUsername}

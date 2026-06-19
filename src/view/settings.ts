@@ -12,13 +12,8 @@ const OnSet: Setters = {
   volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
   adblock: () => {},
-  lastfmUsername: async () => {
-    const { lastfmUsername, lastfmPassword, lastfmApiKey, lastfmApiSecret } =
-      getSettings();
-    if (lastfmUsername && lastfmPassword) {
-      await connectLastfm(lastfmUsername, lastfmPassword);
-    }
-  },
+  lastfmEnabled: () => {},
+  lastfmUsername: () => {},
   lastfmPassword: () => {},
   lastfmApiKey: () => {},
   lastfmApiSecret: () => {},

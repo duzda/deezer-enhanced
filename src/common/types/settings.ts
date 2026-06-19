@@ -7,6 +7,7 @@ export interface Settings {
   volumePower: number;
   discordRPC: boolean;
   adblock: boolean;
+  lastfmEnabled: boolean;
   lastfmUsername: string;
   lastfmApiKey: string;
   lastfmApiSecret: string;
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   volumePower: 4,
   discordRPC: false,
   adblock: false,
+  lastfmEnabled: false,
   lastfmUsername: 'Your username',
   lastfmPassword: 'Your password',
   lastfmApiKey: 'Your api key',
