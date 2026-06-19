@@ -84,7 +84,10 @@ function SettingsForm(): React.JSX.Element {
         text="Discord RPC"
         onChange={(newValue) => {
           setValue('discordRPC', newValue);
-          setCurrentSettings({ ...currentSettings, discordRPC: newValue });
+          setCurrentSettings({
+            ...currentSettings,
+            discordRPC: newValue,
+          });
         }}
       />
       <Switch
@@ -93,13 +96,27 @@ function SettingsForm(): React.JSX.Element {
         text="Adblock (disables podcasts)"
         onChange={(newValue) => {
           setValue('adblock', newValue);
-          setCurrentSettings({ ...currentSettings, adblock: newValue });
+          setCurrentSettings({
+            ...currentSettings,
+            adblock: newValue,
+          });
         }}
       />
+
+      <div className="my-4">
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-base-300" />
+          <span className="text-sm font-bold uppercase opacity-70">
+            Last.fm
+          </span>
+          <div className="h-px flex-1 bg-base-300" />
+        </div>
+      </div>
+
       <Switch
-        id="lastfm=scrobling"
+        id="lastfm-scrobbling"
         state={currentSettings.lastfmEnabled}
-        text="Last.FM Scrobbling"
+        text="Enable Scrobbling"
         onChange={(newValue) => {
           setValue('lastfmEnabled', newValue);
           setCurrentSettings({
@@ -111,7 +128,7 @@ function SettingsForm(): React.JSX.Element {
       <StringInput
         id="lastfm-username"
         value={currentSettings.lastfmUsername}
-        text="Last.FM Username"
+        text="Username"
         onChange={(newValue) => {
           setValue('lastfmUsername', newValue);
           setCurrentSettings({
@@ -123,7 +140,7 @@ function SettingsForm(): React.JSX.Element {
       <HiddenStringInput
         id="lastfm-password"
         value={currentSettings.lastfmPassword}
-        text="Last.FM Username"
+        text="Password"
         onChange={(newValue) => {
           setValue('lastfmPassword', newValue);
           setCurrentSettings({
@@ -135,7 +152,7 @@ function SettingsForm(): React.JSX.Element {
       <StringInput
         id="lastfm-api-key"
         value={currentSettings.lastfmApiKey}
-        text="Last.FM API Key"
+        text="API Key"
         onChange={(newValue) => {
           setValue('lastfmApiKey', newValue);
           setCurrentSettings({
@@ -147,7 +164,7 @@ function SettingsForm(): React.JSX.Element {
       <StringInput
         id="lastfm-api-secret"
         value={currentSettings.lastfmApiSecret}
-        text="Last.FM API Secret"
+        text="API Secret"
         onChange={(newValue) => {
           setValue('lastfmApiSecret', newValue);
           setCurrentSettings({
@@ -157,9 +174,9 @@ function SettingsForm(): React.JSX.Element {
         }}
       />
       <SliderInput
-        id="k-"
+        id="lastfm-minimum-listened-percent"
         value={Number(currentSettings.lastfmMinimumListenedRequiredPercent)}
-        text="Last.FM Minimum Listened Percent"
+        text="Minimum listened percent"
         onChange={(newValue) => {
           setValue('lastfmMinimumListenedRequiredPercent', newValue);
           setCurrentSettings({
