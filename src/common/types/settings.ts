@@ -6,6 +6,7 @@ export interface Settings {
   deemixIntegration: boolean;
   volumePower: number;
   discordRPC: boolean;
+  discordRPCButton: boolean;
   adblock: boolean;
   lastfmEnabled: boolean;
   lastfmUsername: string;
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   deemixIntegration: false,
   volumePower: 4,
   discordRPC: false,
+  discordRPCButton: false,
   adblock: false,
   lastfmEnabled: false,
   lastfmUsername: 'Your username',

@@ -34,6 +34,7 @@ const loadFromFile = async (file: string) => {
     OnSet.deemixIntegration(currentSettings.deemixIntegration);
     OnSet.volumePower(currentSettings.volumePower);
     OnSet.discordRPC(currentSettings.discordRPC);
+    OnSet.discordRPCButton(currentSettings.discordRPCButton);
     OnSet.lastfmEnabled(currentSettings.lastfmEnabled);
     OnSet.lastfmUsername(currentSettings.lastfmUsername);
     OnSet.lastfmPassword(currentSettings.lastfmPassword);
@@ -114,6 +115,7 @@ export const initializeSettings = async (
         disconnectDiscord();
       }
     },
+    discordRPCButton: () => {},
     adblock: () => {},
     lastfmEnabled: () => {},
     lastfmUsername: () => {},

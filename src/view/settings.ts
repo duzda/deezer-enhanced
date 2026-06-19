@@ -9,6 +9,7 @@ const OnSet: Setters = {
   deemixIntegration: () => {},
   volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
+  discordRPCButton: () => {},
   adblock: () => {},
   lastfmEnabled: () => {},
   lastfmUsername: () => {},
@@ -28,6 +29,7 @@ export const initializeSettings = async () => {
   OnSet.deemixIntegration(settings.deemixIntegration);
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);
+  OnSet.discordRPCButton(settings.discordRPCButton);
   OnSet.lastfmUsername(settings.lastfmUsername);
   OnSet.lastfmPassword(settings.lastfmPassword);
   OnSet.lastfmApiKey(settings.lastfmApiKey);

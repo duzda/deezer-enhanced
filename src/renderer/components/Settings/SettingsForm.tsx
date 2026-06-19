@@ -78,18 +78,7 @@ function SettingsForm(): React.JSX.Element {
           });
         }}
       />
-      <Switch
-        id="discord-rpc"
-        state={currentSettings.discordRPC}
-        text="Discord RPC"
-        onChange={(newValue) => {
-          setValue('discordRPC', newValue);
-          setCurrentSettings({
-            ...currentSettings,
-            discordRPC: newValue,
-          });
-        }}
-      />
+
       <Switch
         id="adblock"
         state={currentSettings.adblock}
@@ -99,6 +88,42 @@ function SettingsForm(): React.JSX.Element {
           setCurrentSettings({
             ...currentSettings,
             adblock: newValue,
+          });
+        }}
+      />
+
+      <div className="my-4">
+        <div className="flex items-center gap-3">
+          <div className="h-px flex-1 bg-base-300" />
+          <span className="text-sm font-bold uppercase opacity-70">
+            DISCORD RPC
+          </span>
+          <div className="h-px flex-1 bg-base-300" />
+        </div>
+      </div>
+
+      <Switch
+        id="discord-rpc"
+        state={currentSettings.discordRPC}
+        text="Enable Discord RichPresence"
+        onChange={(newValue) => {
+          setValue('discordRPC', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            discordRPC: newValue,
+          });
+        }}
+      />
+
+      <Switch
+        id="discord-rpc-button"
+        state={currentSettings.discordRPCButton}
+        text="Title Button"
+        onChange={(newValue) => {
+          setValue('discordRPCButton', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            discordRPCButton: newValue,
           });
         }}
       />
