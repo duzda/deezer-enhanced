@@ -1,4 +1,5 @@
 import { ActivityType, Client, StatusDisplayType } from 'discord-rpc';
+import { getSettings } from './settings';
 
 const CLIENT_ID = '1029062131326386256';
 
@@ -47,6 +48,15 @@ export const setDiscordActivity = async (
   if (typeof client !== 'undefined') {
     try {
       if (isPlaying) {
+        const buttons = getSettings().discordRPCButton
+          ? [
+              {
+                label: 'Listen on Deezer',
+                url: deezerUrl,
+              },
+            ]
+          : [];
+
         await client.setActivity({
           details: title,
           state: artist,
@@ -54,12 +64,7 @@ export const setDiscordActivity = async (
           endTimestamp: Date.now() + duration - position,
           largeImageKey: coverImage,
           largeImageText: album,
-          buttons: [
-            {
-              label: 'Listen on Deezer',
-              url: deezerUrl,
-            },
-          ],
+          buttons,
           activityType: ActivityType.Listening,
           statusDisplayType: StatusDisplayType.State,
         });

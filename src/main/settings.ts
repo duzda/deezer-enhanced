@@ -34,6 +34,15 @@ const loadFromFile = async (file: string) => {
     OnSet.deemixIntegration(currentSettings.deemixIntegration);
     OnSet.volumePower(currentSettings.volumePower);
     OnSet.discordRPC(currentSettings.discordRPC);
+    OnSet.discordRPCButton(currentSettings.discordRPCButton);
+    OnSet.lastfmEnabled(currentSettings.lastfmEnabled);
+    OnSet.lastfmUsername(currentSettings.lastfmUsername);
+    OnSet.lastfmPassword(currentSettings.lastfmPassword);
+    OnSet.lastfmApiKey(currentSettings.lastfmApiKey);
+    OnSet.lastfmApiSecret(currentSettings.lastfmApiSecret);
+    OnSet.lastfmMinimumListenedRequiredPercent(
+      currentSettings.lastfmMinimumListenedRequiredPercent
+    );
   } catch {
     // eslint-disable-next-line no-console
     console.warn(`Error trying to read settings from file: ${file}`);
@@ -106,7 +115,14 @@ export const initializeSettings = async (
         disconnectDiscord();
       }
     },
+    discordRPCButton: () => {},
     adblock: () => {},
+    lastfmEnabled: () => {},
+    lastfmUsername: () => {},
+    lastfmPassword: () => {},
+    lastfmApiKey: () => {},
+    lastfmApiSecret: () => {},
+    lastfmMinimumListenedRequiredPercent: () => {},
   };
 
   await loadFromFile(SETTINGS_FILE);

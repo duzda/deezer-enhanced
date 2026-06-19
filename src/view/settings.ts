@@ -9,7 +9,14 @@ const OnSet: Setters = {
   deemixIntegration: () => {},
   volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
+  discordRPCButton: () => {},
   adblock: () => {},
+  lastfmEnabled: () => {},
+  lastfmUsername: () => {},
+  lastfmPassword: () => {},
+  lastfmApiKey: () => {},
+  lastfmApiSecret: () => {},
+  lastfmMinimumListenedRequiredPercent: () => {},
 };
 
 export const initializeSettings = async () => {
@@ -22,6 +29,14 @@ export const initializeSettings = async () => {
   OnSet.deemixIntegration(settings.deemixIntegration);
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);
+  OnSet.discordRPCButton(settings.discordRPCButton);
+  OnSet.lastfmUsername(settings.lastfmUsername);
+  OnSet.lastfmPassword(settings.lastfmPassword);
+  OnSet.lastfmApiKey(settings.lastfmApiKey);
+  OnSet.lastfmApiSecret(settings.lastfmApiSecret);
+  OnSet.lastfmMinimumListenedRequiredPercent(
+    settings.lastfmMinimumListenedRequiredPercent
+  );
 
   window.view.settingsAPI.onSetProperty((key, value) => {
     OnSet[key](value);

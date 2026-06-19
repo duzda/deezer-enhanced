@@ -31,22 +31,95 @@ import { isDiscordEnabled, setDiscordActivity } from './discord';
 import { getSettings } from './settings';
 import { Episode, Song } from '../common/types/deezer';
 import { NOTIFICATIONS_CREATE } from '../common/channels/notifications';
+import {
+  connectLastfm,
+  isLastfmConnected,
+  scrobbleLastfm,
+  setLastfmNowPlaying,
+} from './lastfm';
 
 let songId = '';
 
 let songStart = 0;
 let songOffset = 0;
 
+// Scrobble tracking
+let currentTrackStartedAt = 0;
+let currentTrackDuration = 0;
+let currentTrackArtist = '';
+let currentTrackTitle = '';
+let currentTrackAlbum = '';
+let scrobbleTimer: ReturnType<typeof setTimeout> | undefined;
+
 const status = ['None', 'Playlist', 'Track'];
+
+const clearScrobbleTimer = () => {
+  if (scrobbleTimer !== undefined) {
+    clearTimeout(scrobbleTimer);
+    scrobbleTimer = undefined;
+  }
+};
+
+const scheduleScrobble = (
+  artist: string,
+  title: string,
+  album: string,
+  duration: number
+) => {
+  clearScrobbleTimer();
+
+  if (!isLastfmConnected()) {
+    console.log('[LastFM] not connected, skipping');
+    return;
+  }
+  if (duration < 30) {
+    console.log('[LastFM] duration too short, skipping');
+    return;
+  }
+  currentTrackStartedAt = Date.now();
+  currentTrackDuration = duration;
+  currentTrackArtist = artist;
+  currentTrackTitle = title;
+  currentTrackAlbum = album;
+
+  const percent = getSettings().lastfmMinimumListenedRequiredPercent / 100;
+  const scrobbleThreshold = Math.min(duration * percent, 240) * 1_000;
+
+  scrobbleTimer = setTimeout(async () => {
+    await scrobbleLastfm(
+      currentTrackArtist,
+      currentTrackTitle,
+      currentTrackAlbum,
+      currentTrackDuration,
+      currentTrackStartedAt
+    );
+  }, scrobbleThreshold);
+};
 
 const createMprisHandles = (player: Player, view: WebContentsView) => {
   player.on('quit', () => {
     process.exit();
   });
-  player.on('pause', () => view.webContents.send(MPRIS_PAUSE));
-  player.on('play', () => view.webContents.send(MPRIS_PLAY));
+  player.on('pause', () => {
+    clearScrobbleTimer();
+    view.webContents.send(MPRIS_PAUSE);
+  });
+  player.on('play', () => {
+    if (currentTrackDuration > 0) {
+      scheduleScrobble(
+        currentTrackArtist,
+        currentTrackTitle,
+        currentTrackAlbum,
+        currentTrackDuration
+      );
+    }
+    view.webContents.send(MPRIS_PLAY);
+  });
   player.on('playpause', () => view.webContents.send(MPRIS_TOGGLE_STATUS));
-  player.on('stop', () => view.webContents.send(MPRIS_STOP));
+  player.on('stop', () => {
+    clearScrobbleTimer();
+    view.webContents.send(MPRIS_STOP);
+  });
   player.on('loopStatus', (loopStatus) => {
     if (typeof loopStatus === 'string') {
       const index = status.indexOf(loopStatus);
@@ -60,8 +133,14 @@ const createMprisHandles = (player: Player, view: WebContentsView) => {
       view.webContents.send(MPRIS_SET_SHUFFLE, shuffleStatus);
     }
   });
-  player.on('next', () => view.webContents.send(MPRIS_NEXT_SONG));
-  player.on('previous', () => view.webContents.send(MPRIS_PREV_SONG));
+  player.on('next', () => {
+    clearScrobbleTimer();
+    view.webContents.send(MPRIS_NEXT_SONG);
+  });
+  player.on('previous', () => {
+    clearScrobbleTimer();
+    view.webContents.send(MPRIS_PREV_SONG);
+  });
   player.on('volume', (volume) =>
     view.webContents.send(MPRIS_SET_VOLUME, volume)
   );
@@ -134,15 +213,38 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
         );
       }
 
-      if (getSettings().enableNotifications && songData.SNG_ID !== songId) {
-        view.webContents.send(
-          NOTIFICATIONS_CREATE,
-          songData.SNG_TITLE,
-          songData.ART_NAME,
-          DEEZER_SONG_ART_URL +
-            songData.ALB_PICTURE +
-            DEEZER_NOTIFICATION_RESOLUTION
-        );
+      if (songData.SNG_ID !== songId) {
+        const artist =
+          songData.ARTISTS !== undefined
+            ? songData.ARTISTS.map((a) => a.ART_NAME).join(', ')
+            : songData.ART_NAME;
+        const duration = Number(songData.DURATION);
+
+        if (isLastfmConnected()) {
+          setLastfmNowPlaying(
+            artist,
+            songData.SNG_TITLE,
+            songData.ALB_TITLE,
+            duration
+          );
+          scheduleScrobble(
+            artist,
+            songData.SNG_TITLE,
+            songData.ALB_TITLE,
+            duration
+          );
+        }
+
+        if (getSettings().enableNotifications) {
+          view.webContents.send(
+            NOTIFICATIONS_CREATE,
+            songData.SNG_TITLE,
+            songData.ART_NAME,
+            DEEZER_SONG_ART_URL +
+              songData.ALB_PICTURE +
+              DEEZER_NOTIFICATION_RESOLUTION
+          );
+        }
 
         songId = songData.SNG_ID;
       }
@@ -165,18 +267,17 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
         );
       }
 
-      if (
-        getSettings().enableNotifications &&
-        episodeData.EPISODE_ID !== songId
-      ) {
-        view.webContents.send(
-          NOTIFICATIONS_CREATE,
-          episodeData.EPISODE_TITLE,
-          episodeData.SHOW_NAME,
-          DEEZER_EPISODE_ART_URL +
-            episodeData.SHOW_ART_MD5 +
-            DEEZER_NOTIFICATION_RESOLUTION
-        );
+      if (episodeData.EPISODE_ID !== songId) {
+        if (getSettings().enableNotifications) {
+          view.webContents.send(
+            NOTIFICATIONS_CREATE,
+            episodeData.EPISODE_TITLE,
+            episodeData.SHOW_NAME,
+            DEEZER_EPISODE_ART_URL +
+              episodeData.SHOW_ART_MD5 +
+              DEEZER_NOTIFICATION_RESOLUTION
+          );
+        }
 
         songId = episodeData.EPISODE_ID;
       }

@@ -6,7 +6,14 @@ export interface Settings {
   deemixIntegration: boolean;
   volumePower: number;
   discordRPC: boolean;
+  discordRPCButton: boolean;
   adblock: boolean;
+  lastfmEnabled: boolean;
+  lastfmUsername: string;
+  lastfmApiKey: string;
+  lastfmApiSecret: string;
+  lastfmMinimumListenedRequiredPercent: number;
+  lastfmPassword: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -17,7 +24,14 @@ export const DEFAULT_SETTINGS: Settings = {
   deemixIntegration: false,
   volumePower: 4,
   discordRPC: false,
+  discordRPCButton: false,
   adblock: false,
+  lastfmEnabled: false,
+  lastfmUsername: 'Your username',
+  lastfmPassword: 'Your password',
+  lastfmApiKey: 'Your api key',
+  lastfmApiSecret: 'Your api secret',
+  lastfmMinimumListenedRequiredPercent: 30,
 };
 
 type Setter<T extends keyof Settings> = (newValue: Settings[T]) => void;
