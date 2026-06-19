@@ -3,6 +3,8 @@ import { DEFAULT_SETTINGS, Settings } from '../../../common/types/settings';
 import { currentSettingsAtom } from '../../states/atoms';
 import Switch from './Switch';
 import NumberInput from './NumberInput';
+import StringInput from './StringInput';
+import SliderInput from './SliderInput';
 
 const setValue = <K extends keyof Settings>(key: K, value: Settings[K]) =>
   window.renderer.settingsAPI.setSettingProperty(key, value);
@@ -92,6 +94,56 @@ function SettingsForm(): React.JSX.Element {
           setValue('adblock', newValue);
           setCurrentSettings({ ...currentSettings, adblock: newValue });
         }}
+      />
+      <StringInput
+        id="lastfm-username"
+        value={currentSettings.lastfmUsername}
+        text="Last.FM Username"
+        onChange={(newValue) => {
+          setValue('lastfmUsername', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            lastfmUsername: newValue,
+          });
+        }}
+      />
+      <StringInput
+        id="lastfm-api-key"
+        value={currentSettings.lastfmApiKey}
+        text="Last.FM API Key"
+        onChange={(newValue) => {
+          setValue('lastfmApiKey', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            lastfmApiKey: newValue,
+          });
+        }}
+      />
+      <StringInput
+        id="lastfm-api-secret"
+        value={currentSettings.lastfmApiSecret}
+        text="Last.FM API Secret"
+        onChange={(newValue) => {
+          setValue('lastfmApiSecret', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            lastfmApiSecret: newValue,
+          });
+        }}
+      />
+      <SliderInput
+        id="k-"
+        value={Number(currentSettings.lastfmMinimumListenedRequiredPercent)}
+        text="Last.FM Minimum Listened Percent"
+        onChange={(newValue) => {
+          setValue('lastfmMinimumListenedRequiredPercent', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            lastfmMinimumListenedRequiredPercent: newValue,
+          });
+        }}
+        min={20}
+        max={60}
       />
       <button
         type="button"

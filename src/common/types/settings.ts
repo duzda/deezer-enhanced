@@ -7,6 +7,10 @@ export interface Settings {
   volumePower: number;
   discordRPC: boolean;
   adblock: boolean;
+  lastfmUsername: string;
+  lastfmApiKey: string;
+  lastfmApiSecret: string;
+  lastfmMinimumListenedRequiredPercent: number;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -18,6 +22,10 @@ export const DEFAULT_SETTINGS: Settings = {
   volumePower: 4,
   discordRPC: false,
   adblock: false,
+  lastfmUsername: 'Your username',
+  lastfmApiKey: 'Your api key',
+  lastfmApiSecret: 'Your api secret',
+  lastfmMinimumListenedRequiredPercent: 30,
 };
 
 type Setter<T extends keyof Settings> = (newValue: Settings[T]) => void;
