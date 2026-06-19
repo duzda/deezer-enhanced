@@ -21,6 +21,7 @@ import {
 } from './main/login';
 import { LOGIN_ON_LOGIN, LOGIN_ON_LOGOUT } from './common/channels/login';
 import { DEEZER_LOGIN_PROTOCOL, DEEZER_LOGIN_URL } from './main/utils/login';
+import { connectLastfm } from './main/lastfm';
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';
@@ -158,9 +159,10 @@ if (!gotTheLock) {
       return { action: 'deny' };
     });
 
-    initializeSettings(mainWindow, view).then(() =>
-      loadBounds(mainWindow, mainView, view)
-    );
+    initializeSettings(mainWindow, view).then(() => {
+      loadBounds(mainWindow, mainView, view);
+      connectLastfm();
+    });
     initializePlayer(mainView, view);
     initializeDownloads(mainView, view);
     initializeThemeSwitcher(mainView, view);
