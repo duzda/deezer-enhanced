@@ -1,6 +1,4 @@
 import { Setters } from '../common/types/settings';
-import { connectLastfm } from '../main/lastfm';
-import { getSettings } from '../main/settings';
 import { setVolumePower } from './injections/volume';
 
 const OnSet: Setters = {
