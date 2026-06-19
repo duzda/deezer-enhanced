@@ -5,6 +5,7 @@ import Switch from './Switch';
 import NumberInput from './NumberInput';
 import StringInput from './StringInput';
 import SliderInput from './SliderInput';
+import HiddenStringInput from './HiddenStringInput';
 
 const setValue = <K extends keyof Settings>(key: K, value: Settings[K]) =>
   window.renderer.settingsAPI.setSettingProperty(key, value);
@@ -104,6 +105,18 @@ function SettingsForm(): React.JSX.Element {
           setCurrentSettings({
             ...currentSettings,
             lastfmUsername: newValue,
+          });
+        }}
+      />
+      <HiddenStringInput
+        id="lastfm-password"
+        value={currentSettings.lastfmPassword}
+        text="Last.FM Username"
+        onChange={(newValue) => {
+          setValue('lastfmPassword', newValue);
+          setCurrentSettings({
+            ...currentSettings,
+            lastfmPassword: newValue,
           });
         }}
       />

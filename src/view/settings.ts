@@ -1,4 +1,6 @@
 import { Setters } from '../common/types/settings';
+import { connectLastfm } from '../main/lastfm';
+import { getSettings } from '../main/settings';
 import { setVolumePower } from './injections/volume';
 
 const OnSet: Setters = {
@@ -10,7 +12,14 @@ const OnSet: Setters = {
   volumePower: (newValue) => setVolumePower(newValue),
   discordRPC: () => {},
   adblock: () => {},
-  lastfmUsername: () => {},
+  lastfmUsername: async () => {
+    const { lastfmUsername, lastfmPassword, lastfmApiKey, lastfmApiSecret } =
+      getSettings();
+    if (lastfmUsername && lastfmPassword) {
+      await connectLastfm(lastfmUsername, lastfmPassword);
+    }
+  },
+  lastfmPassword: () => {},
   lastfmApiKey: () => {},
   lastfmApiSecret: () => {},
   lastfmMinimumListenedRequiredPercent: () => {},
@@ -27,9 +36,12 @@ export const initializeSettings = async () => {
   OnSet.volumePower(settings.volumePower);
   OnSet.discordRPC(settings.discordRPC);
   OnSet.lastfmUsername(settings.lastfmUsername);
+  OnSet.lastfmPassword(settings.lastfmPassword);
   OnSet.lastfmApiKey(settings.lastfmApiKey);
   OnSet.lastfmApiSecret(settings.lastfmApiSecret);
-  OnSet.lastfmMinimumListenedRequiredPercent(settings.lastfmMinimumListenedRequiredPercent);
+  OnSet.lastfmMinimumListenedRequiredPercent(
+    settings.lastfmMinimumListenedRequiredPercent
+  );
 
   window.view.settingsAPI.onSetProperty((key, value) => {
     OnSet[key](value);

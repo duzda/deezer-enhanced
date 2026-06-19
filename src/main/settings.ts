@@ -35,9 +35,12 @@ const loadFromFile = async (file: string) => {
     OnSet.volumePower(currentSettings.volumePower);
     OnSet.discordRPC(currentSettings.discordRPC);
     OnSet.lastfmUsername(currentSettings.lastfmUsername);
+    OnSet.lastfmPassword(currentSettings.lastfmPassword);
     OnSet.lastfmApiKey(currentSettings.lastfmApiKey);
     OnSet.lastfmApiSecret(currentSettings.lastfmApiSecret);
-    OnSet.lastfmMinimumListenedRequiredPercent(currentSettings.lastfmMinimumListenedRequiredPercent);
+    OnSet.lastfmMinimumListenedRequiredPercent(
+      currentSettings.lastfmMinimumListenedRequiredPercent
+    );
   } catch {
     // eslint-disable-next-line no-console
     console.warn(`Error trying to read settings from file: ${file}`);
@@ -112,6 +115,7 @@ export const initializeSettings = async (
     },
     adblock: () => {},
     lastfmUsername: () => {},
+    lastfmPassword: () => {},
     lastfmApiKey: () => {},
     lastfmApiSecret: () => {},
     lastfmMinimumListenedRequiredPercent: () => {},

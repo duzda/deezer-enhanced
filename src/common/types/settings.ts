@@ -11,6 +11,7 @@ export interface Settings {
   lastfmApiKey: string;
   lastfmApiSecret: string;
   lastfmMinimumListenedRequiredPercent: number;
+  lastfmPassword: string;
 }
 
 export const DEFAULT_SETTINGS: Settings = {
@@ -23,6 +24,7 @@ export const DEFAULT_SETTINGS: Settings = {
   discordRPC: false,
   adblock: false,
   lastfmUsername: 'Your username',
+  lastfmPassword: 'Your password',
   lastfmApiKey: 'Your api key',
   lastfmApiSecret: 'Your api secret',
   lastfmMinimumListenedRequiredPercent: 30,
