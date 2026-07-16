@@ -46,7 +46,10 @@ const saveToFile = async (file: string) => {
   });
 };
 
-const createSettingsHandles = (window: BaseWindow, view: WebContentsView) => {
+const createSettingsHandles = (
+  window: BaseWindow,
+  deezerView: WebContentsView
+) => {
   ipcMain.handle(SETTINGS_GET, () => {
     return currentSettings;
   });
@@ -65,7 +68,7 @@ const createSettingsHandles = (window: BaseWindow, view: WebContentsView) => {
 
       OnSet[key](value);
 
-      view.webContents.send(SETTINGS_SET_PROPERTY, key, value);
+      deezerView.webContents.send(SETTINGS_SET_PROPERTY, key, value);
     }
   );
 
@@ -74,22 +77,22 @@ const createSettingsHandles = (window: BaseWindow, view: WebContentsView) => {
   });
 
   ipcMain.on(SETTINGS_SHOW, () => {
-    window.contentView.removeChildView(view);
+    window.contentView.removeChildView(deezerView);
   });
 
   ipcMain.on(SETTINGS_HIDE, () => {
-    window.contentView.addChildView(view);
+    window.contentView.addChildView(deezerView);
   });
 };
 
 export const initializeSettings = async (
   window: BaseWindow,
-  view: WebContentsView
+  deezerView: WebContentsView
 ) => {
   OnSet = {
     enableTray: (enabled) => {
       if (enabled) {
-        initializeTray(window, view);
+        initializeTray(window, deezerView);
       } else {
         destroyTray();
       }
@@ -110,7 +113,7 @@ export const initializeSettings = async (
   };
 
   await loadFromFile(SETTINGS_FILE);
-  createSettingsHandles(window, view);
+  createSettingsHandles(window, deezerView);
 };
 
 export const getSettings = () => currentSettings;

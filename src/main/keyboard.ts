@@ -21,7 +21,7 @@ type KeyModifiers = (
   | 'numlock'
 )[];
 
-export const createKeyboardHandles = (view: WebContentsView) => {
+export const createKeyboardHandles = (deezerView: WebContentsView) => {
   ipcMain.on(
     KEYBOARD_SEND_KEYPRESS,
     async (_, event: SerializedKeyboardEvent) => {
@@ -32,9 +32,11 @@ export const createKeyboardHandles = (view: WebContentsView) => {
       if (event.metaKey) modifiers.push('meta');
 
       // Is this clean enough?
-      await view.webContents.executeJavaScript('document.activeElement.blur()');
-      view.webContents.focus();
-      view.webContents.sendInputEvent({
+      await deezerView.webContents.executeJavaScript(
+        'document.activeElement.blur()'
+      );
+      deezerView.webContents.focus();
+      deezerView.webContents.sendInputEvent({
         type: 'keyDown',
         keyCode: event.key,
         modifiers,

@@ -4,8 +4,8 @@ import { handleZoom } from './zoom';
 export const generateMenu = (
   mainWindow: BaseWindow,
   currentView: WebContentsView,
-  mainView: WebContentsView,
-  view: WebContentsView,
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView,
   properties: Electron.ContextMenuParams
 ) =>
   Menu.buildFromTemplate([
@@ -24,7 +24,7 @@ export const generateMenu = (
       id: 'Reset Zoom',
       label: '&Reset Zoom',
       click() {
-        handleZoom(mainWindow, mainView, view, 'zoom-reset');
+        handleZoom(mainWindow, toolbarView, deezerView, 'zoom-reset');
       },
     },
   ]);

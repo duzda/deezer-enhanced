@@ -26,12 +26,12 @@ const getExecStatus = (stdout: string, stderr: string): ExecStatus => {
   return 'Success';
 };
 
-const download = async (url: string, mainView: WebContentsView) => {
+const download = async (url: string, toolbarView: WebContentsView) => {
   try {
     const { stdout, stderr } = await exec(`deemix ${url}`);
     const execStatus = getExecStatus(stdout, stderr);
 
-    mainView.webContents.send(
+    toolbarView.webContents.send(
       DOWNLOADS_FINISHED,
       execStatus,
       url,
@@ -40,7 +40,7 @@ const download = async (url: string, mainView: WebContentsView) => {
     );
   } catch (e) {
     const execException = e as ExecException;
-    mainView.webContents.send(
+    toolbarView.webContents.send(
       DOWNLOADS_FINISHED,
       'Error',
       url,
@@ -51,17 +51,17 @@ const download = async (url: string, mainView: WebContentsView) => {
 };
 
 const createDownloadHandles = (
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
   ipcMain.on(DOWNLOADS_DOWNLOAD, () => {
-    download(view.webContents.getURL(), mainView);
+    download(deezerView.webContents.getURL(), toolbarView);
   });
 };
 
 export const initializeDownloads = (
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
-  createDownloadHandles(mainView, view);
+  createDownloadHandles(toolbarView, deezerView);
 };

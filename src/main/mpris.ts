@@ -39,38 +39,40 @@ let songOffset = 0;
 
 const status = ['None', 'Playlist', 'Track'];
 
-const createMprisHandles = (player: Player, view: WebContentsView) => {
+const createMprisHandles = (player: Player, deezerView: WebContentsView) => {
   player.on('quit', () => {
     process.exit();
   });
-  player.on('pause', () => view.webContents.send(MPRIS_PAUSE));
-  player.on('play', () => view.webContents.send(MPRIS_PLAY));
-  player.on('playpause', () => view.webContents.send(MPRIS_TOGGLE_STATUS));
-  player.on('stop', () => view.webContents.send(MPRIS_STOP));
+  player.on('pause', () => deezerView.webContents.send(MPRIS_PAUSE));
+  player.on('play', () => deezerView.webContents.send(MPRIS_PLAY));
+  player.on('playpause', () =>
+    deezerView.webContents.send(MPRIS_TOGGLE_STATUS)
+  );
+  player.on('stop', () => deezerView.webContents.send(MPRIS_STOP));
   player.on('loopStatus', (loopStatus) => {
     if (typeof loopStatus === 'string') {
       const index = status.indexOf(loopStatus);
       player.loopStatus = status[index];
-      view.webContents.send(MPRIS_SET_REPEAT, index);
+      deezerView.webContents.send(MPRIS_SET_REPEAT, index);
     }
   });
   player.on('shuffle', (shuffleStatus) => {
     if (typeof shuffleStatus === 'boolean') {
       player.shuffle = shuffleStatus;
-      view.webContents.send(MPRIS_SET_SHUFFLE, shuffleStatus);
+      deezerView.webContents.send(MPRIS_SET_SHUFFLE, shuffleStatus);
     }
   });
-  player.on('next', () => view.webContents.send(MPRIS_NEXT_SONG));
-  player.on('previous', () => view.webContents.send(MPRIS_PREV_SONG));
+  player.on('next', () => deezerView.webContents.send(MPRIS_NEXT_SONG));
+  player.on('previous', () => deezerView.webContents.send(MPRIS_PREV_SONG));
   player.on('volume', (volume) =>
-    view.webContents.send(MPRIS_SET_VOLUME, volume)
+    deezerView.webContents.send(MPRIS_SET_VOLUME, volume)
   );
   // For setting the exact position (for example): playerctl position 10
   player.on('position', (event) => {
     if ('position' in event && typeof event.position === 'number') {
       const dzPosition = event.position / 1_000_000;
       const dzLength = player.metadata['mpris:length'] / 1_000_000;
-      view.webContents.send(MPRIS_SET_SEEK, dzPosition / dzLength, false);
+      deezerView.webContents.send(MPRIS_SET_SEEK, dzPosition / dzLength, false);
     }
   });
   // For setting the position (for example): playerctl position 10+
@@ -78,7 +80,7 @@ const createMprisHandles = (player: Player, view: WebContentsView) => {
     if (typeof offset === 'number') {
       const dzOffset = offset / 1_000_000;
       const dzLength = player.metadata['mpris:length'] / 1_000_000;
-      view.webContents.send(MPRIS_SET_SEEK, dzOffset / dzLength, true);
+      deezerView.webContents.send(MPRIS_SET_SEEK, dzOffset / dzLength, true);
     }
   });
 };
@@ -112,7 +114,7 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
   };
 };
 
-const createMprisListeners = (player: Player, view: WebContentsView) => {
+const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
   ipcMain.on(MPRIS_READ_SONG, (_, data) => {
     if (!data) return;
     if (data.SNG_ID) {
@@ -135,7 +137,7 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
       }
 
       if (getSettings().enableNotifications && songData.SNG_ID !== songId) {
-        view.webContents.send(
+        deezerView.webContents.send(
           NOTIFICATIONS_CREATE,
           songData.SNG_TITLE,
           songData.ART_NAME,
@@ -169,7 +171,7 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
         getSettings().enableNotifications &&
         episodeData.EPISODE_ID !== songId
       ) {
-        view.webContents.send(
+        deezerView.webContents.send(
           NOTIFICATIONS_CREATE,
           episodeData.EPISODE_TITLE,
           episodeData.SHOW_NAME,
@@ -203,8 +205,8 @@ const createMprisListeners = (player: Player, view: WebContentsView) => {
 };
 
 export const initializePlayer = (
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
   const player: Player = new Player({
     name: 'DeezerEnhanced',
@@ -227,6 +229,6 @@ export const initializePlayer = (
     return player.playbackStatus === Player.PLAYBACK_STATUS_PLAYING;
   };
 
-  createMprisListeners(player, mainView);
-  createMprisHandles(player, view);
+  createMprisListeners(player, toolbarView);
+  createMprisHandles(player, deezerView);
 };

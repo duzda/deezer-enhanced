@@ -31,17 +31,17 @@ const clamp = (n: number) => Math.max(0, Math.min(n, ZOOM_STEPS.length - 1));
 
 export const onDimensionsChange = (
   mainWindow: BaseWindow,
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
-  const zoomFactor = mainView.webContents.getZoomFactor();
-  mainView.setBounds({
+  const zoomFactor = toolbarView.webContents.getZoomFactor();
+  toolbarView.setBounds({
     x: 0,
     y: 0,
     width: mainWindow.getBounds().width,
     height: mainWindow.getBounds().height,
   });
-  view.setBounds({
+  deezerView.setBounds({
     x: 0,
     y: NAVBAR_HEIGHT * zoomFactor,
     width: mainWindow.getBounds().width,
@@ -49,8 +49,8 @@ export const onDimensionsChange = (
   });
 };
 
-const getNewZoomFactor = (view: WebContentsView, zoomType: ZoomType) => {
-  const zoomFactor = view.webContents.getZoomFactor();
+const getNewZoomFactor = (deezerView: WebContentsView, zoomType: ZoomType) => {
+  const zoomFactor = deezerView.webContents.getZoomFactor();
   const currentZoomIndex = findIndex(zoomFactor);
   switch (zoomType) {
     case 'zoom-in':
@@ -64,28 +64,28 @@ const getNewZoomFactor = (view: WebContentsView, zoomType: ZoomType) => {
   }
 };
 
-export const setZoomFactor = (view: WebContentsView, zoom: number) => {
-  view.webContents.setZoomFactor(zoom);
+export const setZoomFactor = (deezerView: WebContentsView, zoom: number) => {
+  deezerView.webContents.setZoomFactor(zoom);
 };
 
 export const handleZoom = (
   mainWindow: BaseWindow,
-  mainView: WebContentsView,
-  view: WebContentsView,
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView,
   zoomType: ZoomType
 ) => {
-  const newZoomFactor = getNewZoomFactor(mainView, zoomType);
-  setZoomFactor(mainView, newZoomFactor);
-  setZoomFactor(view, newZoomFactor);
-  onDimensionsChange(mainWindow, mainView, view);
+  const newZoomFactor = getNewZoomFactor(toolbarView, zoomType);
+  setZoomFactor(toolbarView, newZoomFactor);
+  setZoomFactor(deezerView, newZoomFactor);
+  onDimensionsChange(mainWindow, toolbarView, deezerView);
 };
 
 export const initializeZoom = (
   mainWindow: BaseWindow,
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
   ipcMain.on(ZOOM_SET, (_, zoomType: ZoomType) =>
-    handleZoom(mainWindow, mainView, view, zoomType)
+    handleZoom(mainWindow, toolbarView, deezerView, zoomType)
   );
 };

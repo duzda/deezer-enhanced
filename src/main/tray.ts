@@ -31,7 +31,10 @@ export const destroyTray = () => {
   }
 };
 
-export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
+export const initializeTray = (
+  window: BaseWindow,
+  deezerView: WebContentsView
+) => {
   fs.access(USER_TRAY_ICON, (err) => {
     const trayIcon = err ? DEFAULT_TRAY_ICON : USER_TRAY_ICON;
     tray = new Tray(trayIcon);
@@ -54,17 +57,17 @@ export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
       {
         label: 'Play/Pause',
         enabled: true,
-        click: () => view.webContents.send(MPRIS_TOGGLE_STATUS),
+        click: () => deezerView.webContents.send(MPRIS_TOGGLE_STATUS),
       },
       {
         label: 'Next',
         enabled: true,
-        click: () => view.webContents.send(MPRIS_NEXT_SONG),
+        click: () => deezerView.webContents.send(MPRIS_NEXT_SONG),
       },
       {
         label: 'Previous',
         enabled: true,
-        click: () => view.webContents.send(MPRIS_PREV_SONG),
+        click: () => deezerView.webContents.send(MPRIS_PREV_SONG),
       },
       {
         type: 'separator',
@@ -72,7 +75,7 @@ export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
       {
         label: 'Favorite/Unfavorite',
         enabled: true,
-        click: () => view.webContents.send(TRAY_FAVORITE),
+        click: () => deezerView.webContents.send(TRAY_FAVORITE),
       },
       {
         type: 'separator',
@@ -80,17 +83,17 @@ export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
       {
         label: 'Volume Up',
         enabled: true,
-        click: () => view.webContents.send(TRAY_ADD_VOLUME, VOLUME_STEP),
+        click: () => deezerView.webContents.send(TRAY_ADD_VOLUME, VOLUME_STEP),
       },
       {
         label: 'Volume Down',
         enabled: true,
-        click: () => view.webContents.send(TRAY_ADD_VOLUME, -VOLUME_STEP),
+        click: () => deezerView.webContents.send(TRAY_ADD_VOLUME, -VOLUME_STEP),
       },
       {
         label: 'Mute',
         enabled: true,
-        click: () => view.webContents.send(TRAY_MUTE),
+        click: () => deezerView.webContents.send(TRAY_MUTE),
       },
       {
         type: 'separator',
@@ -99,7 +102,7 @@ export const initializeTray = (window: BaseWindow, view: WebContentsView) => {
         label: 'Quit',
         enabled: true,
         click: () => {
-          saveBounds(window, view);
+          saveBounds(window, deezerView);
           process.exit();
         },
       },

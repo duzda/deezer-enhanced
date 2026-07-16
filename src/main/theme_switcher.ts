@@ -10,17 +10,17 @@ import {
 const STYLES_FILE = path.join(app.getPath('userData'), 'style.css');
 
 export const initializeThemeSwitcher = (
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
   ipcMain.on(THEMES_SET_STYLE, (_, style) => {
-    mainView.webContents.send(THEMES_SET_STYLE, style);
+    toolbarView.webContents.send(THEMES_SET_STYLE, style);
   });
 
   const sendStyles = async () => {
     const contents = (await fs.readFile(STYLES_FILE)).toString();
-    view.webContents.send(THEMES_INJECT_CUSTOM_STYLE, contents);
-    mainView.webContents.send(THEMES_SET_STYLE, contents);
+    deezerView.webContents.send(THEMES_INJECT_CUSTOM_STYLE, contents);
+    toolbarView.webContents.send(THEMES_SET_STYLE, contents);
   };
 
   ipcMain.once(THEMES_INITIALIZE_CUSTOM_STYLE, async () => {

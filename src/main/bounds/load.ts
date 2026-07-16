@@ -26,8 +26,8 @@ const loadFromFile = async (file: string): Promise<Bounds> => {
 
 export const loadBounds = async (
   window: BaseWindow,
-  mainView: WebContentsView,
-  view: WebContentsView
+  toolbarView: WebContentsView,
+  deezerView: WebContentsView
 ) => {
   let bounds = await loadFromFile(BOUNDS_FILE);
 
@@ -51,17 +51,19 @@ export const loadBounds = async (
   const height = bounds.bounds.height ?? DEFAULT_BOUNDS.bounds.width;
   const zoom = bounds.zoom ?? DEFAULT_BOUNDS.zoom;
 
-  view.setBounds({
+  deezerView.setBounds({
     x: 0,
     y: NAVBAR_HEIGHT * zoom,
     width,
     height: height - NAVBAR_HEIGHT * zoom,
   });
 
-  mainView.webContents.once('did-navigate', () =>
-    setZoomFactor(mainView, zoom)
+  toolbarView.webContents.once('did-navigate', () =>
+    setZoomFactor(toolbarView, zoom)
   );
-  view.webContents.once('did-navigate', () => setZoomFactor(view, zoom));
+  deezerView.webContents.once('did-navigate', () =>
+    setZoomFactor(deezerView, zoom)
+  );
 
   if (getSettings().enableTray && getSettings().startInTray) return;
   window.show();

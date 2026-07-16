@@ -127,97 +127,111 @@ if (!gotTheLock) {
 
     mainWindow.removeMenu();
 
-    const mainView = new WebContentsView({
+    // Contains the toolbar and settings page
+    const toolbarView = new WebContentsView({
       webPreferences: {
         preload: path.join(__dirname, 'preload.js'),
       },
     });
 
     if (MAIN_WINDOW_VITE_DEV_SERVER_URL) {
-      mainView.webContents.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
+      toolbarView.webContents.loadURL(MAIN_WINDOW_VITE_DEV_SERVER_URL);
     } else {
-      mainView.webContents.loadFile(
+      toolbarView.webContents.loadFile(
         path.join(__dirname, `../renderer/${MAIN_WINDOW_VITE_NAME}/index.html`)
       );
     }
 
-    mainView.setBounds({
+    toolbarView.setBounds({
       x: 0,
       y: 0,
       width: DEFAULT_WIDTH,
       height: DEFAULT_HEIGHT,
     });
 
-    const view = new WebContentsView({
+    // Contains the Deezer application
+    const deezerView = new WebContentsView({
       webPreferences: {
         preload: path.join(__dirname, 'preload_view.js'),
       },
     });
 
-    view.webContents.setWindowOpenHandler(() => {
+    deezerView.webContents.setWindowOpenHandler(() => {
       return { action: 'deny' };
     });
 
-    initializeSettings(mainWindow, view).then(() =>
-      loadBounds(mainWindow, mainView, view)
+    initializeSettings(mainWindow, deezerView).then(() =>
+      loadBounds(mainWindow, toolbarView, deezerView)
     );
-    initializePlayer(mainView, view);
-    initializeDownloads(mainView, view);
-    initializeThemeSwitcher(mainView, view);
-    initializeZoom(mainWindow, mainView, view);
-    createHistoryHandles(view);
-    createKeyboardHandles(view);
-    createLoginHandles(view);
+    initializePlayer(toolbarView, deezerView);
+    initializeDownloads(toolbarView, deezerView);
+    initializeThemeSwitcher(toolbarView, deezerView);
+    initializeZoom(mainWindow, toolbarView, deezerView);
+    createHistoryHandles(deezerView);
+    createKeyboardHandles(deezerView);
+    createLoginHandles(deezerView);
 
-    mainView.webContents.on('context-menu', (_, properties) => {
-      generateMenu(mainWindow, mainView, mainView, view, properties).popup({
+    toolbarView.webContents.on('context-menu', (_, properties) => {
+      generateMenu(
+        mainWindow,
+        toolbarView,
+        toolbarView,
+        deezerView,
+        properties
+      ).popup({
         x: properties.x,
         y: properties.y,
       });
     });
 
-    view.webContents.once('did-finish-load', () => {
-      view.webContents.on('context-menu', (_, properties) => {
-        generateMenu(mainWindow, view, mainView, view, properties).popup({
+    deezerView.webContents.once('did-finish-load', () => {
+      deezerView.webContents.on('context-menu', (_, properties) => {
+        generateMenu(
+          mainWindow,
+          deezerView,
+          toolbarView,
+          deezerView,
+          properties
+        ).popup({
           x: properties.x,
           y: properties.y,
         });
       });
     });
 
-    view.webContents.on('did-finish-load', async () => {
+    deezerView.webContents.on('did-finish-load', async () => {
       fs.readFile(path.join(__dirname, '../build/view.js'), (err, data) => {
         if (err === null) {
-          view.webContents.executeJavaScript(data.toString());
+          deezerView.webContents.executeJavaScript(data.toString());
         }
       });
 
-      if (await isLoggedIn(view)) {
-        mainView.webContents.send(LOGIN_ON_LOGIN);
-        mainWindow.contentView.addChildView(view);
+      if (await isLoggedIn(deezerView)) {
+        toolbarView.webContents.send(LOGIN_ON_LOGIN);
+        mainWindow.contentView.addChildView(deezerView);
       } else {
-        mainWindow.contentView.removeChildView(view);
-        mainView.webContents.send(LOGIN_ON_LOGOUT);
+        mainWindow.contentView.removeChildView(deezerView);
+        toolbarView.webContents.send(LOGIN_ON_LOGOUT);
       }
     });
 
     // We listen to cookie addition and filter for the addition of session specific
     // cookie, so we can redirect, after redirect this is handled through did-finish-load
-    view.webContents.session.cookies.on(
+    deezerView.webContents.session.cookies.on(
       'changed',
       (event, cookie, cause, removed) => {
         if (!isValidArlCookie(cookie)) return;
 
         if (!removed) {
-          view.webContents.loadURL(DEEZER_LOGIN_URL);
+          deezerView.webContents.loadURL(DEEZER_LOGIN_URL);
         }
       }
     );
 
-    mainWindow.contentView.addChildView(mainView);
+    mainWindow.contentView.addChildView(toolbarView);
 
     mainWindow.on('resize', () =>
-      onDimensionsChange(mainWindow, mainView, view)
+      onDimensionsChange(mainWindow, toolbarView, deezerView)
     );
 
     mainWindow.on('close', (e) => {
@@ -227,15 +241,15 @@ if (!gotTheLock) {
         return false;
       }
 
-      saveBounds(mainWindow, view);
+      saveBounds(mainWindow, deezerView);
       return true;
     });
 
     app.on('second-instance', (event, argv) => {
-      handleLoginProtocol(view, argv);
+      handleLoginProtocol(deezerView, argv);
     });
 
-    view.webContents.loadURL(DEEZER_URL);
+    deezerView.webContents.loadURL(DEEZER_URL);
   };
 
   app.on('ready', createWindow);

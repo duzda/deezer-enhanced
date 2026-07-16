@@ -4,11 +4,11 @@ import {
   HISTORY_GO_FORWARD,
 } from '../common/channels/history';
 
-export const createHistoryHandles = (view: WebContentsView) => {
+export const createHistoryHandles = (deezerView: WebContentsView) => {
   ipcMain.on(HISTORY_GO_FORWARD, () =>
-    view.webContents.navigationHistory.goForward()
+    deezerView.webContents.navigationHistory.goForward()
   );
   ipcMain.on(HISTORY_GO_BACK, () =>
-    view.webContents.navigationHistory.goBack()
+    deezerView.webContents.navigationHistory.goBack()
   );
 };
