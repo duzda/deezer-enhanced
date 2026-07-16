@@ -1,14 +1,14 @@
 import { WebContentsView } from 'electron';
-import { initializePlayer as initializeLinuxPlayer } from './linux';
-import { initializeGlobalShortcuts } from './other';
 
-export const initializeMedia = (
+export const initializeMedia = async (
   toolbarView: WebContentsView,
   deezerView: WebContentsView
 ) => {
   if (process.platform === 'linux') {
-    initializeLinuxPlayer(toolbarView, deezerView);
+    const lib = await import('./linux');
+    lib.initializePlayer(toolbarView, deezerView);
   } else {
-    initializeGlobalShortcuts(toolbarView);
+    const lib = await import('./other');
+    lib.initializeGlobalShortcuts(deezerView);
   }
 };
