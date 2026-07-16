@@ -11,7 +11,7 @@ import {
   DEEZER_PROTOCOL_URI_LOGIN,
 } from './utils/login';
 import { LOGIN_MAP, LoginType } from '../common/types/login';
-import { DEEZER_URL } from './utils/urls';
+import { DEEZER_URL } from '../common/types/urls';
 
 const setArl = async (deezerView: WebContentsView, arl: string) => {
   await deezerView.webContents.session.cookies.set({

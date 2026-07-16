@@ -27,7 +27,7 @@ import {
   DEEZER_NOTIFICATION_RESOLUTION,
   DEEZER_SONG_ART_URL,
   DEEZER_TRACK_URL,
-} from '../utils/urls';
+} from '../../common/types/urls';
 import { isDiscordEnabled, setDiscordActivity } from '../discord';
 import { getSettings } from '../settings';
 import { Episode, Song } from '../../common/types/deezer';
@@ -115,7 +115,7 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
   };
 };
 
-const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
+const createMprisListeners = (player: Player, toolbarView: WebContentsView) => {
   ipcMain.on(MEDIA_READ_SONG, (_, data) => {
     if (!data) return;
     if (data.SNG_ID) {
@@ -138,7 +138,7 @@ const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
       }
 
       if (getSettings().enableNotifications && songData.SNG_ID !== songId) {
-        deezerView.webContents.send(
+        toolbarView.webContents.send(
           NOTIFICATIONS_CREATE,
           songData.SNG_TITLE,
           songData.ART_NAME,
@@ -172,7 +172,7 @@ const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
         getSettings().enableNotifications &&
         episodeData.EPISODE_ID !== songId
       ) {
-        deezerView.webContents.send(
+        toolbarView.webContents.send(
           NOTIFICATIONS_CREATE,
           episodeData.EPISODE_TITLE,
           episodeData.SHOW_NAME,

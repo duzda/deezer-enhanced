@@ -35,6 +35,8 @@ import {
   THEMES_SET_STYLE,
 } from './common/channels/themes';
 import { ZOOM_SET } from './common/channels/zoom';
+import { Platform } from './common/types/platform';
+import { PLATFORM_GET } from './common/channels/platform';
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),
@@ -92,6 +94,10 @@ export const mediaAPI = {
   },
 };
 
+export const platformAPI = {
+  getPlatform: (): Promise<Platform> => ipcRenderer.invoke(PLATFORM_GET),
+};
+
 export const trayAPI = {
   onMute: (callback: () => void) => {
     ipcRenderer.on(TRAY_MUTE, () => callback());
@@ -119,6 +125,7 @@ export const zoomAPI = {
 contextBridge.exposeInMainWorld('view', {
   settingsAPI,
   mediaAPI,
+  platformAPI,
   trayAPI,
   themesAPI,
   zoomAPI,

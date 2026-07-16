@@ -9,6 +9,6 @@ export const initializeMedia = async (
     lib.initializePlayer(toolbarView, deezerView);
   } else {
     const lib = await import('./other');
-    lib.initializeGlobalShortcuts(deezerView);
+    lib.initializePlayer(toolbarView, deezerView);
   }
 };

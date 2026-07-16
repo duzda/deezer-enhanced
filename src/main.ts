@@ -9,7 +9,7 @@ import { initializeDownloads } from './main/downloads';
 import { initializeMedia } from './main/media';
 import { initializeThemeSwitcher } from './main/theme_switcher';
 import { createKeyboardHandles } from './main/keyboard';
-import { DEEZER_URL } from './main/utils/urls';
+import { DEEZER_URL } from './common/types/urls';
 import { generateMenu } from './main/menu';
 import { initializeZoom, onDimensionsChange } from './main/zoom';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './main/utils/size';
@@ -22,6 +22,7 @@ import {
 import { LOGIN_ON_LOGIN, LOGIN_ON_LOGOUT } from './common/channels/login';
 import { DEEZER_LOGIN_PROTOCOL, DEEZER_LOGIN_URL } from './main/utils/login';
 import { checkSquirrel } from './main/utils/squirrel';
+import { createPlatformHandles } from './main/platform';
 
 if (checkSquirrel()) app.quit();
 
@@ -167,6 +168,7 @@ if (!gotTheLock) {
       return { action: 'deny' };
     });
 
+    createPlatformHandles();
     initializeSettings(mainWindow, deezerView).then(() =>
       loadBounds(mainWindow, toolbarView, deezerView)
     );
