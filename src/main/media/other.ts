@@ -45,10 +45,10 @@ const getPosition = () => {
 
 const initializeGlobalShortcuts = (deezerView: WebContentsView) => {
   globalShortcut.register('VolumeUp', () =>
-    deezerView.webContents.send(MEDIA_SET_VOLUME, player.volume + 10)
+    deezerView.webContents.send(MEDIA_SET_VOLUME, player.volume + 0.1)
   );
   globalShortcut.register('VolumeDown', () =>
-    deezerView.webContents.send(MEDIA_SET_VOLUME, player.volume - 10)
+    deezerView.webContents.send(MEDIA_SET_VOLUME, player.volume - 0.1)
   );
   globalShortcut.register('VolumeMute', () => {
     deezerView.webContents.send(MEDIA_SET_VOLUME, player.beforeMuteVolume);

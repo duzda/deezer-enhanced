@@ -1,10 +1,20 @@
 import {
-  ART_RESOLUTION,
-  DEEZER_ART_RESOLUTION,
+  DEEZER_ART_SUFFIX,
   DEEZER_SONG_ART_URL,
 } from '../../../common/types/urls';
 import { ViewWindow } from '../../types';
 import { DZPlayer } from '../../types/dzplayer';
+
+const SIZES: readonly number[] = [96, 128, 192, 256, 384, 512];
+
+const generateArtworks = (prefix: string): MediaImage[] =>
+  SIZES.map((size) => {
+    return {
+      src: `${prefix}/${size}${DEEZER_ART_SUFFIX}`,
+      sizes: `${size}x${size}`,
+      type: 'image/jpeg',
+    };
+  });
 
 const setPosition = (dzPlayer: DZPlayer) => {
   navigator.mediaSession.setPositionState({
@@ -17,34 +27,22 @@ const setMetadata = (dzPlayer: DZPlayer) => {
   const data = dzPlayer.getCurrentSong();
   if (!data) return;
   if ('SNG_ID' in data) {
-    navigator.mediaSession.metadata = {
+    navigator.mediaSession.metadata = new MediaMetadata({
       album: data.ALB_TITLE,
       artist:
         data.ARTISTS !== undefined
           ? data.ARTISTS.map((artist) => artist.ART_NAME).join(', ')
           : data.ART_NAME,
       title: data.SNG_TITLE,
-      artwork: [
-        {
-          src: DEEZER_SONG_ART_URL + data.ALB_PICTURE + DEEZER_ART_RESOLUTION,
-          sizes: ART_RESOLUTION,
-          type: 'image/png',
-        },
-      ],
-    };
+      artwork: generateArtworks(DEEZER_SONG_ART_URL + data.ALB_PICTURE),
+    });
   } else if ('EPISODE_ID' in data) {
-    navigator.mediaSession.metadata = {
+    navigator.mediaSession.metadata = new MediaMetadata({
       album: data.SHOW_NAME,
       artist: data.SHOW_NAME,
       title: data.EPISODE_TITLE,
-      artwork: [
-        {
-          src: DEEZER_SONG_ART_URL + data.SHOW_ART_MD5 + DEEZER_ART_RESOLUTION,
-          sizes: ART_RESOLUTION,
-          type: 'image/png',
-        },
-      ],
-    };
+      artwork: generateArtworks(DEEZER_SONG_ART_URL + data.SHOW_ART_MD5),
+    });
   }
 };
 
@@ -67,6 +65,8 @@ export const initializeNavigator = () => {
       navigator.mediaSession.playbackState = viewWindow.dzPlayer.isPlaying()
         ? 'playing'
         : 'paused';
+      setPosition(viewWindow.dzPlayer);
+      setMetadata(viewWindow.dzPlayer);
     });
   }
 
