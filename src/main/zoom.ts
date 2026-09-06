@@ -35,17 +35,18 @@ export const onDimensionsChange = (
   view: WebContentsView
 ) => {
   const zoomFactor = mainView.webContents.getZoomFactor();
+  const { width, height } = mainWindow.getContentBounds();
   mainView.setBounds({
     x: 0,
     y: 0,
-    width: mainWindow.getBounds().width,
-    height: mainWindow.getBounds().height,
+    width,
+    height,
   });
   view.setBounds({
     x: 0,
     y: NAVBAR_HEIGHT * zoomFactor,
-    width: mainWindow.getBounds().width,
-    height: mainWindow.getBounds().height - NAVBAR_HEIGHT * zoomFactor,
+    width,
+    height: height - NAVBAR_HEIGHT * zoomFactor,
   });
 };
 

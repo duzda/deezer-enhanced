@@ -5,10 +5,11 @@ import { MakerPacman } from 'electron-forge-maker-pacman';
 // import { MakerSnap } from '@electron-forge/maker-snap';
 import { MakerDeb } from '@electron-forge/maker-deb';
 import { MakerRpm } from '@electron-forge/maker-rpm';
+import { MakerSquirrel } from '@electron-forge/maker-squirrel';
+import { MakerZIP } from '@electron-forge/maker-zip';
 import { VitePlugin } from '@electron-forge/plugin-vite';
 import { FusesPlugin } from '@electron-forge/plugin-fuses';
 import { FuseV1Options, FuseVersion } from '@electron/fuses';
-
 const config: ForgeConfig = {
   packagerConfig: {
     appBundleId: "com.duzda.deezer-enhanced",
@@ -20,6 +21,8 @@ const config: ForgeConfig = {
   },
   rebuildConfig: {},
   makers: [
+    new MakerSquirrel({}),
+    new MakerZIP({}, ['win32']),
     new MakerAppImage({
       options: {
         productName: "Deezer Enhanced",
@@ -50,8 +53,8 @@ const config: ForgeConfig = {
         icon: "./build/icon.png",
         categories: ["Audio"],
         mimeType: ['x-scheme-handler/deezer']
-      },
-    }), 
+       },
+	    }), 
     new MakerRpm({
       options: {
         productName: "Deezer Enhanced",
@@ -104,5 +107,4 @@ const config: ForgeConfig = {
     }),
   ],
 };
-
 export default config;

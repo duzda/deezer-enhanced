@@ -148,27 +148,26 @@ if (!gotTheLock) {
       height: DEFAULT_HEIGHT,
     });
 
-    const view = new WebContentsView({
+   const view = new WebContentsView({
       webPreferences: {
         preload: path.join(__dirname, 'preload_view.js'),
       },
     });
-
     view.webContents.setWindowOpenHandler(() => {
       return { action: 'deny' };
     });
-
     initializeSettings(mainWindow, view).then(() =>
       loadBounds(mainWindow, mainView, view)
     );
-    initializePlayer(mainView, view);
+    if (process.platform !== 'win32') {
+      initializePlayer(mainView, view);
+    }
     initializeDownloads(mainView, view);
     initializeThemeSwitcher(mainView, view);
     initializeZoom(mainWindow, mainView, view);
     createHistoryHandles(view);
     createKeyboardHandles(view);
     createLoginHandles(view);
-
     mainView.webContents.on('context-menu', (_, properties) => {
       generateMenu(mainWindow, mainView, mainView, view, properties).popup({
         x: properties.x,
