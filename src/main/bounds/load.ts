@@ -9,7 +9,7 @@ import {
 } from './types';
 import { getSettings } from '../settings';
 import { NAVBAR_HEIGHT } from '../utils/size';
-import { setZoomFactor } from '../zoom';
+import { setZoomFactor, onDimensionsChange } from '../zoom';
 
 const isSteamDeck = () => {
   return env.XDG_CURRENT_DESKTOP === 'gamescope';
@@ -47,22 +47,34 @@ export const loadBounds = async (
     window.maximize();
   }
 
-  const width = bounds.bounds.width ?? DEFAULT_BOUNDS.bounds.height;
-  const height = bounds.bounds.height ?? DEFAULT_BOUNDS.bounds.width;
   const zoom = bounds.zoom ?? DEFAULT_BOUNDS.zoom;
 
-  view.setBounds({
-    x: 0,
-    y: NAVBAR_HEIGHT * zoom,
-    width,
-    height: height - NAVBAR_HEIGHT * zoom,
-  });
+  if (getSettings().enableTray && getSettings().startInTray) {
+    const width = bounds.bounds.width ?? DEFAULT_BOUNDS.bounds.width;
+    const height = bounds.bounds.height ?? DEFAULT_BOUNDS.bounds.height;
+
+    view.setBounds({
+      x: 0,
+      y: NAVBAR_HEIGHT * zoom,
+      width,
+      height: height - NAVBAR_HEIGHT * zoom,
+    });
+
+    mainView.webContents.once('did-navigate', () =>
+      setZoomFactor(mainView, zoom)
+    );
+    view.webContents.once('did-navigate', () => setZoomFactor(view, zoom));
+    return;
+  }
+
+  window.show();
+
+  // Window is now realized, getContentBounds() is reliable here (fixes
+  // 0x0 sizing seen on Windows when queried before the window is shown)
+  onDimensionsChange(window, mainView, view);
 
   mainView.webContents.once('did-navigate', () =>
     setZoomFactor(mainView, zoom)
   );
   view.webContents.once('did-navigate', () => setZoomFactor(view, zoom));
-
-  if (getSettings().enableTray && getSettings().startInTray) return;
-  window.show();
 };
