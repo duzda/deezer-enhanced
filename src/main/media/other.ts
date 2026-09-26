@@ -68,7 +68,7 @@ const initializeGlobalShortcuts = (deezerView: WebContentsView) => {
   );
 };
 
-const createMediaListeners = (toolbarView: WebContentsView) => {
+export const createMediaListeners = (toolbarView: WebContentsView) => {
   ipcMain.on(MEDIA_READ_SONG, (_, data: Song | Episode | null) => {
     if (!data) return;
     if ('SNG_ID' in data) {
