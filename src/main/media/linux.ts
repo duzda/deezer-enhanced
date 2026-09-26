@@ -32,6 +32,7 @@ import { isDiscordEnabled, setDiscordActivity } from '../discord';
 import { getSettings } from '../settings';
 import { Episode, Song } from '../../common/types/deezer';
 import { NOTIFICATIONS_CREATE } from '../../common/channels/notifications';
+import { showArtist } from './common';
 
 let songId = '';
 
@@ -94,10 +95,7 @@ const updateMetadataSong = (player: Player, data: Song) => {
       DEEZER_SONG_ART_URL + data.ALB_PICTURE + DEEZER_ART_RESOLUTION,
     'xesam:title': data.SNG_TITLE,
     'xesam:album': data.ALB_TITLE,
-    'xesam:artist':
-      data.ARTISTS !== undefined
-        ? data.ARTISTS.map((artist) => artist.ART_NAME)
-        : [data.ART_NAME],
+    'xesam:artist': showArtist(data),
     'xesam:url': DEEZER_TRACK_URL + data.SNG_ID,
   };
 };

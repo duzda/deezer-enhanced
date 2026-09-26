@@ -1,5 +1,5 @@
-import { ViewWindow } from '../../types';
-import { favorite } from '../favorite';
+import { ViewWindow } from '../types';
+import { favorite } from './favorite';
 
 export const initializeMedia = () => {
   const viewWindow: ViewWindow = window as ViewWindow;

@@ -13,6 +13,7 @@
   },
   "main": ".vite/build/main.js",
   "scripts": {
+    "generate": "npx dynwinrt-codegen generate --namespace Windows.Media.SystemMediaTransportControls --class-name Windows.Media.SystemMediaTransportControls --output ./generated",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
@@ -65,7 +66,8 @@
     "react-router": "^7.9.4"
   },
   "optionalDependencies": {
-    "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service"
+    "@jellybrick/mpris-service": "git+https://github.com/duzda/mpris-service",
+    "@microsoft/dynwinrt-codegen": "^0.1.0-preview.21"
   },
   "private": "true"
 }
