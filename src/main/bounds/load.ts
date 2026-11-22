@@ -40,7 +40,12 @@ export const loadBounds = async (
     .reduce((acc, { size: { width } }) => acc + width, 0);
 
   if (bounds.bounds.x && allDisplaysSummaryWidth >= bounds.bounds.x) {
-    window.setBounds(bounds.bounds);
+    window.setContentBounds({
+      x: 0,
+      y: 0,
+      ...DEFAULT_BOUNDS.bounds,
+      ...bounds.bounds,
+    });
   }
 
   if (bounds.maximized) {

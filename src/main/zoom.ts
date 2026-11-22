@@ -35,17 +35,13 @@ export const onDimensionsChange = (
   deezerView: WebContentsView
 ) => {
   const zoomFactor = toolbarView.webContents.getZoomFactor();
-  toolbarView.setBounds({
-    x: 0,
-    y: 0,
-    width: mainWindow.getBounds().width,
-    height: mainWindow.getBounds().height,
-  });
+  const { width, height } = mainWindow.getContentBounds();
+  toolbarView.setBounds({ x: 0, y: 0, width, height });
   deezerView.setBounds({
     x: 0,
     y: NAVBAR_HEIGHT * zoomFactor,
-    width: mainWindow.getBounds().width,
-    height: mainWindow.getBounds().height - NAVBAR_HEIGHT * zoomFactor,
+    width,
+    height: height - NAVBAR_HEIGHT * zoomFactor,
   });
 };
 

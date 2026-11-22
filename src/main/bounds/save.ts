@@ -4,7 +4,7 @@ import { Bounds, BOUNDS_FILE } from './types';
 
 export const saveBounds = (window: BaseWindow, deezerView: WebContentsView) => {
   const newBounds: Bounds = {
-    bounds: window.getBounds(),
+    bounds: window.getContentBounds(),
     maximized: window.isMaximized(),
     zoom: deezerView.webContents.zoomFactor,
   };
