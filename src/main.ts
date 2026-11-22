@@ -130,7 +130,7 @@ if (!gotTheLock) {
     // Contains the toolbar and settings page
     const toolbarView = new WebContentsView({
       webPreferences: {
-        preload: path.join(__dirname, 'preload.js'),
+        preload: path.join(__dirname, 'preload.cjs'),
       },
     });
 
@@ -152,7 +152,7 @@ if (!gotTheLock) {
     // Contains the Deezer application
     const deezerView = new WebContentsView({
       webPreferences: {
-        preload: path.join(__dirname, 'preload_view.js'),
+        preload: path.join(__dirname, 'preload_view.cjs'),
       },
     });
 
@@ -200,7 +200,7 @@ if (!gotTheLock) {
     });
 
     deezerView.webContents.on('did-finish-load', async () => {
-      fs.readFile(path.join(__dirname, '../build/view.js'), (err, data) => {
+      fs.readFile(path.join(__dirname, '../build/view.cjs'), (err, data) => {
         if (err === null) {
           deezerView.webContents.executeJavaScript(data.toString());
         }
