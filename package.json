@@ -57,8 +57,8 @@
   "allowScripts": {
     "@tailwindcss/oxide@4.1.14": true,
     "bufferutil@4.0.9": true,
-    "github:duzda/electron-forge-maker-appimage#5cc3a725e8b5a3135db38b77048267cfbcb89e84": true,
-    "github:duzda/electron-forge-maker-pacman#cb04b8209c5e9acc3d72d9b462599715d27806ca": true,
+    "github:duzda/electron-forge-maker-appimage#cd57af58f41dcbf10c473d722d7ee9c4b244e019": true,
+    "github:duzda/electron-forge-maker-pacman#0229cd0860d6c776d66ca7785d23329c866d51cd": true,
     "esbuild@0.25.9": true,
     "github:devsnek/node-register-scheme#e7cc9a63a1f512565da44cb57316d9fb10750e17": true,
     "utf-8-validate@5.0.10": true
