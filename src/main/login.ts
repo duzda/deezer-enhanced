@@ -12,6 +12,7 @@ import {
 } from './utils/login';
 import { LOGIN_MAP, LoginType } from '../common/types/login';
 import { DEEZER_URL } from './utils/urls';
+import { MPRIS_STOP } from '../common/channels/mpris';
 
 const setArl = async (deezerView: WebContentsView, arl: string) => {
   await deezerView.webContents.session.cookies.set({
@@ -37,6 +38,19 @@ export const handleLoginProtocol = async (
 ) => {
   const arg = argv.find((value) => value.startsWith(DEEZER_LOGIN_PROTOCOL));
   if (!arg) return;
+
+  if (arg.startsWith(`${DEEZER_LOGIN_PROTOCOL}www.deezer.com`)) {
+    try {
+      deezerView.webContents.send(MPRIS_STOP);
+      await deezerView.webContents.loadURL(
+        `https://${arg.substring(DEEZER_LOGIN_PROTOCOL.length)}`
+      );
+    } catch (e) {
+      // oxlint-disable-next-line no-console
+      console.error(e);
+    }
+    return;
+  }
 
   // in future, if any request for some another protocol to be handled would appear,
   // it would be better to bring it protocol handling in some other place,
