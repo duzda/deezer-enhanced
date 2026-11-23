@@ -28,7 +28,6 @@ export const initializeThemeSwitcher = (
       await sendStyles();
 
       const changes = fs.watch(STYLES_FILE);
-      // eslint-disable-next-line no-restricted-syntax
       for await (const fileEvent of changes) {
         if (fileEvent.eventType === 'change') {
           await sendStyles();
@@ -39,9 +38,9 @@ export const initializeThemeSwitcher = (
         }
       }
     } catch (err) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.warn('Error initializing custom styles');
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.warn(err);
     }
   });

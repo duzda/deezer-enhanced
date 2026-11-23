@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import Player from '@jellybrick/mpris-service';
 import { ipcMain, WebContentsView } from 'electron';
 import {
@@ -114,73 +113,69 @@ const updateMetadataEpisode = (player: Player, data: Episode) => {
   };
 };
 
+const isSong = (data: any): data is Song => data.SNG_ID;
+const isEpisode = (data: any): data is Episode => data.EPISODE_ID;
+
 const createMprisListeners = (player: Player, deezerView: WebContentsView) => {
   ipcMain.on(MPRIS_READ_SONG, (_, data) => {
     if (!data) return;
-    if (data.SNG_ID) {
-      const songData = data as Song;
-      updateMetadataSong(player, songData);
+    if (isSong(data)) {
+      updateMetadataSong(player, data);
 
       if (isDiscordEnabled()) {
-        setDiscordActivity(
-          songData.SNG_TITLE,
-          songData.ARTISTS !== undefined
-            ? songData.ARTISTS.map((artist) => artist.ART_NAME).join(', ')
-            : songData.ART_NAME,
-          songData.ALB_TITLE,
-          DEEZER_SONG_ART_URL + songData.ALB_PICTURE + DEEZER_ART_RESOLUTION,
+        void setDiscordActivity(
+          data.SNG_TITLE,
+          data.ARTISTS !== undefined
+            ? data.ARTISTS.map((artist) => artist.ART_NAME).join(', ')
+            : data.ART_NAME,
+          data.ALB_TITLE,
+          DEEZER_SONG_ART_URL + data.ALB_PICTURE + DEEZER_ART_RESOLUTION,
           player.isPlaying(),
           player.getPosition() / 1_000,
-          Number(songData.DURATION) * 1_000,
-          DEEZER_TRACK_URL + songData.SNG_ID
+          Number(data.DURATION) * 1_000,
+          DEEZER_TRACK_URL + data.SNG_ID
         );
       }
 
-      if (getSettings().enableNotifications && songData.SNG_ID !== songId) {
+      if (getSettings().enableNotifications && data.SNG_ID !== songId) {
         deezerView.webContents.send(
           NOTIFICATIONS_CREATE,
-          songData.SNG_TITLE,
-          songData.ART_NAME,
+          data.SNG_TITLE,
+          data.ART_NAME,
           DEEZER_SONG_ART_URL +
-            songData.ALB_PICTURE +
+            data.ALB_PICTURE +
             DEEZER_NOTIFICATION_RESOLUTION
         );
 
-        songId = songData.SNG_ID;
+        songId = data.SNG_ID;
       }
-    } else if (data.EPISODE_ID) {
-      const episodeData = data as Episode;
-      updateMetadataEpisode(player, episodeData);
+    } else if (isEpisode(data)) {
+      updateMetadataEpisode(player, data);
 
       if (isDiscordEnabled()) {
-        setDiscordActivity(
-          episodeData.EPISODE_TITLE,
-          episodeData.SHOW_NAME,
-          episodeData.SHOW_NAME,
-          DEEZER_EPISODE_ART_URL +
-            episodeData.SHOW_ART_MD5 +
-            DEEZER_ART_RESOLUTION,
+        void setDiscordActivity(
+          data.EPISODE_TITLE,
+          data.SHOW_NAME,
+          data.SHOW_NAME,
+          DEEZER_EPISODE_ART_URL + data.SHOW_ART_MD5 + DEEZER_ART_RESOLUTION,
           player.isPlaying(),
           player.getPosition() / 1_000,
-          Number(episodeData.DURATION) * 1_000,
-          DEEZER_EPISODE_URL + episodeData.EPISODE_ID
+          Number(data.DURATION) * 1_000,
+          DEEZER_EPISODE_URL + data.EPISODE_ID
         );
       }
 
-      if (
-        getSettings().enableNotifications &&
-        episodeData.EPISODE_ID !== songId
-      ) {
+      if (getSettings().enableNotifications && data.EPISODE_ID !== songId) {
         deezerView.webContents.send(
           NOTIFICATIONS_CREATE,
-          episodeData.EPISODE_TITLE,
-          episodeData.SHOW_NAME,
+          data.EPISODE_TITLE,
+          data.SHOW_NAME,
           DEEZER_EPISODE_ART_URL +
-            episodeData.SHOW_ART_MD5 +
+            data.SHOW_ART_MD5 +
             DEEZER_NOTIFICATION_RESOLUTION
         );
 
-        songId = episodeData.EPISODE_ID;
+        songId = data.EPISODE_ID;
       }
     }
   });

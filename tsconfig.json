@@ -11,6 +11,7 @@
     "outDir": "dist",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "jsx": "react-jsx",
-  }
+    "jsx": "react-jsx"
+  },
+  "include": ["**/*", "./src/renderer/index.d.ts"]
 }

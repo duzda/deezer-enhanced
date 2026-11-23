@@ -1,23 +1,25 @@
-@import "tailwindcss";
+@import 'tailwindcss';
 
 @plugin "daisyui" {
-    --text-fontFamily: Inter, Arial, sanf-serif;
+  --text-fontFamily: Inter, Arial, sanf-serif;
 }
 
 @plugin "daisyui/theme" {
-    name: "custom";
-    default: true;
+  name: 'custom';
+  default: true;
 
-    --color-base-100: var(--background-primary); /* background */
-    --color-base-200: var(--background-secondary); /* modal background */
-    --color-base-content: var(--text-primary); /* content color active */
-    --color-primary: var(--text-intermediate); /* content color inactive */
-    --color-secondary: var(--tempo-colors-background-accent-primary-default); /* accent */
-    --color-neutral: var(--divider-secondary); /* borders */
+  --color-base-100: var(--background-primary); /* background */
+  --color-base-200: var(--background-secondary); /* modal background */
+  --color-base-content: var(--text-primary); /* content color active */
+  --color-primary: var(--text-intermediate); /* content color inactive */
+  --color-secondary: var(
+    --tempo-colors-background-accent-primary-default
+  ); /* accent */
+  --color-neutral: var(--divider-secondary); /* borders */
 }
 
 .alert {
-    @apply p-0;
-    @apply px-4;
-    @apply w-max
+  @apply p-0;
+  @apply px-4;
+  @apply w-max;
 }

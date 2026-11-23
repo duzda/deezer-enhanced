@@ -5,7 +5,6 @@ import { initializeVolumePower } from './injections/volume';
 import { initializeVolumeScroll } from './injections/volume_scroll';
 import { initializeZoom } from './injections/zoom';
 import { initializeSettings } from './settings';
-import { ViewWindow } from './types';
 
 const onStartup = () => {
   setTimeout(() => {
@@ -22,11 +21,10 @@ const onStartup = () => {
 export const initialize = () => {
   document.addEventListener('load', onStartup);
   const onDeezerLogin = () => {
-    const deezerWindow: ViewWindow = window as ViewWindow;
     if (
-      typeof deezerWindow.dataLayer !== 'undefined' &&
-      deezerWindow.dataLayer.length > 0 &&
-      deezerWindow.dataLayer[0].deezer_user_id !== 0
+      typeof window.dataLayer !== 'undefined' &&
+      window.dataLayer.length > 0 &&
+      window.dataLayer[0].deezer_user_id !== 0
     ) {
       onStartup();
     } else {

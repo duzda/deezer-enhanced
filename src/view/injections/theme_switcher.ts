@@ -29,38 +29,39 @@ const buildCss = () => {
   }`;
 };
 
+const setColorScheme = (e: MediaQueryList | MediaQueryListEvent) => {
+  const currentAccent = localStorage.getItem(ACCENT_KEY);
+  if (currentAccent !== null && DARK_ONLY_ACCENTS.includes(currentAccent)) {
+    return;
+  }
+
+  const newTheme = e.matches ? DARK_STYLE : LIGHT_STYLE;
+  document.documentElement.style.colorScheme = newTheme;
+  document.documentElement.dataset.theme = newTheme;
+  window.view.themesAPI.setStyle(buildCss());
+};
+
 export const initializeThemeSwitcher = () => {
   const colorSchemeQueryList = window.matchMedia(
     '(prefers-color-scheme: dark)'
   );
 
-  const setColorScheme = (e: MediaQueryList | MediaQueryListEvent) => {
-    const currentAccent = localStorage.getItem(ACCENT_KEY);
-    if (currentAccent !== null && DARK_ONLY_ACCENTS.includes(currentAccent)) {
-      return;
-    }
-
-    const newTheme = e.matches ? DARK_STYLE : LIGHT_STYLE;
-    document.documentElement.style.colorScheme = newTheme;
-    document.documentElement.dataset.theme = newTheme;
-    window.view.themesAPI.setStyle(buildCss());
-  };
-
   colorSchemeQueryList.addEventListener('change', setColorScheme);
 
+  // oxlint-disable-next-line typescript/unbound-method
   const originalLocalStorageSetItem = localStorage.setItem;
-  // eslint-disable-next-line func-names
   localStorage.setItem = function (key) {
     if (key === ACCENT_KEY || key === THEME_KEY) {
       window.view.themesAPI.setStyle(buildCss());
     }
 
-    // eslint-disable-next-line prefer-rest-params
+    // @ts-ignore 2035
     originalLocalStorageSetItem.apply(localStorage, arguments);
   };
 
   createStylesElement();
   window.view.themesAPI.onInjectCss((styles) => {
+    // oxlint-disable-next-line no-unsafe-type-assertion
     const stylesElement = document.getElementById(
       'inject-styles'
     ) as HTMLStyleElement;

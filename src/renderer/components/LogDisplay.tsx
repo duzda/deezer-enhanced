@@ -28,7 +28,7 @@ function LogDisplay({ code }: LogDisplayProps): React.JSX.Element {
         .slice(0, -1)
         .map((line, i) => (
           <pre
-            // eslint-disable-next-line react/no-array-index-key
+            // oxlint-disable-next-line react/no-array-index-key
             key={`${i}-${line}`}
             data-prefix={i + 1}
             className={getLineColor(line)}

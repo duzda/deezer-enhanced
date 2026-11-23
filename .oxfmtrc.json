@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "trailingComma": "es5",
+  "tabWidth": 2,
+  "semi": true,
+  "singleQuote": true,
+  "printWidth": 80,
+  "sortPackageJson": true,
+  "ignorePatterns": [
+    "vite.config.ts",
+    "vite.renderer.config.ts",
+    "forge.config.ts",
+    "forge.env.d.ts"
+  ]
+}

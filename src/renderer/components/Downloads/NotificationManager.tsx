@@ -33,7 +33,7 @@ const transformNotification = async ({
       stdout,
       stderr,
     };
-  } catch (e) {
+  } catch {
     return {
       id: window.crypto.randomUUID(),
       status,
@@ -57,12 +57,12 @@ function NotificationManager({
   );
 
   useEffect(() => {
-    Promise.all(notificationsQueue.map(transformNotification)).then((n) =>
+    void Promise.all(notificationsQueue.map(transformNotification)).then((n) =>
       setNotifications([...notifications, ...n])
     );
-    // eslint-disable-next-line no-param-reassign
+    // oxlint-disable-next-line immutability
     notificationsQueue.length = 0;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line exhaustive-deps
   }, [notificationsQueue]);
 
   return (

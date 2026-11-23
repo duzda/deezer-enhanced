@@ -1,3 +1,5 @@
+/// <reference types="vite/client" />
+
 import {
   downloadsAPI,
   historyAPI,
@@ -20,6 +22,4 @@ declare global {
       loginAPI: typeof loginAPI;
     };
   }
-
-  declare module '*.css';
 }

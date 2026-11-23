@@ -1,0 +1,42 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": [
+    "typescript",
+    "unicorn",
+    "eslint",
+    "oxc",
+    "react",
+    "react-perf",
+    "jsx-a11y"
+  ],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "error"
+  },
+  "rules": {
+    "no-console": "error",
+    "react/function-component-definition": "error",
+    // Duplicated by exhaustive-deps
+    "react/exhaustive-effect-dependencies": "allow",
+    "react/no-array-index-key": "error",
+    "react/react-in-jsx-scope": "allow",
+    "typescript/restrict-template-expressions": [
+      "error",
+      { "allowNever": true }
+    ],
+    "typescript/no-floating-promises": "allow"
+  },
+  "env": {
+    "builtin": true
+  },
+  "options": {
+    "typeAware": true,
+    "typeCheck": true
+  },
+  "ignorePatterns": [
+    "vite.config.ts",
+    "vite.renderer.config.ts",
+    "forge.config.ts",
+    "forge.env.d.ts"
+  ]
+}

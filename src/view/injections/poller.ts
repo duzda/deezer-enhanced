@@ -13,6 +13,7 @@ export const callWithRetries = (
     const element = document.querySelector(selector);
 
     if (element) {
+      // oxlint-disable-next-line no-unsafe-type-assertion
       retryFunction(element as HTMLElement);
     } else {
       if (retries === 0) return;

@@ -5,6 +5,7 @@ export const favorite = () => {
   const favoriteElement = document.querySelector(SELECTOR);
 
   if (favoriteElement) {
+    // oxlint-disable-next-line no-unsafe-type-assertion
     (favoriteElement as HTMLButtonElement).click();
   }
 };

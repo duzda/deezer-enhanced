@@ -39,6 +39,7 @@ const download = async (url: string, toolbarView: WebContentsView) => {
       stderr
     );
   } catch (e) {
+    // oxlint-disable-next-line no-unsafe-type-assertion
     const execException = e as ExecException;
     toolbarView.webContents.send(
       DOWNLOADS_FINISHED,

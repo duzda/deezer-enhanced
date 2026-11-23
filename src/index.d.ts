@@ -1,5 +1,3 @@
-/* eslint-disable max-classes-per-file */
-
 declare module '@jellybrick/mpris-service';
 // source: https://github.com/topsuperdev/hifi_tidal
 
@@ -94,15 +92,15 @@ declare class Player {
 
   on(event: string | symbol, listener: (...args: object[]) => void): this;
 
-  static PLAYBACK_STATUS_PLAYING = 'Playing';
+  static PLAYBACK_STATUS_PLAYING: 'Playing';
 
-  static PLAYBACK_STATUS_PAUSED = 'Paused';
+  static PLAYBACK_STATUS_PAUSED: 'Paused';
 
-  static PLAYBACK_STATUS_STOPPED = 'Stopped';
+  static PLAYBACK_STATUS_STOPPED: 'Stopped';
 
-  static LOOP_STATUS_NONE = 'None';
+  static LOOP_STATUS_NONE: 'None';
 
-  static LOOP_STATUS_TRACK = 'Track';
+  static LOOP_STATUS_TRACK: 'Track';
 
-  static LOOP_STATUS_PLAYLIST = 'Playlist';
+  static LOOP_STATUS_PLAYLIST: 'Playlist';
 }

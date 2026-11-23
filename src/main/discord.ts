@@ -13,8 +13,8 @@ export const connectDiscord = async () => {
 
   try {
     await client.login({ clientId: CLIENT_ID });
-  } catch (e) {
-    // eslint-disable-next-line no-console
+  } catch {
+    // oxlint-disable-next-line no-console
     console.warn('Discord is not running, unable to connect.');
   }
 };
@@ -23,8 +23,8 @@ export const disconnectDiscord = async () => {
   if (typeof client !== 'undefined') {
     try {
       await client.destroy();
-    } catch (e) {
-      // eslint-disable-next-line no-console
+    } catch {
+      // oxlint-disable-next-line no-console
       console.warn('Discord is already disconnected.');
     }
   }
@@ -67,9 +67,9 @@ export const setDiscordActivity = async (
         await client.clearActivity();
       }
     } catch (e) {
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.warn('Discord is not running, unable to change activity.');
-      // eslint-disable-next-line no-console
+      // oxlint-disable-next-line no-console
       console.warn(e);
     }
   }

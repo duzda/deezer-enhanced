@@ -35,7 +35,7 @@ const loadFromFile = async (file: string) => {
     OnSet.volumePower(currentSettings.volumePower);
     OnSet.discordRPC(currentSettings.discordRPC);
   } catch {
-    // eslint-disable-next-line no-console
+    // oxlint-disable-next-line no-console
     console.warn(`Error trying to read settings from file: ${file}`);
   }
 };

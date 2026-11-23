@@ -23,6 +23,7 @@ function LoginPage(): React.JSX.Element {
         <form
           action={(form) => {
             const cookie = form.get('cookie')!;
+            // oxlint-disable-next-line typescript/no-base-to-string
             window.renderer.loginAPI.setArl(cookie.toString());
           }}
         >

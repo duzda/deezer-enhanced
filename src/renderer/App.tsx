@@ -13,6 +13,7 @@ import { NOTIFICATIONS_TAG } from '../common/channels/notifications';
 import './index.css';
 
 const getStylesElement = () =>
+  // oxlint-disable-next-line no-unsafe-type-assertion
   document.getElementById('inject-styles')! as HTMLStyleElement;
 
 const getStyles = () =>
@@ -45,7 +46,7 @@ function App(): React.JSX.Element {
         ]);
       }
     );
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // oxlint-disable-next-line exhaustive-deps
   }, [setNotificationsQueue]);
 
   useEffect(() => {

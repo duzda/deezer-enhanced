@@ -28,7 +28,7 @@ Q: Downloads?
 A: The downloads will probably never work the same way as on Windows, to download music, use a different app, there's plenty of'em.
 
 Q: Can I play offline files?  
-A: No and it's not currently in a plan, use a different music player.  
+A: No and it's not currently in a plan, use a different music player.
 
 Q: How do I apply my own theme?  
 A: Please see [THEMING.md](THEMING.md)
