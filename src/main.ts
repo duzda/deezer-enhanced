@@ -1,26 +1,27 @@
-import { app, BaseWindow, session, WebContentsView } from 'electron';
-import path from 'path';
+import { BaseWindow, WebContentsView, app, session } from 'electron';
 import fs from 'fs';
-import { createHistoryHandles } from './main/history';
-import { getSettings, initializeSettings } from './main/settings';
-import { loadBounds } from './main/bounds/load';
-import { saveBounds } from './main/bounds/save';
-import { initializeDownloads } from './main/downloads';
-import { initializePlayer } from './main/mpris';
-import { initializeThemeSwitcher } from './main/theme_switcher';
-import { createKeyboardHandles } from './main/keyboard';
-import { DEEZER_URL } from './main/utils/urls';
-import { generateMenu } from './main/menu';
-import { initializeZoom, onDimensionsChange } from './main/zoom';
+import path from 'path';
+
+import { DEEZER_LOGIN_PROTOCOL, DEEZER_LOGIN_URL } from './main/utils/login';
 import { DEFAULT_HEIGHT, DEFAULT_WIDTH } from './main/utils/size';
+import { LOGIN_ON_LOGIN, LOGIN_ON_LOGOUT } from './common/channels/login';
 import {
   createLoginHandles,
   handleLoginProtocol,
   isLoggedIn,
   isValidArlCookie,
 } from './main/login';
-import { LOGIN_ON_LOGIN, LOGIN_ON_LOGOUT } from './common/channels/login';
-import { DEEZER_LOGIN_PROTOCOL, DEEZER_LOGIN_URL } from './main/utils/login';
+import { getSettings, initializeSettings } from './main/settings';
+import { initializeZoom, onDimensionsChange } from './main/zoom';
+import { DEEZER_URL } from './main/utils/urls';
+import { createHistoryHandles } from './main/history';
+import { createKeyboardHandles } from './main/keyboard';
+import { generateMenu } from './main/menu';
+import { initializeDownloads } from './main/downloads';
+import { initializePlayer } from './main/mpris';
+import { initializeThemeSwitcher } from './main/theme_switcher';
+import { loadBounds } from './main/bounds/load';
+import { saveBounds } from './main/bounds/save';
 
 const USER_AGENT =
   'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36';

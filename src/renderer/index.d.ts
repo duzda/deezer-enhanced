@@ -4,10 +4,10 @@ import {
   downloadsAPI,
   historyAPI,
   keyboardAPI,
+  loginAPI,
   notificationsAPI,
   settingsAPI,
   themesAPI,
-  loginAPI,
 } from '../preload';
 
 declare global {

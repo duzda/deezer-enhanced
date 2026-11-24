@@ -1,5 +1,15 @@
+import { WebContentsView, ipcMain } from 'electron';
 import Player from '@jellybrick/mpris-service';
-import { ipcMain, WebContentsView } from 'electron';
+
+import {
+  DEEZER_ART_RESOLUTION,
+  DEEZER_EPISODE_ART_URL,
+  DEEZER_EPISODE_URL,
+  DEEZER_NOTIFICATION_RESOLUTION,
+  DEEZER_SONG_ART_URL,
+  DEEZER_TRACK_URL,
+} from './utils/urls';
+import { Episode, Song } from '../common/types/deezer';
 import {
   MPRIS_NEXT_SONG,
   MPRIS_PAUSE,
@@ -18,18 +28,9 @@ import {
   MPRIS_STOP,
   MPRIS_TOGGLE_STATUS,
 } from '../common/channels/mpris';
-import {
-  DEEZER_ART_RESOLUTION,
-  DEEZER_EPISODE_ART_URL,
-  DEEZER_EPISODE_URL,
-  DEEZER_NOTIFICATION_RESOLUTION,
-  DEEZER_SONG_ART_URL,
-  DEEZER_TRACK_URL,
-} from './utils/urls';
 import { isDiscordEnabled, setDiscordActivity } from './discord';
-import { getSettings } from './settings';
-import { Episode, Song } from '../common/types/deezer';
 import { NOTIFICATIONS_CREATE } from '../common/channels/notifications';
+import { getSettings } from './settings';
 
 let songId = '';
 

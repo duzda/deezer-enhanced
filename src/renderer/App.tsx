@@ -1,14 +1,15 @@
 import { Route, Routes, useNavigate } from 'react-router';
 import { useEffect, useState } from 'react';
 import { useSetAtom } from 'jotai';
-import SettingsPage from './pages/SettingsPage';
-import LoginPage from './pages/LoginPage';
-import Navigation from './components/Navigation';
-import { currentSettingsAtom } from './states/atoms';
-import LogPage from './pages/LogPage';
+
 import LogNavigation from './components/LogNavigation';
-import { NotificationData } from './components/Downloads/notifications';
+import LogPage from './pages/LogPage';
+import LoginPage from './pages/LoginPage';
 import { NOTIFICATIONS_TAG } from '../common/channels/notifications';
+import Navigation from './components/Navigation';
+import { NotificationData } from './components/Downloads/notifications';
+import SettingsPage from './pages/SettingsPage';
+import { currentSettingsAtom } from './states/atoms';
 
 import './index.css';
 

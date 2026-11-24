@@ -1,10 +1,11 @@
-import { app, ipcMain, WebContentsView } from 'electron';
+import { WebContentsView, app, ipcMain } from 'electron';
 import fs from 'fs/promises';
 import path from 'path';
+
 import {
-  THEMES_SET_STYLE,
-  THEMES_INJECT_CUSTOM_STYLE,
   THEMES_INITIALIZE_CUSTOM_STYLE,
+  THEMES_INJECT_CUSTOM_STYLE,
+  THEMES_SET_STYLE,
 } from '../common/channels/themes';
 
 const STYLES_FILE = path.join(app.getPath('userData'), 'style.css');

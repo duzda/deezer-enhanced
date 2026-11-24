@@ -1,4 +1,5 @@
 import { atom } from 'jotai';
+
 import { DEFAULT_SETTINGS, Settings } from '../../common/types/settings';
 import {
   DownloadNotificationDisplayData,

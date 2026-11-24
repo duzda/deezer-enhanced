@@ -1,15 +1,16 @@
-import { Cookie, ipcMain, shell, WebContentsView, dialog } from 'electron';
-import {
-  LOGIN_IS_LOGGED_IN,
-  LOGIN_SET_LOGIN_COOKIE,
-  LOGIN_OPEN_PAGE,
-} from '../common/channels/login';
+import { Cookie, WebContentsView, dialog, ipcMain, shell } from 'electron';
+
 import {
   ARL_COOKIE_NAME,
   ARL_DOMAIN,
   DEEZER_LOGIN_PROTOCOL,
   DEEZER_PROTOCOL_URI_LOGIN,
 } from './utils/login';
+import {
+  LOGIN_IS_LOGGED_IN,
+  LOGIN_OPEN_PAGE,
+  LOGIN_SET_LOGIN_COOKIE,
+} from '../common/channels/login';
 import { LOGIN_MAP, LoginType } from '../common/types/login';
 import { DEEZER_URL } from './utils/urls';
 import { MPRIS_STOP } from '../common/channels/mpris';

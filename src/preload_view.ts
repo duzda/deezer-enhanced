@@ -1,4 +1,6 @@
 import { contextBridge, ipcRenderer } from 'electron';
+
+import { Episode, Repeat, Song } from './common/types/deezer';
 import {
   MPRIS_NEXT_SONG,
   MPRIS_PAUSE,
@@ -17,24 +19,23 @@ import {
   MPRIS_STOP,
   MPRIS_TOGGLE_STATUS,
 } from './common/channels/mpris';
-import { Repeat, Song, Episode } from './common/types/deezer';
 import {
   SETTINGS_GET,
   SETTINGS_SET_PROPERTY,
 } from './common/channels/settings';
-import { Settings } from './common/types/settings';
-import { ZoomType } from './common/types/zoom';
-import {
-  TRAY_MUTE,
-  TRAY_ADD_VOLUME,
-  TRAY_FAVORITE,
-} from './common/channels/tray';
 import {
   THEMES_INITIALIZE_CUSTOM_STYLE,
   THEMES_INJECT_CUSTOM_STYLE,
   THEMES_SET_STYLE,
 } from './common/channels/themes';
+import {
+  TRAY_ADD_VOLUME,
+  TRAY_FAVORITE,
+  TRAY_MUTE,
+} from './common/channels/tray';
+import { Settings } from './common/types/settings';
 import { ZOOM_SET } from './common/channels/zoom';
+import { ZoomType } from './common/types/zoom';
 
 export const settingsAPI = {
   getSettings: (): Promise<Settings> => ipcRenderer.invoke(SETTINGS_GET),

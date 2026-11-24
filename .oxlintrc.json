@@ -15,6 +15,8 @@
   },
   "rules": {
     "no-console": "error",
+    "sort-imports": ["error", { "allowSeparatedGroups": true }],
+    "import/newline-after-import": ["error", { "exactCount": true }],
     "react/function-component-definition": "error",
     // Duplicated by exhaustive-deps
     "react/exhaustive-effect-dependencies": "allow",

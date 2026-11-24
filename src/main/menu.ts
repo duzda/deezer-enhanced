@@ -1,4 +1,5 @@
 import { BaseWindow, Menu, WebContentsView } from 'electron';
+
 import { handleZoom } from './zoom';
 
 export const generateMenu = (

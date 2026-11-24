@@ -1,14 +1,15 @@
-import { BaseWindow, screen, WebContentsView } from 'electron';
-import fs from 'fs';
+import { BaseWindow, WebContentsView, screen } from 'electron';
 import { env } from 'process';
+import fs from 'fs';
+
 import {
-  Bounds,
   BOUNDS_FILE,
+  Bounds,
   DEFAULT_BOUNDS,
   STEAMDECK_DEFAULT_BOUNDS,
 } from './types';
-import { getSettings } from '../settings';
 import { NAVBAR_HEIGHT } from '../utils/size';
+import { getSettings } from '../settings';
 import { setZoomFactor } from '../zoom';
 
 const isSteamDeck = () => {

@@ -1,7 +1,8 @@
-import { BaseWindow, ipcMain, WebContentsView } from 'electron';
+import { BaseWindow, WebContentsView, ipcMain } from 'electron';
+
+import { NAVBAR_HEIGHT } from './utils/size';
 import { ZOOM_SET } from '../common/channels/zoom';
 import { ZoomType } from '../common/types/zoom';
-import { NAVBAR_HEIGHT } from './utils/size';
 
 // https://source.chromium.org/chromium/chromium/src/+/main:third_party/blink/common/page/page_zoom.cc;l=13;drc=3458a77f8572bcbc3eff3f4e498074330b3d8c00
 const ZOOM_STEPS: readonly number[] = [

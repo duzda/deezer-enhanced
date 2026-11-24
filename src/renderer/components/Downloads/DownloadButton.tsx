@@ -1,4 +1,5 @@
 import { useAtomValue } from 'jotai';
+
 import { currentSettingsAtom } from '../../states/atoms';
 
 function DownloadButton(): React.JSX.Element | null {

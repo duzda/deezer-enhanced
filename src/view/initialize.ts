@@ -1,10 +1,10 @@
 import { initializeMpris } from './injections/mpris';
 import { initializeOfflineBanner } from './injections/offline_banner';
+import { initializeSettings } from './settings';
 import { initializeThemeSwitcher } from './injections/theme_switcher';
 import { initializeVolumePower } from './injections/volume';
 import { initializeVolumeScroll } from './injections/volume_scroll';
 import { initializeZoom } from './injections/zoom';
-import { initializeSettings } from './settings';
 
 const onStartup = () => {
   setTimeout(() => {

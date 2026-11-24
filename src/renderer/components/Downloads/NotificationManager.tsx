@@ -1,9 +1,10 @@
-import { useEffect } from 'react';
 import { useAtom } from 'jotai';
-import { currentNotificationsAtom } from '../../states/atoms';
-import { DownloadNotification } from './DownloadNotification';
-import { fetchDisplayName, getContentType } from './deezer';
+import { useEffect } from 'react';
+
 import { DownloadObject, NotificationData } from './notifications';
+import { fetchDisplayName, getContentType } from './deezer';
+import { DownloadNotification } from './DownloadNotification';
+import { currentNotificationsAtom } from '../../states/atoms';
 
 const transformNotification = async ({
   status,

@@ -1,6 +1,8 @@
 import { BaseWindow, WebContentsView, app, ipcMain } from 'electron';
 import fs from 'fs/promises';
 import path from 'path';
+
+import { DEFAULT_SETTINGS, Setters, Settings } from '../common/types/settings';
 import {
   SETTINGS_GET,
   SETTINGS_HIDE,
@@ -8,7 +10,6 @@ import {
   SETTINGS_SET_PROPERTY,
   SETTINGS_SHOW,
 } from '../common/channels/settings';
-import { DEFAULT_SETTINGS, Settings, Setters } from '../common/types/settings';
 import { connectDiscord, disconnectDiscord } from './discord';
 import { destroyTray, initializeTray } from './tray';
 

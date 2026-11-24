@@ -1,6 +1,7 @@
-import fs from 'fs';
 import { BaseWindow, WebContentsView } from 'electron';
-import { Bounds, BOUNDS_FILE } from './types';
+import fs from 'fs';
+
+import { BOUNDS_FILE, Bounds } from './types';
 
 export const saveBounds = (window: BaseWindow, deezerView: WebContentsView) => {
   const newBounds: Bounds = {

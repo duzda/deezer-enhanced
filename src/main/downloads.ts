@@ -1,11 +1,12 @@
-import { promisify } from 'util';
 import { ExecException, exec as execProcess } from 'child_process';
-import { ipcMain, WebContentsView } from 'electron';
-import { ExecStatus, WARNING_MESSAGES } from '../common/types/deemix';
+import { WebContentsView, ipcMain } from 'electron';
+import { promisify } from 'util';
+
 import {
   DOWNLOADS_DOWNLOAD,
   DOWNLOADS_FINISHED,
 } from '../common/channels/downloads';
+import { ExecStatus, WARNING_MESSAGES } from '../common/types/deemix';
 
 const exec = promisify(execProcess);
 

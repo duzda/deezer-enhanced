@@ -1,5 +1,6 @@
 import { useAtom } from 'jotai';
 import { useNavigate } from 'react-router';
+
 import { viewExpandedAtom } from '../../states/atoms';
 
 function SettingsButton(): React.JSX.Element {

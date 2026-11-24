@@ -1,4 +1,5 @@
 import { UUID } from 'crypto';
+
 import { DownloadType } from './deezer';
 import { ExecStatus } from '../../../common/types/deemix';
 

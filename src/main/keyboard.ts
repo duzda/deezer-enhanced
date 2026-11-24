@@ -1,6 +1,7 @@
 import { WebContentsView, ipcMain } from 'electron';
-import { SerializedKeyboardEvent } from '../common/types/serializedKeyboardEvent';
+
 import { KEYBOARD_SEND_KEYPRESS } from '../common/channels/keyboard';
+import { SerializedKeyboardEvent } from '../common/types/serializedKeyboardEvent';
 
 type KeyModifiers = (
   | 'left'

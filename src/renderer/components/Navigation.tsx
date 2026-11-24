@@ -1,8 +1,8 @@
-import DownloadButton from './Downloads/DownloadButton';
-import NotificationManager from './Downloads/NotificationManager';
-import { NotificationData } from './Downloads/notifications';
 import BackButton from './History/BackButton';
+import DownloadButton from './Downloads/DownloadButton';
 import ForwardButton from './History/ForwardButton';
+import { NotificationData } from './Downloads/notifications';
+import NotificationManager from './Downloads/NotificationManager';
 import SettingsButton from './Settings/SettingsButton';
 
 type NavigationProps = {

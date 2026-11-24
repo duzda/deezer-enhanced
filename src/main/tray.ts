@@ -1,6 +1,7 @@
 import { BaseWindow, Menu, Tray, WebContentsView, app } from 'electron';
 import fs from 'fs';
 import path from 'path';
+
 import {
   MPRIS_NEXT_SONG,
   MPRIS_PREV_SONG,

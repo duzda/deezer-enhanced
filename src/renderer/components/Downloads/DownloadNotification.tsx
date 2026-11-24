@@ -1,11 +1,12 @@
 import React, { useCallback } from 'react';
 import { useAtom, useSetAtom } from 'jotai';
 import { useNavigate } from 'react-router';
+
 import { currentLogAtom, viewExpandedAtom } from '../../states/atoms';
-import { ExecStatus } from '../../../common/types/deemix';
-import { DownloadType } from './deezer';
 import AlertIcon from './AlertIcon';
 import { DownloadNotificationData } from './notifications';
+import { DownloadType } from './deezer';
+import { ExecStatus } from '../../../common/types/deemix';
 
 type DownloadNotificationProps = {
   onClick: () => void;

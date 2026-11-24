@@ -1,4 +1,5 @@
-import { ipcMain, WebContentsView } from 'electron';
+import { WebContentsView, ipcMain } from 'electron';
+
 import {
   HISTORY_GO_BACK,
   HISTORY_GO_FORWARD,

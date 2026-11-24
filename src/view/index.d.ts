@@ -1,8 +1,8 @@
 import {
-  trayAPI,
   mprisAPI,
   settingsAPI,
   themesAPI,
+  trayAPI,
   zoomAPI,
 } from '../preload_view';
 import { DZPlayer } from './types/dzplayer';
